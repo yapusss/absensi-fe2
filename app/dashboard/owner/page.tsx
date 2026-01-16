@@ -310,7 +310,7 @@ export default function OwnerDashboard() {
               {statusList.map((item) => (
                 <div
                   key={item.nama}
-                  className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
                 >
                   <div className="flex items-start gap-3">
                     <span className="h-9 w-9 rounded-full bg-slate-100" />
@@ -348,7 +348,7 @@ export default function OwnerDashboard() {
               {leaveRequests.map((req) => (
                 <div
                   key={req.nama}
-                  className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
                 >
                   <div className="flex items-start gap-3">
                     <span className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50 text-orange-600">

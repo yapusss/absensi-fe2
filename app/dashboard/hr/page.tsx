@@ -1,4 +1,5 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
+import { BarChart } from "@/app/components/charts/BarChart";
 import { DonutChart } from "@/app/components/charts/DonutChart";
 
 const totals = [
@@ -88,6 +89,17 @@ const attendanceBreakdown = {
   values: [83, 9, 8],
   colors: ["#22c55e", "#f97316", "#facc15"],
 };
+
+const workHourChart = {
+  labels: ["Ayu", "Damar", "Naya", "Raka", "Sinta", "Ilham"],
+  values: [8.1, 7.4, 7.8, 8.6, 6.9, 7.5],
+};
+
+const checkTimes = [
+  { nama: "Raka Putra", masuk: "08:02", pulang: "17:06", status: "Tepat waktu" },
+  { nama: "Sinta Wardani", masuk: "08:19", pulang: "17:05", status: "Terlambat" },
+  { nama: "Ilham Ardi", masuk: "08:01", pulang: "--", status: "Sedang bekerja" },
+];
 
 const shiftList = [
   { nama: "Shift Pagi", jam: "08:00 - 17:00", jumlah: "64 karyawan" },
@@ -190,7 +202,63 @@ export default function HrDashboard() {
           ))}
         </section>
 
-        <section className="space-y-4">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <article className={cardSoft}>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <h2 className="text-lg font-semibold text-slate-900">
+                Assign absensi
+              </h2>
+              <span className="text-xs text-slate-400">Hari ini</span>
+            </div>
+            <div className="mt-4 space-y-3">
+              {[
+                {
+                  title: "Absen masuk",
+                  note: "Verifikasi lokasi dan wajah",
+                  endpoint: "/absen/masuk",
+                  tone: "bg-emerald-50 text-emerald-600",
+                },
+                {
+                  title: "Absen pulang",
+                  note: "Catat jam pulang hari ini",
+                  endpoint: "/absen/pulang",
+                  tone: "bg-sky-50 text-sky-600",
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="flex items-start gap-3">
+                    <span
+                      className={`grid h-9 w-9 place-items-center rounded-lg ${item.tone}`}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="h-4 w-4"
+                      >
+                        <path d="M12 8v5l3 3" />
+                        <circle cx="12" cy="12" r="9" />
+                      </svg>
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">
+                        {item.title}
+                      </p>
+                      <p className="text-xs text-slate-500">{item.note}</p>
+                    </div>
+                  </div>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-500">
+                    {item.endpoint}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </article>
+
           <article className={cardBase}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
@@ -228,192 +296,317 @@ export default function HrDashboard() {
             </div>
           </article>
 
-          <div className="grid gap-4 lg:grid-cols-2">
-            <article className={cardSoft}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Assign absensi
-                </h2>
-                <span className="text-xs text-slate-400">Hari ini</span>
-              </div>
-              <div className="mt-4 space-y-3">
-                {[
-                  {
-                    title: "Absen masuk",
-                    note: "Verifikasi lokasi dan wajah",
-                    endpoint: "/absen/masuk",
-                    tone: "bg-emerald-50 text-emerald-600",
-                  },
-                  {
-                    title: "Absen pulang",
-                    note: "Catat jam pulang hari ini",
-                    endpoint: "/absen/pulang",
-                    tone: "bg-sky-50 text-sky-600",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div className="flex items-start gap-3">
-                      <span
-                        className={`grid h-9 w-9 place-items-center rounded-lg ${item.tone}`}
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="h-4 w-4"
-                        >
-                          <path d="M12 8v5l3 3" />
-                          <circle cx="12" cy="12" r="9" />
-                        </svg>
-                      </span>
-                      <div>
-                        <p className="text-sm font-semibold text-slate-900">
-                          {item.title}
-                        </p>
-                        <p className="text-xs text-slate-500">{item.note}</p>
-                      </div>
-                    </div>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-500">
-                      {item.endpoint}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </article>
-
-            <article className={cardSoft}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-lg font-semibold text-slate-900">
-                  List absensi
-                </h2>
-                <span className="text-xs text-slate-400">Filter periode</span>
-              </div>
-              <div className="mt-4 flex flex-wrap items-center gap-2">
-                <button className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500">
-                  Harian
-                </button>
-                <button className="rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs text-orange-600">
-                  Bulanan
-                </button>
-                <button className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500">
-                  Tahunan
-                </button>
-                <div className="w-full sm:w-auto sm:ml-auto">
-                  <select className="w-full rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500">
-                    <option>Pilih bulan</option>
-                    <option>Januari</option>
-                    <option>Februari</option>
-                    <option>Maret</option>
-                    <option>April</option>
-                    <option>Mei</option>
-                    <option>Juni</option>
-                    <option>Juli</option>
-                    <option>Agustus</option>
-                    <option>September</option>
-                    <option>Oktober</option>
-                    <option>November</option>
-                    <option>Desember</option>
-                  </select>
-                </div>
-              </div>
-              <div className="mt-4 space-y-3">
-                {[
-                  {
-                    nama: "Ayu Pratiwi",
-                    status: "Hadir",
-                    waktu: "08:02 - 17:04",
-                  },
-                  {
-                    nama: "Bimo Setia",
-                    status: "Terlambat",
-                    waktu: "08:28 - 17:12",
-                  },
-                  {
-                    nama: "Damar Wijaya",
-                    status: "Cuti",
-                    waktu: "Cuti 1 hari",
-                  },
-                ].map((row) => (
-                  <div
-                    key={row.nama}
-                    className="flex flex-col gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">
-                        {row.nama}
-                      </p>
-                      <p className="text-xs text-slate-500">{row.waktu}</p>
-                    </div>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-600">
-                      {row.status}
-                    </span>
-                  </div>
-                ))}
-                <div className="flex items-center justify-between text-xs text-slate-500">
-                  <span>Menampilkan 3 dari 42 karyawan</span>
-                  <button className="text-orange-600">Lihat semua</button>
-                </div>
-              </div>
-            </article>
-          </div>
+          <article className={cardBase}>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
+              Performa jam kerja
+            </p>
+            <div className="mt-4 h-44 sm:h-48">
+              <BarChart
+                labels={workHourChart.labels}
+                values={workHourChart.values}
+                color="#fb7185"
+              />
+            </div>
+          </article>
         </section>
 
-        <section className="space-y-4">
+        <section className="grid gap-4 lg:grid-cols-2">
           <article className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
-                Manajemen karyawan
+                List absensi
               </h2>
-              <span className="text-xs text-slate-400">CRUD utama</span>
+              <span className="text-xs text-slate-400">Filter periode</span>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <button className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500">
+                Harian
+              </button>
+              <button className="rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs text-orange-600">
+                Bulanan
+              </button>
+              <button className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500">
+                Tahunan
+              </button>
+              <div className="w-full sm:w-auto sm:ml-auto">
+                <select className="w-full rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500">
+                  <option>Pilih bulan</option>
+                  <option>Januari</option>
+                  <option>Februari</option>
+                  <option>Maret</option>
+                  <option>April</option>
+                  <option>Mei</option>
+                  <option>Juni</option>
+                  <option>Juli</option>
+                  <option>Agustus</option>
+                  <option>September</option>
+                  <option>Oktober</option>
+                  <option>November</option>
+                  <option>Desember</option>
+                </select>
+              </div>
             </div>
             <div className="mt-4 space-y-3">
               {[
                 {
-                  title: "CRUD karyawan",
-                  note: "Tambah, ubah, dan nonaktifkan",
-                  endpoint: "/api/v1/hr/karyawan",
-                  tone: "bg-indigo-50 text-indigo-600",
+                  nama: "Ayu Pratiwi",
+                  status: "Hadir",
+                  waktu: "08:02 - 17:04",
                 },
                 {
-                  title: "Set kuota cuti",
-                  note: "Atur jatah cuti tahunan",
-                  endpoint: "/karyawan/cuti",
-                  tone: "bg-emerald-50 text-emerald-600",
+                  nama: "Bimo Setia",
+                  status: "Terlambat",
+                  waktu: "08:28 - 17:12",
+                },
+                {
+                  nama: "Damar Wijaya",
+                  status: "Cuti",
+                  waktu: "Cuti 1 hari",
+                },
+              ].map((row) => (
+                <div
+                  key={row.nama}
+                  className="flex flex-col gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">
+                      {row.nama}
+                    </p>
+                    <p className="text-xs text-slate-500">{row.waktu}</p>
+                  </div>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-600">
+                    {row.status}
+                  </span>
+                </div>
+              ))}
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <span>Menampilkan 3 dari 42 karyawan</span>
+                <button className="text-orange-600">Lihat semua</button>
+              </div>
+            </div>
+          </article>
+
+          <article className={cardBase}>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
+              Jam masuk dan pulang
+            </p>
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full min-w-[420px] text-sm">
+                <thead>
+                  <tr>
+                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Karyawan
+                    </th>
+                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Masuk
+                    </th>
+                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Pulang
+                    </th>
+                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {checkTimes.map((row) => (
+                    <tr key={row.nama} className="border-b border-slate-200">
+                      <td className="px-2 py-3 text-slate-700">{row.nama}</td>
+                      <td className="px-2 py-3 text-slate-500">{row.masuk}</td>
+                      <td className="px-2 py-3 text-slate-500">{row.pulang}</td>
+                      <td className="px-2 py-3 text-slate-500">
+                        {row.status}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section className="grid gap-4 lg:grid-cols-2">
+          <article className={cardSoft}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Daftar karyawan
+                </h2>
+                <p className="text-xs text-slate-400">
+                  Kelola data karyawan aktif
+                </p>
+              </div>
+              <button className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="h-4 w-4"
+                >
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                Tambah karyawan
+              </button>
+            </div>
+            <div className="mt-4 space-y-3">
+              {[
+                {
+                  nama: "Ayu Pratiwi",
+                  role: "HR Generalist",
+                  departemen: "People Ops",
+                  status: "Aktif",
+                  statusTone: "bg-emerald-50 text-emerald-600",
+                },
+                {
+                  nama: "Bimo Setia",
+                  role: "Recruitment Lead",
+                  departemen: "Talent Acquisition",
+                  status: "Aktif",
+                  statusTone: "bg-emerald-50 text-emerald-600",
+                },
+                {
+                  nama: "Damar Wijaya",
+                  role: "Payroll Specialist",
+                  departemen: "People Ops",
+                  status: "Kontrak",
+                  statusTone: "bg-amber-50 text-amber-600",
                 },
               ].map((item) => (
                 <div
-                  key={item.title}
-                  className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                  key={item.nama}
+                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
                 >
-                  <div className="flex items-start gap-3">
-                    <span
-                      className={`grid h-9 w-9 place-items-center rounded-lg ${item.tone}`}
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="h-4 w-4"
-                      >
-                        <path d="M7 7h10M7 12h10M7 17h6" />
-                        <rect x="3" y="4" width="18" height="16" rx="2" />
-                      </svg>
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">
-                        {item.title}
-                      </p>
-                      <p className="text-xs text-slate-500">{item.note}</p>
-                    </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-slate-900">
+                      {item.nama}
+                    </p>
+                    <p className="text-xs text-slate-500">{item.role}</p>
+                    <p className="text-xs text-slate-400">
+                      {item.departemen}
+                    </p>
                   </div>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-500">
-                    {item.endpoint}
-                  </span>
+                  <div className="flex flex-wrap items-center gap-2 text-xs">
+                    <span
+                      className={`rounded-full px-3 py-1 text-[11px] font-medium ${item.statusTone}`}
+                    >
+                      {item.status}
+                    </span>
+                    <details className="relative">
+                      <summary className="list-none cursor-pointer rounded-full border border-slate-200 bg-white p-2 text-slate-500 hover:text-slate-700 [&::-webkit-details-marker]:hidden">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="h-4 w-4"
+                        >
+                          <circle cx="12" cy="5" r="1.5" />
+                          <circle cx="12" cy="12" r="1.5" />
+                          <circle cx="12" cy="19" r="1.5" />
+                        </svg>
+                      </summary>
+                      <div className="absolute right-0 z-10 mt-2 w-32 rounded-lg border border-slate-200 bg-white p-1 text-xs shadow-lg">
+                        <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
+                          Detail
+                        </button>
+                        <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
+                          Edit
+                        </button>
+                        <button className="w-full rounded-md px-3 py-2 text-left text-rose-600 hover:bg-rose-50">
+                          Hapus
+                        </button>
+                      </div>
+                    </details>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className={cardSoft}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Jenis cuti
+                </h2>
+                <p className="text-xs text-slate-400">
+                  Atur katalog cuti perusahaan
+                </p>
+              </div>
+              <button className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="h-4 w-4"
+                >
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                Tambah cuti
+              </button>
+            </div>
+            <div className="mt-4 space-y-3">
+              {[
+                {
+                  nama: "Cuti tahunan",
+                  jatah: "12 hari/tahun",
+                  status: "Aktif",
+                  statusTone: "bg-emerald-50 text-emerald-600",
+                },
+                {
+                  nama: "Cuti berobat",
+                  jatah: "6 hari/tahun",
+                  status: "Aktif",
+                  statusTone: "bg-emerald-50 text-emerald-600",
+                },
+                {
+                  nama: "Cuti melahirkan",
+                  jatah: "90 hari",
+                  status: "Draft",
+                  statusTone: "bg-amber-50 text-amber-600",
+                },
+              ].map((item) => (
+                <div
+                  key={item.nama}
+                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">
+                      {item.nama}
+                    </p>
+                    <p className="text-xs text-slate-500">{item.jatah}</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 text-xs">
+                    <span
+                      className={`rounded-full px-3 py-1 text-[11px] font-medium ${item.statusTone}`}
+                    >
+                      {item.status}
+                    </span>
+                    <details className="relative">
+                      <summary className="list-none cursor-pointer rounded-full border border-slate-200 bg-white p-2 text-slate-500 hover:text-slate-700 [&::-webkit-details-marker]:hidden">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="h-4 w-4"
+                        >
+                          <circle cx="12" cy="5" r="1.5" />
+                          <circle cx="12" cy="12" r="1.5" />
+                          <circle cx="12" cy="19" r="1.5" />
+                        </svg>
+                      </summary>
+                      <div className="absolute right-0 z-10 mt-2 w-32 rounded-lg border border-slate-200 bg-white p-1 text-xs shadow-lg">
+                        <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
+                          Detail
+                        </button>
+                        <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
+                          Edit
+                        </button>
+                        <button className="w-full rounded-md px-3 py-2 text-left text-rose-600 hover:bg-rose-50">
+                          Hapus
+                        </button>
+                      </div>
+                    </details>
+                  </div>
                 </div>
               ))}
             </div>
@@ -432,7 +625,7 @@ export default function HrDashboard() {
               {shiftList.map((shift) => (
                 <div
                   key={shift.nama}
-                  className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
                 >
                   <div className="flex items-start gap-3">
                     <span className="grid h-9 w-9 place-items-center rounded-lg bg-sky-50 text-sky-600">
@@ -475,7 +668,7 @@ export default function HrDashboard() {
               {outstationApprovals.map((item) => (
                 <div
                   key={item.nama}
-                  className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
                 >
                   <div className="flex items-start gap-3">
                     <span className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50 text-orange-600">
@@ -502,7 +695,7 @@ export default function HrDashboard() {
                   </span>
                 </div>
               ))}
-              <div className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3">
                 <div className="flex items-start gap-3">
                   <span className="grid h-9 w-9 place-items-center rounded-lg bg-slate-100 text-slate-500">
                     <svg

@@ -191,7 +191,7 @@ export default function EmployeeDashboard() {
           ))}
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-[1fr,1.2fr]">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr,1.2fr]">
           <article className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
