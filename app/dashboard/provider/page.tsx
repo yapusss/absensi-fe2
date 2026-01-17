@@ -1,5 +1,6 @@
 ﻿import { DashboardShell } from "@/app/components/DashboardShell";
 import { LineChart } from "@/app/components/charts/LineChart";
+import { BarChart } from "@/app/components/charts/BarChart";
 import { DonutChart } from "@/app/components/charts/DonutChart";
 
 const kpis = [
@@ -81,28 +82,97 @@ const kpis = [
 
 const subscriptionRows = [
   { usaha: "Gudang Kopi", status: "Aktif", masa: "sisa 21 hari" },
-  { usaha: "Mitra Rasa", status: "Perlu perpanjang", masa: "sisa 3 hari" },
+  { usaha: "Mitra Rasa", status: "Perlu pembaruan", masa: "sisa 3 hari" },
   { usaha: "Bengkel Satu", status: "Aktif", masa: "sisa 12 hari" },
 ];
+
+const statusTone = (status: string) => {
+  const normalized = status.toLowerCase();
+
+  if (normalized.includes("aktif")) {
+    return "bg-emerald-50 text-emerald-600";
+  }
+
+  if (normalized.includes("perlu")) {
+    return "bg-amber-50 text-amber-700";
+  }
+
+  if (normalized.includes("kadaluarsa") || normalized.includes("selesai")) {
+    return "bg-rose-50 text-rose-600";
+  }
+
+  return "bg-slate-100 text-slate-600";
+};
 
 const highlights = [
   {
     label: "Signups baru",
     value: "28",
-    note: "Minggu ini",
-    tone: "bg-indigo-50 text-indigo-600",
+    meta: "Minggu ini",
+    metaDetail: "vs minggu lalu",
+    tone: "border-l-indigo-400",
+    iconBg: "bg-indigo-50 text-indigo-600",
+    metaTone: "text-indigo-600",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-5 w-5"
+      >
+        <path d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12z" />
+        <path d="M4 21c0-4.4 3.6-8 8-8" />
+        <path d="M17 10h4" />
+        <path d="M19 8v4" />
+      </svg>
+    ),
   },
   {
     label: "Churn risiko",
     value: "6",
-    note: "Perlu follow-up",
-    tone: "bg-blue-50 text-blue-600",
+    meta: "Perlu follow-up",
+    metaDetail: "minggu ini",
+    tone: "border-l-blue-400",
+    iconBg: "bg-blue-50 text-blue-600",
+    metaTone: "text-blue-600",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-5 w-5"
+      >
+        <path d="M12 3l9 16H3l9-16z" />
+        <path d="M12 9v4" />
+        <path d="M12 17h.01" />
+      </svg>
+    ),
   },
 ];
 
 const revenueTrend = {
+  labels: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+  values: [18, 21, 24, 27, 30, 33, 31, 34, 36, 40, 44, 48],
+};
+
+const businessGrowth = {
   labels: ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
-  values: [28, 32, 35, 31, 42, 45, 48],
+  values: [82, 88, 95, 103, 114, 123, 134],
 };
 
 const topRevenueBusinesses = {
@@ -124,11 +194,14 @@ const topRevenueColors = [
   "#fb7185",
 ];
 
+const totalTopRevenue = topRevenueBusinesses.values.reduce(
+  (total, value) => total + value,
+  0
+);
+const formatJuta = (value: number) => value.toFixed(1).replace(".", ",");
+
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
-const cardSoft =
-  "min-w-0 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:shadow-md";
-
 export default function ProviderDashboard() {
   return (
     <DashboardShell active="Penyedia">
@@ -147,7 +220,7 @@ export default function ProviderDashboard() {
         </header>
 
         <section id="sorotan" className="grid gap-4 lg:grid-cols-2">
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {kpis.map((item) => (
               <article
                 key={item.label}
@@ -176,6 +249,34 @@ export default function ProviderDashboard() {
                 </div>
               </article>
             ))}
+            {highlights.map((item) => (
+              <article
+                key={item.label}
+                className={`${cardBase} border-l-4 ${item.tone}`}
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                      {item.label}
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold text-slate-900">
+                      {item.value}
+                    </p>
+                  </div>
+                  <span
+                    className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                  >
+                    {item.icon}
+                  </span>
+                </div>
+                <div className="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                  <span className={`font-semibold ${item.metaTone}`}>
+                    {item.meta}
+                  </span>
+                  {item.metaDetail ? <span>{item.metaDetail}</span> : null}
+                </div>
+              </article>
+            ))}
           </div>
           <article className={cardBase}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -187,51 +288,72 @@ export default function ProviderDashboard() {
                   Pertumbuhan revenue langganan
                 </p>
               </div>
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500">
-                90 Hari
-              </span>
             </div>
             <div className="mt-4 h-36 sm:h-44">
               <LineChart
                 labels={revenueTrend.labels}
                 values={revenueTrend.values}
+                tension={0}
+                showAllTicks
+                valueFormat="rupiah-juta"
               />
-            </div>
-            <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
-              <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-600">
-                +18% QoQ
-              </span>
-              <span className="rounded-full bg-amber-50 px-3 py-1 text-amber-600">
-                ARPU stabil
-              </span>
             </div>
           </article>
         </section>
 
-        <section id="ringkasan" className="grid gap-4 lg:grid-cols-2">
-          <div className="grid gap-4">
-            {highlights.map((item) => (
-              <article key={item.label} className={cardSoft}>
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                    {item.label}
-                  </p>
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs ${item.tone}`}
-                  >
-                    {item.note}
-                  </span>
-                </div>
-                <p className="mt-4 text-3xl font-semibold text-slate-900">
-                  {item.value}
+        <section id="ringkasan" className="grid gap-4 lg:grid-cols-4">
+          <article id="status" className={`${cardBase} lg:col-span-2`}>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900">
+                  Status langganan
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Pantau masa aktif dan risiko churn
                 </p>
-                <div className="mt-3 h-1 rounded-full bg-slate-100">
-                  <div className="h-1 w-[68%] rounded-full bg-blue-400" />
-                </div>
-              </article>
-            ))}
-          </div>
-          <article id="kontributor" className={cardBase}>
+              </div>
+            </div>
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
+                <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
+                  <tr>
+                    <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                      Usaha
+                    </th>
+                    <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                      Status
+                    </th>
+                    <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                      Masa aktif
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subscriptionRows.map((row) => (
+                    <tr key={row.usaha}>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                        {row.usaha}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        <span
+                          className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold ${statusTone(
+                            row.status,
+                          )}`}
+                        >
+                          {row.status}
+                        </span>
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.masa}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article id="kontributor" className={`${cardBase} lg:col-span-1`}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-slate-900">
@@ -251,6 +373,7 @@ export default function ProviderDashboard() {
                   labels={topRevenueBusinesses.labels}
                   values={topRevenueBusinesses.values}
                   colors={topRevenueColors}
+                  centerValue={`Rp ${formatJuta(totalTopRevenue)} jt`}
                 />
               </div>
               <div className="space-y-2 text-xs text-slate-500">
@@ -271,62 +394,29 @@ export default function ProviderDashboard() {
                 ))}
               </div>
             </div>
-            <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
-              <span className="rounded-full bg-sky-50 px-3 py-1 text-sky-600">
-                Top 5 usaha
-              </span>
-              <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-600">
-                Rp 18,7 jt / bulan
+          </article>
+
+          <article className={`${cardBase} pb-2 lg:col-span-1`}>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900">
+                  Pertumbuhan jumlah usaha
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Kenaikan usaha aktif dalam beberapa bulan terakhir
+                </p>
+              </div>
+              <span className="rounded-full border border-slate-200 bg-white py-1 text-xs text-slate-500">
+                7 Bulan
               </span>
             </div>
-          </article>
-        </section>
-
-        <section id="status" className="space-y-4">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-lg font-semibold text-slate-900">
-              Status langganan
-            </h2>
-            <span className="text-xs text-slate-400">
-              Pantau masa aktif dan risiko churn
-            </span>
-          </div>
-          <article className={cardBase}>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[460px] text-sm">
-                <thead>
-                  <tr>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Usaha
-                    </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Status
-                    </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Masa aktif
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {subscriptionRows.map((row) => (
-                    <tr key={row.usaha} className="border-b border-slate-200">
-                      <td className="px-2 py-3 text-slate-700">{row.usaha}</td>
-                      <td>
-                        <span
-                          className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold ${
-                            row.status === "Aktif"
-                              ? "bg-emerald-50 text-emerald-600"
-                              : "bg-blue-50 text-blue-600"
-                          }`}
-                        >
-                          {row.status}
-                        </span>
-                      </td>
-                      <td className="px-2 py-3 text-slate-500">{row.masa}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="mt-4 h-44 sm:h-54">
+              <BarChart
+                labels={businessGrowth.labels}
+                values={businessGrowth.values}
+                color="#22c55e"
+                compact
+              />
             </div>
           </article>
         </section>

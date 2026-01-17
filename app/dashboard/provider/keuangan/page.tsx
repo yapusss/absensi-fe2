@@ -1,4 +1,4 @@
-import { DashboardShell } from "@/app/components/DashboardShell";
+﻿import { DashboardShell } from "@/app/components/DashboardShell";
 import { LineChart } from "@/app/components/charts/LineChart";
 
 const financeIncome = {
@@ -115,49 +115,57 @@ export default function ProviderKeuanganPage() {
             </span>
           </div>
           <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[520px] text-sm">
-              <thead>
+            <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
+              <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                 <tr>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     No.
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Nama Usaha
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Tanggal
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Jumlah Pembayaran
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Aksi
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {financeHistory.map((row) => (
-                  <tr key={row.no} className="border-b border-slate-200">
-                    <td className="px-2 py-3 text-slate-600">{row.no}</td>
-                    <td className="px-2 py-3 text-slate-700">{row.usaha}</td>
-                    <td className="px-2 py-3 text-slate-500">{row.tanggal}</td>
-                    <td className="px-2 py-3 text-slate-700">{row.jumlah}</td>
-                    <td className="px-2 py-3">
-                      <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="h-4 w-4"
-                        >
-                          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-                          <circle cx="12" cy="12" r="3" />
-                        </svg>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                  {financeHistory.map((row) => (
+                    <tr key={row.no}>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-600 last:border-r-0">
+                        {row.no}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                        {row.usaha}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.tanggal}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                        {row.jumlah}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 last:border-r-0">
+                        <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -166,3 +174,5 @@ export default function ProviderKeuanganPage() {
     </DashboardShell>
   );
 }
+
+

@@ -84,7 +84,6 @@ const totals = [
     ),
   },
 ];
-
 const attendanceBreakdown = {
   labels: ["Hadir", "Terlambat", "Tidak hadir"],
   values: [83, 9, 8],
@@ -186,7 +185,10 @@ export default function HrDashboard() {
           </p>
         </header>
 
-        <section id="ringkasan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section
+          id="ringkasan"
+          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {totals.map((item) => (
             <article
               key={item.label}
@@ -212,7 +214,10 @@ export default function HrDashboard() {
           ))}
         </section>
 
-        <section id="sorotan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section
+          id="sorotan"
+          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {highlights.map((item) => (
             <article key={item.label} className={cardSoft}>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -233,21 +238,15 @@ export default function HrDashboard() {
           ))}
         </section>
 
-        <section id="absensi" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section
+          id="absensi"
+          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2"
+        >
           <AbsensiActionsCard
             title="Assign absensi"
             badge="Hari ini"
             actions={assignActions}
             className={cardSoft}
-          />
-
-          <AbsensiSummaryCard
-            title="Absensi hari ini"
-            badge="Today"
-            labels={attendanceBreakdown.labels}
-            values={attendanceBreakdown.values}
-            colors={attendanceBreakdown.colors}
-            className={cardBase}
           />
 
           <WorkPerformanceCard
@@ -338,30 +337,38 @@ export default function HrDashboard() {
               Jam masuk dan pulang
             </h2>
             <div className="mt-4 overflow-x-auto">
-              <table className="w-full min-w-[420px] text-sm">
-                <thead>
+              <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
+                <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                   <tr>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                       Karyawan
                     </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                       Masuk
                     </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                       Pulang
                     </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                       Status
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {checkTimes.map((row) => (
-                    <tr key={row.nama} className="border-b border-slate-200">
-                      <td className="px-2 py-3 text-slate-700">{row.nama}</td>
-                      <td className="px-2 py-3 text-slate-500">{row.masuk}</td>
-                      <td className="px-2 py-3 text-slate-500">{row.pulang}</td>
-                      <td className="px-2 py-3 text-slate-500">{row.status}</td>
+                    <tr key={row.nama}>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                        {row.nama}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.masuk}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.pulang}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.status}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -695,3 +702,5 @@ export default function HrDashboard() {
     </DashboardShell>
   );
 }
+
+
