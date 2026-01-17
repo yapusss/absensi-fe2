@@ -1,8 +1,9 @@
 import { BarChart } from "@/app/components/charts/BarChart";
+import type { ReactNode } from "react";
 
 type WorkPerformanceCardProps = {
   label?: string;
-  badge?: string;
+  badge?: ReactNode;
   badgeClassName?: string;
   className?: string;
   chartClassName?: string;
@@ -32,7 +33,15 @@ export function WorkPerformanceCard({
           {label ? (
             <h2 className="text-lg font-semibold text-slate-900">{label}</h2>
           ) : null}
-          {badge ? <span className={badgeClassName}>{badge}</span> : null}
+          {badge
+            ? typeof badge === "string"
+              ? (
+                  <span className={badgeClassName}>{badge}</span>
+                )
+              : (
+                  badge
+                )
+            : null}
         </div>
       ) : null}
       <div className={`mt-4 ${chartWrapperClassName ?? ""}`}>
