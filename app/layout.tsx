@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Space_Grotesk } from "next/font/google";
+import { AppFooter } from "@/app/components/AppFooter";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -27,7 +28,10 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${fraunces.variable} min-h-screen font-[var(--font-sans)] bg-slate-100 text-slate-900 antialiased`}
       >
-        {children}
+        <div className="flex min-h-screen flex-col">
+          <div className="flex-1">{children}</div>
+          <AppFooter hideOnDashboard />
+        </div>
       </body>
     </html>
   );

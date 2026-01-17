@@ -292,7 +292,7 @@ export default function OwnerDashboard() {
   return (
     <DashboardShell active="Owner" ownerSubActive="Dashboard">
       <div className="space-y-8">
-        <header className="space-y-2">
+        <header id="beranda" className="space-y-2">
           <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
             Owner Usaha
           </span>
@@ -307,7 +307,7 @@ export default function OwnerDashboard() {
 
 
 
-        <section className="grid gap-4 lg:grid-cols-2">
+        <section id="human-resource" className="grid gap-4 lg:grid-cols-2">
           <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {totals.map((item) => (
               <article
@@ -418,7 +418,7 @@ export default function OwnerDashboard() {
           </article>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-2">
+        <section id="performa" className="grid gap-4 md:grid-cols-2">
           {/* <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
@@ -472,7 +472,7 @@ export default function OwnerDashboard() {
 
 
 
-          <article id="cuti" className={cardSoft}>
+          <article id="akun" className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Cuti dan persetujuan
