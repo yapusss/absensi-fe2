@@ -14,6 +14,7 @@ const totals = [
     meta: "+3 bulan ini",
     tone: "border-l-indigo-400",
     iconBg: "bg-indigo-50 text-indigo-600",
+    metaTone: "text-indigo-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -35,6 +36,7 @@ const totals = [
     meta: "84% hadir",
     tone: "border-l-emerald-400",
     iconBg: "bg-emerald-50 text-emerald-600",
+    metaTone: "text-emerald-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -54,6 +56,7 @@ const totals = [
     meta: "Perlu perhatian",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
+    metaTone: "text-blue-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -74,6 +77,7 @@ const totals = [
     meta: "Follow-up HR",
     tone: "border-l-rose-400",
     iconBg: "bg-rose-50 text-rose-600",
+    metaTone: "text-rose-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -83,6 +87,47 @@ const totals = [
         className="h-5 w-5"
       >
         <path d="M6 18L18 6M6 6l12 12" />
+        <circle cx="12" cy="12" r="9" />
+      </svg>
+    ),
+  },
+  {
+    label: "Avg jam kerja",
+    value: "7.8 jam",
+    meta: "Hari ini",
+    tone: "border-l-sky-400",
+    iconBg: "bg-sky-50 text-sky-600",
+    metaTone: "text-sky-600",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-5 w-5"
+      >
+        <path d="M12 8v5l3 3" />
+        <circle cx="12" cy="12" r="9" />
+      </svg>
+    ),
+  },
+  {
+    label: "Approval pending",
+    value: "6",
+    meta: "Butuh review",
+    tone: "border-l-blue-400",
+    iconBg: "bg-blue-50 text-blue-600",
+    metaTone: "text-blue-600",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-5 w-5"
+      >
+        <path d="M7 12h10" />
+        <path d="M12 7v10" />
         <circle cx="12" cy="12" r="9" />
       </svg>
     ),
@@ -188,21 +233,6 @@ const leaveRequests = [
   { nama: "Bimo Setia", alasan: "Izin keluarga", tanggal: "18 Jan" },
 ];
 
-const highlights = [
-  {
-    label: "Avg jam kerja",
-    value: "7.8 jam",
-    note: "Hari ini",
-    tone: "bg-sky-50 text-sky-600",
-  },
-  {
-    label: "Approval pending",
-    value: "6",
-    note: "Butuh review",
-    tone: "bg-blue-50 text-blue-600",
-  },
-];
-
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 const cardSoft =
@@ -275,10 +305,10 @@ export default function OwnerDashboard() {
           </p>
         </header>
 
-        <OwnerSubnav active="Dashboard" />
+
 
         <section className="grid gap-4 lg:grid-cols-2">
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {totals.map((item) => (
               <article
                 key={item.label}
@@ -299,7 +329,9 @@ export default function OwnerDashboard() {
                     {item.icon}
                   </span>
                 </div>
-                <p className="mt-3 text-xs text-emerald-600">{item.meta}</p>
+                <p className={`mt-3 text-xs ${item.metaTone ?? "text-slate-500"}`}>
+                  {item.meta}
+                </p>
               </article>
             ))}
           </div>
@@ -316,26 +348,16 @@ export default function OwnerDashboard() {
         </section>
 
         <section className="grid gap-4 lg:grid-cols-2">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-            {highlights.map((item) => (
-              <article key={item.label} className={cardSoft}>
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                    {item.label}
-                  </p>
-                  <span className={`rounded-full px-3 py-1 text-xs ${item.tone}`}>
-                    {item.note}
-                  </span>
-                </div>
-                <p className="mt-4 text-2xl font-semibold text-slate-900">
-                  {item.value}
-                </p>
-                <div className="mt-3 h-1 rounded-full bg-slate-100">
-                  <div className="h-1 w-[64%] rounded-full bg-indigo-400" />
-                </div>
-              </article>
-            ))}
-          </div>
+          <StatusListCard
+            title="Status karyawan"
+            subtitle="Hari ini"
+            items={statusList}
+            className={cardBase}
+            toneMap={{
+              Aktif: "bg-emerald-50 text-emerald-600",
+              Cuti: "bg-blue-50 text-blue-600",
+            }}
+          />
 
           <article className={cardBase}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -375,7 +397,7 @@ export default function OwnerDashboard() {
                 <tbody>
                   {sortedCheckTimes.map((row) => (
                     <tr key={row.nama}>
-                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                      <td className="border-b border-gir border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
                         {row.nama}
                       </td>
                       <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
@@ -448,16 +470,7 @@ export default function OwnerDashboard() {
             />
           </div>
 
-          {/* <StatusListCard
-            title="Status karyawan"
-            subtitle="Hari ini"
-            items={statusList}
-            className={cardBase}
-            toneMap={{
-              Aktif: "bg-emerald-50 text-emerald-600",
-              Cuti: "bg-blue-50 text-blue-600",
-            }}
-          /> */}
+
 
           <article id="cuti" className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
