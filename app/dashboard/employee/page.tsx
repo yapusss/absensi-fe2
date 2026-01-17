@@ -268,27 +268,33 @@ export default function EmployeeDashboard() {
               <span className="text-xs text-slate-400">Tim hari ini</span>
             </div>
             <div className="mt-4 overflow-x-auto">
-              <table className="w-full min-w-[480px] text-sm">
-                <thead>
+              <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
+                <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                   <tr>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Nama
-                    </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Divisi
-                    </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Status
-                    </th>
+                      <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                        Nama
+                      </th>
+                      <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                        Divisi
+                      </th>
+                      <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                        Status
+                      </th>
                   </tr>
                 </thead>
                 <tbody>
                   {employeeDirectory.map((row) => (
-                    <tr key={row.nama} className="border-b border-slate-200">
-                      <td className="px-2 py-3 text-slate-700">{row.nama}</td>
-                      <td className="px-2 py-3 text-slate-500">{row.divisi}</td>
-                      <td className="px-2 py-3 text-slate-500">{row.status}</td>
-                    </tr>
+                      <tr key={row.nama}>
+                        <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                          {row.nama}
+                        </td>
+                        <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                          {row.divisi}
+                        </td>
+                        <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                          {row.status}
+                        </td>
+                      </tr>
                   ))}
                 </tbody>
               </table>
@@ -299,3 +305,5 @@ export default function EmployeeDashboard() {
     </DashboardShell>
   );
 }
+
+

@@ -18,7 +18,7 @@ const roleMenus: Record<string, MenuItem[]> = {
   Penyedia: [
     {
       label: "Beranda",
-      href: "/dashboard/provider",
+      href: "/dashboard/provider#ringkasan",
       icon: (
         <svg
           viewBox="0 0 24 24"

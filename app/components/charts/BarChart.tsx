@@ -7,10 +7,14 @@ export function BarChart({
   labels,
   values,
   color = "#fb7185",
+  showAllTicks = false,
+  compact = false,
 }: {
   labels: string[];
   values: number[];
   color?: string;
+  showAllTicks?: boolean;
+  compact?: boolean;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<Chart | null>(null);
@@ -23,6 +27,19 @@ export function BarChart({
     if (chartRef.current) {
       chartRef.current.destroy();
     }
+
+    const xTicks = {
+      color: "#94a3b8",
+      font: { size: 10 },
+      ...(showAllTicks
+        ? {
+            autoSkip: false,
+            maxRotation: 0,
+            minRotation: 0,
+          }
+        : {}),
+      ...(compact ? { padding: 0 } : {}),
+    };
 
     chartRef.current = new Chart(canvasRef.current, {
       type: "bar",
@@ -42,10 +59,11 @@ export function BarChart({
           legend: { display: false },
           tooltip: { enabled: true },
         },
+        layout: compact ? { padding: { bottom: 0, top: 4 } } : undefined,
         scales: {
           x: {
             grid: { display: false },
-            ticks: { color: "#94a3b8", font: { size: 10 } },
+            ticks: xTicks,
           },
           y: {
             grid: { color: "rgba(148,163,184,0.2)" },
@@ -59,7 +77,7 @@ export function BarChart({
     return () => {
       chartRef.current?.destroy();
     };
-  }, [labels, values, color]);
+  }, [labels, values, color, showAllTicks, compact]);
 
   return (
     <canvas ref={canvasRef} className="h-full w-full" />

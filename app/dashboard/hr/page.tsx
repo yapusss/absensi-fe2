@@ -124,7 +124,6 @@ const totals = [
     ),
   },
 ];
-
 const attendanceBreakdown = {
   labels: ["Hadir", "Terlambat", "Tidak hadir"],
   values: [83, 9, 8],
@@ -1015,3 +1014,5 @@ export default function HrDashboard() {
     </DashboardShell>
   );
 }
+
+

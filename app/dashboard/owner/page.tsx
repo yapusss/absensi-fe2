@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
@@ -381,7 +381,7 @@ export default function OwnerDashboard() {
               </div>
             </div>
             <div className="mt-4 max-h-64 overflow-auto pr-2">
-              <table className="w-full min-w-[520px] table-fixed border-separate border-spacing-0 text-sm">
+              <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
                 <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                   <tr>
                     {"Karyawan Masuk Pulang Status".split(" ").map((label) => (
@@ -519,3 +519,5 @@ export default function OwnerDashboard() {
     </DashboardShell>
   );
 }
+
+

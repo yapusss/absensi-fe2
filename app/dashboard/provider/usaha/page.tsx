@@ -1,4 +1,4 @@
-import { DashboardShell } from "@/app/components/DashboardShell";
+﻿import { DashboardShell } from "@/app/components/DashboardShell";
 import { DonutChart } from "@/app/components/charts/DonutChart";
 
 const businessRows = [
@@ -141,42 +141,48 @@ export default function ProviderUsahaPage() {
             </span>
           </div>
           <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[620px] text-sm">
-              <thead>
+            <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
+              <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                 <tr>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     No.
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Nama Usaha
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Pemilik Usaha
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Kontrak Langganan
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Nilai Kontrak
                   </th>
-                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Aksi
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {businessRows.map((row) => (
-                  <tr key={row.no} className="border-b border-slate-200">
-                    <td className="px-2 py-3 text-slate-600">{row.no}</td>
-                    <td className="px-2 py-3 text-slate-700">{row.usaha}</td>
-                    <td className="px-2 py-3 text-slate-500">{row.owner}</td>
-                    <td className="px-2 py-3 text-slate-500">
+                  <tr key={row.no}>
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-600 last:border-r-0">
+                      {row.no}
+                    </td>
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                      {row.usaha}
+                    </td>
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                      {row.owner}
+                    </td>
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
                       {row.kontrakMulai} - {row.kontrakSelesai}
                     </td>
-                    <td className="px-2 py-3 text-slate-700">
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
                       {formatRupiah(row.nilai)}
                     </td>
-                    <td className="px-2 py-3">
+                    <td className="border-b border-r border-slate-200 px-2 py-3 last:border-r-0">
                       <div className="flex items-center gap-2">
                         <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
                           <svg
@@ -215,3 +221,5 @@ export default function ProviderUsahaPage() {
     </DashboardShell>
   );
 }
+
+
