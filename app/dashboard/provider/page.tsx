@@ -1,5 +1,6 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { LineChart } from "@/app/components/charts/LineChart";
+import { DonutChart } from "@/app/components/charts/DonutChart";
 
 const kpis = [
   {
@@ -121,6 +122,14 @@ const topRevenueBusinesses = {
   values: [5.4, 4.8, 3.2, 2.9, 2.4],
 };
 
+const topRevenueColors = [
+  "#38bdf8",
+  "#22c55e",
+  "#f97316",
+  "#facc15",
+  "#fb7185",
+];
+
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 const cardSoft =
@@ -204,7 +213,7 @@ export default function ProviderDashboard() {
               90 Hari
             </span>
           </div>
-          <div className="grid gap-4 lg:grid-cols-[1.2fr,1fr]">
+          <div className="grid gap-4 lg:grid-cols-2">
             <article className={cardBase}>
               <h2 className="text-lg font-semibold text-slate-900">
                 Revenue trend
@@ -224,43 +233,7 @@ export default function ProviderDashboard() {
                 </span>
               </div>
             </article>
-            <article className={cardSoft}>
-              <h2 className="text-lg font-semibold text-slate-900">
-                Pembayaran terbaru
-              </h2>
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full min-w-[520px] text-sm">
-                <thead>
-                  <tr>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Usaha
-                    </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Paket
-                    </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Nominal
-                    </th>
-                    <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      Tanggal
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {incomeRows.map((row) => (
-                    <tr key={row.usaha} className="border-b border-slate-200">
-                      <td className="px-2 py-3 text-slate-700">{row.usaha}</td>
-                      <td className="px-2 py-3 text-slate-500">{row.paket}</td>
-                      <td className="px-2 py-3 text-slate-700">{row.nominal}</td>
-                      <td className="px-2 py-3 text-slate-500">{row.tanggal}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                </table>
-              </div>
-            </article>
-          </div>
-          <article className={cardBase}>
+            <article className={cardBase}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-slate-900">
@@ -274,21 +247,75 @@ export default function ProviderDashboard() {
                 Top 5
               </span>
             </div>
-            <div className="mt-4 h-36 sm:h-44">
-              <LineChart
-                labels={topRevenueBusinesses.labels}
-                values={topRevenueBusinesses.values}
-                stroke="#0ea5e9"
-                fill="rgba(14,165,233,0.15)"
-              />
+            <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6">
+              <div className="h-40 w-40 sm:h-44 sm:w-44">
+                <DonutChart
+                  labels={topRevenueBusinesses.labels}
+                  values={topRevenueBusinesses.values}
+                  colors={topRevenueColors}
+                />
+              </div>
+              <div className="space-y-2 text-xs text-slate-500">
+                <p className="text-lg font-semibold text-slate-900">
+                  Tertinggi: {topRevenueBusinesses.labels[0]}
+                </p>
+                {topRevenueBusinesses.labels.map((label, index) => (
+                  <span
+                    key={label}
+                    className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-slate-600"
+                  >
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: topRevenueColors[index] }}
+                    />
+                    {label} {topRevenueBusinesses.values[index]} jt
+                  </span>
+                ))}
+              </div>
             </div>
             <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
               <span className="rounded-full bg-sky-50 px-3 py-1 text-sky-600">
-                Tertinggi: Batik Reka
+                Top 5 usaha
               </span>
               <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-600">
-                Rp 5,4 jt / bulan
+                Rp 18,7 jt / bulan
               </span>
+            </div>
+          </article>
+          </div>
+          <article className={cardSoft}>
+            <h2 className="text-lg font-semibold text-slate-900">
+              Pembayaran terbaru
+            </h2>
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full min-w-[520px] text-sm">
+              <thead>
+                <tr>
+                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                    Usaha
+                  </th>
+                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                    Paket
+                  </th>
+                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                    Nominal
+                  </th>
+                  <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                    Tanggal
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {incomeRows.map((row) => (
+                  <tr key={row.usaha} className="border-b border-slate-200">
+                    <td className="px-2 py-3 text-slate-700">{row.usaha}</td>
+                    <td className="px-2 py-3 text-slate-500">{row.paket}</td>
+                    <td className="px-2 py-3 text-slate-700">{row.nominal}</td>
+                    <td className="px-2 py-3 text-slate-500">{row.tanggal}</td>
+                  </tr>
+                ))}
+              </tbody>
+              </table>
             </div>
           </article>
         </section>

@@ -91,6 +91,8 @@ const attendanceBreakdown = {
   colors: ["#22c55e", "#f97316", "#facc15"],
 };
 
+const attendanceRange = "Harian";
+
 const workHourChart = {
   labels: ["Ayu", "Damar", "Naya", "Raka", "Sinta", "Ilham"],
   values: [8.1, 7.4, 7.8, 8.6, 6.9, 7.5],
@@ -141,6 +143,9 @@ const cardSoft =
   "min-w-0 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:shadow-md";
 
 export default function OwnerDashboard() {
+  const rangeBadgeClass =
+    "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700";
+
   return (
     <DashboardShell active="Owner">
       <div className="space-y-8">
@@ -205,13 +210,45 @@ export default function OwnerDashboard() {
         </section>
 
         <section className="space-y-4">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-lg font-semibold text-slate-900">
-              Kehadiran hari ini
-            </h2>
-            <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500">
-              Hari ini
-            </span>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900">
+                Kehadiran hari ini
+              </h2>
+              <p className="text-xs text-slate-400">
+                Filter periode berlaku untuk tiga ringkasan di bawah
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {["Harian", "Bulanan", "Tahunan"].map((label) => (
+                <button
+                  key={label}
+                  type="button"
+                  className={
+                    label === attendanceRange
+                      ? rangeBadgeClass
+                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
+                  }
+                >
+                  {label}
+                </button>
+              ))}
+              <select className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500">
+                <option>Pilih bulan</option>
+                <option>Januari</option>
+                <option>Februari</option>
+                <option>Maret</option>
+                <option>April</option>
+                <option>Mei</option>
+                <option>Juni</option>
+                <option>Juli</option>
+                <option>Agustus</option>
+                <option>September</option>
+                <option>Oktober</option>
+                <option>November</option>
+                <option>Desember</option>
+              </select>
+            </div>
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
             <AbsensiSummaryCard
@@ -219,13 +256,26 @@ export default function OwnerDashboard() {
               labels={attendanceBreakdown.labels}
               values={attendanceBreakdown.values}
               colors={attendanceBreakdown.colors}
+              badge={attendanceRange}
+              badgeClassName={rangeBadgeClass}
+              className={cardBase}
+            />
+
+            <WorkPerformanceCard
+              labels={workHourChart.labels}
+              values={workHourChart.values}
+              badge={attendanceRange}
+              badgeClassName={rangeBadgeClass}
               className={cardBase}
             />
 
             <article className={cardBase}>
-              <h2 className="text-lg font-semibold text-slate-900">
-                Jam masuk dan pulang
-              </h2>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Jam masuk dan pulang
+                </h2>
+                <span className={rangeBadgeClass}>{attendanceRange}</span>
+              </div>
               <div className="mt-4 overflow-x-auto">
                 <table className="w-full min-w-[420px] text-sm">
                   <thead>
@@ -259,12 +309,6 @@ export default function OwnerDashboard() {
                 </table>
               </div>
             </article>
-
-            <WorkPerformanceCard
-              labels={workHourChart.labels}
-              values={workHourChart.values}
-              className={cardBase}
-            />
           </div>
         </section>
 
