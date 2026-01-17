@@ -161,7 +161,7 @@ export default function EmployeeDashboard() {
           </p>
         </header>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section id="ringkasan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {summaries.map((item) => (
             <article
               key={item.label}
@@ -187,7 +187,7 @@ export default function EmployeeDashboard() {
           ))}
         </section>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section id="sorotan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {highlights.map((item) => (
             <article key={item.label} className={cardSoft}>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -208,7 +208,7 @@ export default function EmployeeDashboard() {
           ))}
         </section>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr,1.2fr]">
+        <section id="absensi" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr,1.2fr]">
           <AbsensiActionsCard
             title="Absensi hari ini"
             badge="Today"
@@ -217,7 +217,7 @@ export default function EmployeeDashboard() {
             className={cardSoft}
           />
 
-          <article className={cardBase}>
+          <article id="performa" className={cardBase}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Performa bulanan
@@ -246,8 +246,9 @@ export default function EmployeeDashboard() {
           </article>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
-          <StatusListCard
+        <section id="status" className="grid gap-4 lg:grid-cols-2">
+          <div>
+            <StatusListCard
             title="Status tim"
             subtitle="Hari ini"
             items={teamStatus}
@@ -256,9 +257,10 @@ export default function EmployeeDashboard() {
               Hadir: "bg-emerald-50 text-emerald-600",
               Cuti: "bg-blue-50 text-blue-600",
             }}
-          />
+            />
+          </div>
 
-          <article className={cardBase}>
+          <article id="daftar-karyawan" className={cardBase}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Daftar karyawan

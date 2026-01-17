@@ -186,7 +186,7 @@ export default function HrDashboard() {
           </p>
         </header>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section id="ringkasan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {totals.map((item) => (
             <article
               key={item.label}
@@ -212,7 +212,7 @@ export default function HrDashboard() {
           ))}
         </section>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section id="sorotan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {highlights.map((item) => (
             <article key={item.label} className={cardSoft}>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -233,7 +233,7 @@ export default function HrDashboard() {
           ))}
         </section>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section id="absensi" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <AbsensiActionsCard
             title="Assign absensi"
             badge="Hari ini"
@@ -257,7 +257,7 @@ export default function HrDashboard() {
           />
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
+        <section id="list-absensi" className="grid gap-4 lg:grid-cols-2">
           <article className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
@@ -370,7 +370,7 @@ export default function HrDashboard() {
           </article>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
+        <section id="karyawan" className="grid gap-4 lg:grid-cols-2">
           <article className={cardSoft}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -465,7 +465,7 @@ export default function HrDashboard() {
             </div>
           </article>
 
-          <article className={cardSoft}>
+          <article id="cuti" className={cardSoft}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-lg font-semibold text-slate-900">
@@ -556,8 +556,8 @@ export default function HrDashboard() {
           </article>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
-          <article className={cardBase}>
+        <section id="shift" className="grid gap-4 lg:grid-cols-2">
+          <article id="outstation" className={cardBase}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-lg font-semibold text-slate-900">

@@ -459,7 +459,7 @@ export default function OwnerDashboard() {
             }}
           /> */}
 
-          <article className={cardSoft}>
+          <article id="cuti" className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Cuti dan persetujuan

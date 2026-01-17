@@ -1,104 +1,131 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState, type ReactNode } from "react";
 
-const navItems = [
-  {
-    label: "Dashboard",
-    href: "/",
-    badge: "Hot",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-4 w-4"
-      >
-        <path d="M3 12h8V3H3v9zM13 21h8v-6h-8v6zM13 10h8V3h-8v7zM3 21h8v-7H3v7z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Penyedia",
-    href: "/dashboard/provider",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-4 w-4"
-      >
-        <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6" />
-      </svg>
-    ),
-  },
-  {
-    label: "Owner",
-    href: "/dashboard/owner",
-    badge: "Live",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-4 w-4"
-      >
-        <path d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12z" />
-        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-      </svg>
-    ),
-  },
-  {
-    label: "HR",
-    href: "/dashboard/hr",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-4 w-4"
-      >
-        <path d="M7 7h10M7 12h10M7 17h6" />
-        <rect x="3" y="4" width="18" height="16" rx="2" />
-      </svg>
-    ),
-  },
-  {
-    label: "Karyawan",
-    href: "/dashboard/employee",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-4 w-4"
-      >
-        <path d="M5 20h14M7 20v-6h10v6M8 9h8M10 13h4" />
-        <rect x="4" y="3" width="16" height="14" rx="2" />
-      </svg>
-    ),
-  },
-];
-
-const quickLinks = [
-  { label: "Overview", href: "/" },
-  { label: "Performance", href: "/dashboard/hr" },
-  { label: "Attendance", href: "/dashboard/owner" },
-  { label: "People", href: "/dashboard/employee" },
-];
-
-const ownerSubItems = [
-  { label: "Dashboard", href: "/dashboard/owner" },
-  { label: "Human Resource", href: "/dashboard/owner/human-resource" },
-  { label: "Performa", href: "/dashboard/owner/performa" },
-  { label: "Akun", href: "/dashboard/owner/akun" },
-];
+type MenuItem = {
+  label: string;
+  href: string;
+  icon?: ReactNode;
+};
+const roleMenus: Record<string, MenuItem[]> = {
+  Dashboard: [
+    { label: "Overview", href: "/#overview" },
+    { label: "Statistik", href: "/#statistik" },
+    { label: "Peran", href: "/#roles" },
+  ],
+  Penyedia: [
+    {
+      label: "Beranda",
+      href: "/dashboard/provider",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M3 12l9-9 9 9" />
+          <path d="M9 21V9h6v12" />
+        </svg>
+      ),
+    },
+    {
+      label: "Keuangan",
+      href: "/dashboard/provider/keuangan",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="M7 9h10" />
+          <path d="M7 13h6" />
+        </svg>
+      ),
+    },
+    {
+      label: "Daftar Usaha",
+      href: "/dashboard/provider/usaha",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M4 10h16" />
+          <path d="M6 10V6h12v4" />
+          <path d="M6 10v8h12v-8" />
+          <path d="M10 18v-5h4v5" />
+        </svg>
+      ),
+    },
+    {
+      label: "Owner Usaha",
+      href: "/dashboard/provider#owner-usaha",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12z" />
+          <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+        </svg>
+      ),
+    },
+    {
+      label: "Akun",
+      href: "/dashboard/provider#status",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+        </svg>
+      ),
+    },
+  ],
+  Owner: [
+    { label: "Ringkasan", href: "/dashboard/owner#ringkasan" },
+    { label: "Sorotan", href: "/dashboard/owner#sorotan" },
+    { label: "Kehadiran", href: "/dashboard/owner#kehadiran" },
+    { label: "Status tim", href: "/dashboard/owner#status" },
+    { label: "Cuti", href: "/dashboard/owner#cuti" },
+  ],
+  HR: [
+    { label: "Ringkasan", href: "/dashboard/hr#ringkasan" },
+    { label: "Sorotan", href: "/dashboard/hr#sorotan" },
+    { label: "Absensi", href: "/dashboard/hr#absensi" },
+    { label: "List absensi", href: "/dashboard/hr#list-absensi" },
+    { label: "Karyawan", href: "/dashboard/hr#karyawan" },
+    { label: "Cuti", href: "/dashboard/hr#cuti" },
+    { label: "Shift", href: "/dashboard/hr#shift" },
+    { label: "Outstation", href: "/dashboard/hr#outstation" },
+  ],
+  Karyawan: [
+    { label: "Ringkasan", href: "/dashboard/employee#ringkasan" },
+    { label: "Sorotan", href: "/dashboard/employee#sorotan" },
+    { label: "Absensi", href: "/dashboard/employee#absensi" },
+    { label: "Performa", href: "/dashboard/employee#performa" },
+    { label: "Status tim", href: "/dashboard/employee#status" },
+    { label: "Daftar karyawan", href: "/dashboard/employee#daftar-karyawan" },
+  ],
+};
 
 export function DashboardShell({
   active,
@@ -107,16 +134,55 @@ export function DashboardShell({
 }: {
   active: string;
   ownerSubActive?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
-  const [role, setRole] = useState<string | null>(null);
-  const [hydrated, setHydrated] = useState(false);
-  const isOwner = role === "owner";
+  const pathname = usePathname();
+  const menuItems = roleMenus[active] ?? roleMenus.Dashboard;
+  const [role, setRole] = useState("guest");
+  const [activeHref, setActiveHref] = useState(() => {
+    const matchByPath = menuItems.find((item) => {
+      const [itemPath] = item.href.split("#");
+      return itemPath === pathname;
+    });
+    return matchByPath?.href ?? menuItems[0]?.href ?? "";
+  });
 
   useEffect(() => {
-    setRole(localStorage.getItem("absensiRole"));
-    setHydrated(true);
+    setRole(localStorage.getItem("absensiRole") ?? "guest");
   }, []);
+
+  useEffect(() => {
+    const resolveActive = () => {
+      const hash = typeof window !== "undefined" ? window.location.hash : "";
+      const matchByHash = menuItems.find((item) => {
+        const [itemPath, itemHash] = item.href.split("#");
+        if (!itemHash || !hash) {
+          return false;
+        }
+        return itemPath === pathname && `#${itemHash}` === hash;
+      });
+
+      if (matchByHash) {
+        setActiveHref(matchByHash.href);
+        return;
+      }
+
+      const matchByPath = menuItems.find((item) => {
+        const [itemPath] = item.href.split("#");
+        return itemPath === pathname;
+      });
+
+      setActiveHref(matchByPath?.href ?? menuItems[0]?.href ?? "");
+    };
+
+    resolveActive();
+    if (typeof window !== "undefined") {
+      window.addEventListener("hashchange", resolveActive);
+      return () => window.removeEventListener("hashchange", resolveActive);
+    }
+  }, [menuItems, pathname]);
+
+  const isOwner = role === "owner";
 
   return (
     <div className="min-h-screen">
@@ -135,58 +201,31 @@ export function DashboardShell({
               </p>
             </div>
           </div>
-          {hydrated && !isOwner ? (
-            <>
           <div className="px-6 pb-2 text-[11px] uppercase tracking-[0.3em] text-slate-400">
-            Main Menu
+            {isOwner ? "Owner Menu" : `${active} Menu`}
           </div>
           <nav className="flex flex-col gap-1 px-4">
-            {navItems.map((item) => (
+            {menuItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
-                  active === item.label
+                  activeHref === item.href
                     ? "bg-blue-50 text-blue-600 shadow-sm"
                     : "text-slate-600 hover:bg-slate-50"
                 }`}
               >
                 <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-current shadow-sm">
-                  {item.icon}
+                  {item.icon ? (
+                    item.icon
+                  ) : (
+                    <span className="h-2 w-2 rounded-full bg-current" />
+                  )}
                 </span>
                 <span className="flex-1">{item.label}</span>
-                {item.badge ? (
-                  <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-semibold uppercase text-rose-600">
-                    {item.badge}
-                  </span>
-                ) : null}
               </Link>
             ))}
           </nav>
-            </>
-          ) : null}
-          {hydrated && isOwner ? (
-            <div className="px-6 pt-4">
-              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
-                Owner Menu
-              </div>
-              <nav className="mt-2 flex flex-col gap-1">
-                {ownerSubItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className={`rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-                      ownerSubActive === item.label
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-slate-500 hover:bg-slate-50"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          ) : null}
           <div className="px-6 pt-6 text-[11px] uppercase tracking-[0.3em] text-slate-400">
             Insights
           </div>
@@ -227,52 +266,6 @@ export function DashboardShell({
         </aside>
 
         <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur sm:px-6 sm:py-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex min-w-0 flex-1 flex-wrap items-center gap-3">
-                <span className="hidden text-xs text-slate-400 md:inline">
-                  CTRL + /
-                </span>
-                <div className="relative w-full min-w-0 sm:max-w-md">
-                  <input
-                    type="text"
-                    placeholder="Search in HRMS"
-                    className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-              </div>
-              <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
-                <button className="hidden rounded-full border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 sm:inline-flex">
-                  + Add
-                </button>
-                <button className="hidden rounded-full border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 sm:inline-flex">
-                  Export
-                </button>
-                <button className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-500">
-                  ?
-                </button>
-                <button className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-500">
-                  !
-                </button>
-                <button className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
-                  <span className="h-6 w-6 rounded-full bg-slate-200" />
-                  Admin
-                </button>
-              </div>
-            </div>
-            <nav className="mt-3 flex gap-2 overflow-x-auto text-xs uppercase tracking-[0.2em] text-slate-400 lg:hidden">
-              {quickLinks.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-3 py-1 text-slate-500"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </header>
-
           <div className="min-w-0 flex-1 px-4 py-4 sm:px-6 sm:py-6">
             {children}
           </div>
