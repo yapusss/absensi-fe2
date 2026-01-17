@@ -6,6 +6,7 @@ type WorkPerformanceCardProps = {
   badgeClassName?: string;
   className?: string;
   chartClassName?: string;
+  chartWrapperClassName?: string;
   labels: string[];
   values: number[];
   color?: string;
@@ -17,6 +18,7 @@ export function WorkPerformanceCard({
   badgeClassName = "rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500",
   className,
   chartClassName = "h-44 sm:h-48",
+  chartWrapperClassName,
   labels,
   values,
   color = "#fb7185",
@@ -33,8 +35,10 @@ export function WorkPerformanceCard({
           {badge ? <span className={badgeClassName}>{badge}</span> : null}
         </div>
       ) : null}
-      <div className={`mt-4 ${chartClassName}`}>
-        <BarChart labels={labels} values={values} color={color} />
+      <div className={`mt-4 ${chartWrapperClassName ?? ""}`}>
+        <div className={chartClassName}>
+          <BarChart labels={labels} values={values} color={color} />
+        </div>
       </div>
     </article>
   );

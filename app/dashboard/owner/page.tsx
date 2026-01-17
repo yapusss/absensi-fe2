@@ -1,7 +1,11 @@
-﻿import { DashboardShell } from "@/app/components/DashboardShell";
+"use client";
+
+import { useMemo, useState } from "react";
+import { DashboardShell } from "@/app/components/DashboardShell";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
+import { OwnerSubnav } from "./OwnerSubnav";
 
 const totals = [
   {
@@ -94,14 +98,82 @@ const attendanceBreakdown = {
 const attendanceRange = "Harian";
 
 const workHourChart = {
-  labels: ["Ayu", "Damar", "Naya", "Raka", "Sinta", "Ilham"],
-  values: [8.1, 7.4, 7.8, 8.6, 6.9, 7.5],
+  labels: [
+    "Ayu",
+    "Damar",
+    "Naya",
+    "Raka",
+    "Sinta",
+    "Ilham",
+    "Bimo",
+    "Sari",
+    "Rio",
+    "Fina",
+  ],
+  values: [8.1, 7.4, 7.8, 8.6, 6.9, 7.5, 8.2, 7.1, 6.8, 7.9],
 };
 
 const checkTimes = [
-  { nama: "Raka Putra", masuk: "08:02", pulang: "17:06", status: "Tepat waktu" },
-  { nama: "Sinta Wardani", masuk: "08:19", pulang: "17:05", status: "Terlambat" },
-  { nama: "Ilham Ardi", masuk: "08:01", pulang: "--", status: "Sedang bekerja" },
+  {
+    nama: "Raka Putra",
+    masuk: "08:02",
+    pulang: "17:06",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Sinta Wardani",
+    masuk: "08:19",
+    pulang: "17:05",
+    status: "Terlambat",
+  },
+  {
+    nama: "Ilham Ardi",
+    masuk: "08:01",
+    pulang: "--",
+    status: "Sedang bekerja",
+  },
+  {
+    nama: "Ayu Pratiwi",
+    masuk: "08:03",
+    pulang: "17:02",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Damar Wijaya",
+    masuk: "08:12",
+    pulang: "17:10",
+    status: "Terlambat",
+  },
+  {
+    nama: "Naya Kinanti",
+    masuk: "07:58",
+    pulang: "16:58",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Bimo Setia",
+    masuk: "08:10",
+    pulang: "--",
+    status: "Sedang bekerja",
+  },
+  {
+    nama: "Sari Andini",
+    masuk: "08:05",
+    pulang: "17:08",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Rio Mahesa",
+    masuk: "08:15",
+    pulang: "17:04",
+    status: "Terlambat",
+  },
+  {
+    nama: "Fina Lestari",
+    masuk: "08:00",
+    pulang: "17:00",
+    status: "Tepat waktu",
+  },
 ];
 
 const statusList = [
@@ -117,12 +189,6 @@ const leaveRequests = [
 ];
 
 const highlights = [
-  {
-    label: "Punctual streak",
-    value: "11 hari",
-    note: "Tim utama",
-    tone: "bg-emerald-50 text-emerald-600",
-  },
   {
     label: "Avg jam kerja",
     value: "7.8 jam",
@@ -145,9 +211,56 @@ const cardSoft =
 export default function OwnerDashboard() {
   const rangeBadgeClass =
     "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700";
+  const [sortKey, setSortKey] = useState("masuk-asc");
+
+  const topWorkHours = useMemo(() => {
+    return workHourChart.labels
+      .map((label, index) => ({
+        label,
+        value: workHourChart.values[index] ?? 0,
+      }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 5);
+  }, []);
+
+  const sortedCheckTimes = useMemo(() => {
+    const parseTime = (value: string) => {
+      if (!value || value === "--") return Number.POSITIVE_INFINITY;
+      const [hours, minutes] = value.split(":").map(Number);
+      return hours * 60 + minutes;
+    };
+
+    const withFlags = checkTimes.map((row) => ({
+      ...row,
+      masukValue: parseTime(row.masuk),
+      pulangValue: parseTime(row.pulang),
+      tepatWaktu: row.status.toLowerCase().includes("tepat"),
+    }));
+
+    const sorted = [...withFlags];
+    sorted.sort((a, b) => {
+      switch (sortKey) {
+        case "masuk-asc":
+          return a.masukValue - b.masukValue;
+        case "masuk-desc":
+          return b.masukValue - a.masukValue;
+        case "pulang-asc":
+          return a.pulangValue - b.pulangValue;
+        case "pulang-desc":
+          return b.pulangValue - a.pulangValue;
+        case "status":
+          return a.status.localeCompare(b.status);
+        case "tepat-waktu":
+          return Number(b.tepatWaktu) - Number(a.tepatWaktu);
+        default:
+          return 0;
+      }
+    });
+    return sorted;
+  }, [sortKey]);
 
   return (
-    <DashboardShell active="Owner">
+    <DashboardShell active="Owner" ownerSubActive="Dashboard">
       <div className="space-y-8">
         <header className="space-y-2">
           <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
@@ -162,55 +275,129 @@ export default function OwnerDashboard() {
           </p>
         </header>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {totals.map((item) => (
-            <article
-              key={item.label}
-              className={`${cardBase} border-l-4 ${item.tone}`}
-            >
-              <div className="flex items-start justify-between">
-                <div>
+        <OwnerSubnav active="Dashboard" />
+
+        <section className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {totals.map((item) => (
+              <article
+                key={item.label}
+                className={`${cardBase} border-l-4 ${item.tone}`}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                      {item.label}
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold text-slate-900">
+                      {item.value}
+                    </p>
+                  </div>
+                  <span
+                    className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                  >
+                    {item.icon}
+                  </span>
+                </div>
+                <p className="mt-3 text-xs text-emerald-600">{item.meta}</p>
+              </article>
+            ))}
+          </div>
+
+          <AbsensiSummaryCard
+            eyebrow="Distribusi kehadiran"
+            labels={attendanceBreakdown.labels}
+            values={attendanceBreakdown.values}
+            colors={attendanceBreakdown.colors}
+            badge={attendanceRange}
+            badgeClassName={rangeBadgeClass}
+            className={cardBase}
+          />
+        </section>
+
+        <section className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            {highlights.map((item) => (
+              <article key={item.label} className={cardSoft}>
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
                     {item.label}
                   </p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">
-                    {item.value}
-                  </p>
+                  <span className={`rounded-full px-3 py-1 text-xs ${item.tone}`}>
+                    {item.note}
+                  </span>
                 </div>
-                <span
-                  className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
-                >
-                  {item.icon}
-                </span>
-              </div>
-              <p className="mt-3 text-xs text-emerald-600">{item.meta}</p>
-            </article>
-          ))}
-        </section>
-
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {highlights.map((item) => (
-            <article key={item.label} className={cardSoft}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                  {item.label}
+                <p className="mt-4 text-2xl font-semibold text-slate-900">
+                  {item.value}
                 </p>
-                <span className={`rounded-full px-3 py-1 text-xs ${item.tone}`}>
-                  {item.note}
-                </span>
+                <div className="mt-3 h-1 rounded-full bg-slate-100">
+                  <div className="h-1 w-[64%] rounded-full bg-indigo-400" />
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <article className={cardBase}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2 className="text-lg font-semibold text-slate-900">
+                Jam masuk dan pulang
+              </h2>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={rangeBadgeClass}>{attendanceRange}</span>
+                <select
+                  value={sortKey}
+                  onChange={(event) => setSortKey(event.target.value)}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
+                >
+                  <option value="masuk-asc">Masuk tercepat</option>
+                  <option value="masuk-desc">Masuk terlambat</option>
+                  <option value="pulang-asc">Pulang tercepat</option>
+                  <option value="pulang-desc">Pulang terlambat</option>
+                  <option value="tepat-waktu">Tepat waktu dulu</option>
+                  <option value="status">Status A-Z</option>
+                </select>
               </div>
-              <p className="mt-4 text-2xl font-semibold text-slate-900">
-                {item.value}
-              </p>
-              <div className="mt-3 h-1 rounded-full bg-slate-100">
-                <div className="h-1 w-[64%] rounded-full bg-indigo-400" />
-              </div>
-            </article>
-          ))}
+            </div>
+            <div className="mt-4 max-h-64 overflow-auto pr-2">
+              <table className="w-full min-w-[520px] table-fixed border-separate border-spacing-0 text-sm">
+                <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
+                  <tr>
+                    {"Karyawan Masuk Pulang Status".split(" ").map((label) => (
+                      <th
+                        key={label}
+                        className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0"
+                      >
+                        {label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedCheckTimes.map((row) => (
+                    <tr key={row.nama}>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                        {row.nama}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.masuk}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.pulang}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.status}
+                      </td>
+                       
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </article>
         </section>
 
-        <section className="space-y-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <section className="grid gap-4 md:grid-cols-2">
+          {/* <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
                 Kehadiran hari ini
@@ -249,71 +436,19 @@ export default function OwnerDashboard() {
                 <option>Desember</option>
               </select>
             </div>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            <AbsensiSummaryCard
-              eyebrow="Distribusi kehadiran"
-              labels={attendanceBreakdown.labels}
-              values={attendanceBreakdown.values}
-              colors={attendanceBreakdown.colors}
-              badge={attendanceRange}
-              badgeClassName={rangeBadgeClass}
-              className={cardBase}
-            />
-
+          </div> */}
+          <div>
             <WorkPerformanceCard
-              labels={workHourChart.labels}
-              values={workHourChart.values}
+              labels={topWorkHours.map((item) => item.label)}
+              values={topWorkHours.map((item) => item.value)}
               badge={attendanceRange}
               badgeClassName={rangeBadgeClass}
               className={cardBase}
+              chartClassName="h-44 sm:h-48"
             />
-
-            <article className={cardBase}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Jam masuk dan pulang
-                </h2>
-                <span className={rangeBadgeClass}>{attendanceRange}</span>
-              </div>
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full min-w-[420px] text-sm">
-                  <thead>
-                    <tr>
-                      <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                        Karyawan
-                      </th>
-                      <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                        Masuk
-                      </th>
-                      <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                        Pulang
-                      </th>
-                      <th className="px-2 py-3 text-left text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {checkTimes.map((row) => (
-                      <tr key={row.nama} className="border-b border-slate-200">
-                        <td className="px-2 py-3 text-slate-700">{row.nama}</td>
-                        <td className="px-2 py-3 text-slate-500">{row.masuk}</td>
-                        <td className="px-2 py-3 text-slate-500">{row.pulang}</td>
-                        <td className="px-2 py-3 text-slate-500">
-                          {row.status}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </article>
           </div>
-        </section>
 
-        <section className="grid gap-4 md:grid-cols-2">
-          <StatusListCard
+          {/* <StatusListCard
             title="Status karyawan"
             subtitle="Hari ini"
             items={statusList}
@@ -322,7 +457,7 @@ export default function OwnerDashboard() {
               Aktif: "bg-emerald-50 text-emerald-600",
               Cuti: "bg-blue-50 text-blue-600",
             }}
-          />
+          /> */}
 
           <article className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">

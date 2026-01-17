@@ -1,4 +1,7 @@
-﻿import Link from "next/link";
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const navItems = [
   {
@@ -90,13 +93,31 @@ const quickLinks = [
   { label: "People", href: "/dashboard/employee" },
 ];
 
+const ownerSubItems = [
+  { label: "Dashboard", href: "/dashboard/owner" },
+  { label: "Human Resource", href: "/dashboard/owner/human-resource" },
+  { label: "Performa", href: "/dashboard/owner/performa" },
+  { label: "Akun", href: "/dashboard/owner/akun" },
+];
+
 export function DashboardShell({
   active,
+  ownerSubActive,
   children,
 }: {
   active: string;
+  ownerSubActive?: string;
   children: React.ReactNode;
 }) {
+  const [role, setRole] = useState<string | null>(null);
+  const [hydrated, setHydrated] = useState(false);
+  const isOwner = role === "owner";
+
+  useEffect(() => {
+    setRole(localStorage.getItem("absensiRole"));
+    setHydrated(true);
+  }, []);
+
   return (
     <div className="min-h-screen">
       <div className="flex min-h-screen min-w-0">
@@ -114,6 +135,8 @@ export function DashboardShell({
               </p>
             </div>
           </div>
+          {hydrated && !isOwner ? (
+            <>
           <div className="px-6 pb-2 text-[11px] uppercase tracking-[0.3em] text-slate-400">
             Main Menu
           </div>
@@ -140,6 +163,30 @@ export function DashboardShell({
               </Link>
             ))}
           </nav>
+            </>
+          ) : null}
+          {hydrated && isOwner ? (
+            <div className="px-6 pt-4">
+              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
+                Owner Menu
+              </div>
+              <nav className="mt-2 flex flex-col gap-1">
+                {ownerSubItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={`rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
+                      ownerSubActive === item.label
+                        ? "bg-blue-50 text-blue-600"
+                        : "text-slate-500 hover:bg-slate-50"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          ) : null}
           <div className="px-6 pt-6 text-[11px] uppercase tracking-[0.3em] text-slate-400">
             Insights
           </div>
