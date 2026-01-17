@@ -347,7 +347,7 @@ export default function OwnerDashboard() {
           />
         </section>
 
-        <section className="grid gap-4 md:grid-cols-2">
+        <section className="grid gap-4 lg:grid-cols-2">
           <StatusListCard
             title="Status karyawan"
             subtitle="Hari ini"
@@ -358,6 +358,7 @@ export default function OwnerDashboard() {
               Cuti: "bg-blue-50 text-blue-600",
             }}
           />
+
           <article className={cardBase}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">

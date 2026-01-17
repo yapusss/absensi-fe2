@@ -13,7 +13,7 @@ type WorkPerformanceCardProps = {
 };
 
 export function WorkPerformanceCard({
-  label = "Performa jam kerja",
+  label = "Performa kerja top 5",
   badge,
   badgeClassName = "rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500",
   className,
