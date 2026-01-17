@@ -1,5 +1,4 @@
-﻿import Link from "next/link";
-import { DashboardShell } from "@/app/components/DashboardShell";
+import Link from "next/link";
 
 const roles = [
   {
@@ -79,75 +78,30 @@ const roles = [
   },
 ];
 
-const quickStats = [
-  {
-    label: "Perusahaan aktif",
-    value: "124",
-    tone: "bg-blue-50 text-blue-600",
-  },
-  {
-    label: "HR online",
-    value: "36",
-    tone: "bg-emerald-50 text-emerald-600",
-  },
-  {
-    label: "Approval pending",
-    value: "18",
-    tone: "bg-amber-50 text-amber-600",
-  },
-  {
-    label: "Notifikasi",
-    value: "7",
-    tone: "bg-sky-50 text-sky-600",
-  },
-];
-
-export default function Home() {
+export default function PilihRolePage() {
   return (
-    <DashboardShell active="Dashboard">
-      <div className="space-y-8">
-        <div id="overview" className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <main className="min-h-screen bg-slate-100 px-4 py-10 sm:px-6">
+      <div className="mx-auto flex max-w-5xl flex-col gap-8">
+        <header className="space-y-3">
           <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
-            HR Performance Suite
+            Pilih Role
           </span>
-          <h1 className="mt-3 font-[var(--font-display)] text-3xl font-semibold text-slate-900">
-            Absensi Pulse Dashboard
+          <h1 className="text-3xl font-semibold text-slate-900">
+            Masuk ke dashboard
           </h1>
-          <p className="mt-3 max-w-2xl text-sm text-slate-500">
-            Tampilan ringkas untuk penyedia platform, owner usaha, HR, dan
-            karyawan. Setiap dashboard dirancang agar mudah dibaca dan cepat
-            mengambil keputusan.
+          <p className="max-w-2xl text-sm text-slate-500">
+            Pilih peran yang ingin kamu akses. Sidebar akan menampilkan submenu
+            khusus sesuai role aktif.
           </p>
           <Link
-            href="/pilih-role"
-            className="mt-4 inline-flex w-fit items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500"
+            href="/"
+            className="inline-flex w-fit items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500"
           >
-            Pilih role
+            Kembali ke ringkasan umum
           </Link>
-        </div>
+        </header>
 
-        <section id="statistik" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {quickStats.map((item) => (
-            <article
-              key={item.label}
-              className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
-            >
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <span className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                  {item.label}
-                </span>
-                <span className={`rounded-full px-3 py-1 text-xs ${item.tone}`}>
-                  {item.value}
-                </span>
-              </div>
-              <div className="mt-4 h-1 rounded-full bg-slate-100">
-                <div className="h-1 w-[62%] rounded-full bg-blue-400" />
-              </div>
-            </article>
-          ))}
-        </section>
-
-        <section id="roles" className="grid gap-4 md:grid-cols-2">
+        <section className="grid gap-4 md:grid-cols-2">
           {roles.map((role) => (
             <Link
               key={role.title}
@@ -160,9 +114,9 @@ export default function Home() {
                 {role.icon}
               </span>
               <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-900">
+                <h2 className="text-base font-semibold text-slate-900">
                   {role.title}
-                </h3>
+                </h2>
                 <p className="text-sm text-slate-500">{role.description}</p>
                 <div className="flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.2em] text-slate-400">
                   <span className="rounded-full border border-slate-200 px-3 py-1">
@@ -177,6 +131,6 @@ export default function Home() {
           ))}
         </section>
       </div>
-    </DashboardShell>
+    </main>
   );
 }

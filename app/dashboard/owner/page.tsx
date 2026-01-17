@@ -162,7 +162,7 @@ export default function OwnerDashboard() {
           </p>
         </header>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section id="ringkasan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {totals.map((item) => (
             <article
               key={item.label}
@@ -188,7 +188,7 @@ export default function OwnerDashboard() {
           ))}
         </section>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section id="sorotan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {highlights.map((item) => (
             <article key={item.label} className={cardSoft}>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -209,7 +209,7 @@ export default function OwnerDashboard() {
           ))}
         </section>
 
-        <section className="space-y-4">
+        <section id="kehadiran" className="space-y-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
@@ -312,8 +312,9 @@ export default function OwnerDashboard() {
           </div>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-2">
-          <StatusListCard
+        <section id="status" className="grid gap-4 md:grid-cols-2">
+          <div>
+            <StatusListCard
             title="Status karyawan"
             subtitle="Hari ini"
             items={statusList}
@@ -322,9 +323,10 @@ export default function OwnerDashboard() {
               Aktif: "bg-emerald-50 text-emerald-600",
               Cuti: "bg-blue-50 text-blue-600",
             }}
-          />
+            />
+          </div>
 
-          <article className={cardSoft}>
+          <article id="cuti" className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Cuti dan persetujuan

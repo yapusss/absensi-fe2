@@ -16,7 +16,7 @@ type AbsensiActionsCardProps = {
 export function AbsensiActionsCard({
   title,
   badge,
-  badgeClassName = "text-xs text-slate-400",
+  badgeClassName = "rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500",
   actions,
   className,
 }: AbsensiActionsCardProps) {
@@ -30,11 +30,11 @@ export function AbsensiActionsCard({
         {actions.map((item) => (
           <div
             key={item.title}
-            className="flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+            className="flex flex-col items-start gap-3 rounded-xl border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="flex items-start gap-3">
               <span
-                className={`grid h-9 w-9 place-items-center rounded-lg ${item.tone}`}
+                className={`grid h-10 w-10 place-items-center rounded-lg ${item.tone}`}
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -54,7 +54,7 @@ export function AbsensiActionsCard({
                 <p className="text-xs text-slate-500">{item.note}</p>
               </div>
             </div>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-500">
+            <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] uppercase tracking-wide text-slate-500">
               {item.endpoint}
             </span>
           </div>
