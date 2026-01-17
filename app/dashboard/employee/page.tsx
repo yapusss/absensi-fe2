@@ -1,4 +1,4 @@
-import { AbsensiActionsCard } from "@/app/components/AbsensiActionsCard";
+﻿import { AbsensiActionsCard } from "@/app/components/AbsensiActionsCard";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { LineChart } from "@/app/components/charts/LineChart";
@@ -27,8 +27,8 @@ const summaries = [
     label: "Terlambat bulan ini",
     value: "2 hari",
     meta: "Membaik 40%",
-    tone: "border-l-orange-400",
-    iconBg: "bg-orange-50 text-orange-600",
+    tone: "border-l-blue-400",
+    iconBg: "bg-blue-50 text-blue-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -236,7 +236,7 @@ export default function EmployeeDashboard() {
               <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-600">
                 Tepat waktu 18
               </span>
-              <span className="rounded-full bg-orange-50 px-3 py-1 text-orange-600">
+              <span className="rounded-full bg-blue-50 px-3 py-1 text-blue-600">
                 Terlambat 2
               </span>
               <span className="rounded-full bg-amber-50 px-3 py-1 text-amber-600">
@@ -254,7 +254,7 @@ export default function EmployeeDashboard() {
             className={cardBase}
             toneMap={{
               Hadir: "bg-emerald-50 text-emerald-600",
-              Cuti: "bg-orange-50 text-orange-600",
+              Cuti: "bg-blue-50 text-blue-600",
             }}
           />
 

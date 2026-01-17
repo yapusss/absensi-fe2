@@ -1,4 +1,4 @@
-import { DashboardShell } from "@/app/components/DashboardShell";
+﻿import { DashboardShell } from "@/app/components/DashboardShell";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { DonutChart } from "@/app/components/charts/DonutChart";
 
@@ -7,8 +7,8 @@ const kpis = [
     label: "Usaha aktif",
     value: "124",
     meta: "+12% bulan ini",
-    tone: "border-l-orange-400",
-    iconBg: "bg-orange-50 text-orange-600",
+    tone: "border-l-blue-400",
+    iconBg: "bg-blue-50 text-blue-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -102,7 +102,7 @@ const highlights = [
     label: "Churn risiko",
     value: "6",
     note: "Perlu follow-up",
-    tone: "bg-orange-50 text-orange-600",
+    tone: "bg-blue-50 text-blue-600",
   },
   {
     label: "Tiket support",
@@ -198,7 +198,7 @@ export default function ProviderDashboard() {
                 {item.value}
               </p>
               <div className="mt-3 h-1 rounded-full bg-slate-100">
-                <div className="h-1 w-[68%] rounded-full bg-orange-400" />
+                <div className="h-1 w-[68%] rounded-full bg-blue-400" />
               </div>
             </article>
           ))}
@@ -336,7 +336,7 @@ export default function ProviderDashboard() {
               </h2>
               <div className="mt-4 flex flex-col items-start gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-start gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50 text-orange-600">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-blue-50 text-blue-600">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -483,7 +483,7 @@ export default function ProviderDashboard() {
                         className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold ${
                           row.status === "Aktif"
                             ? "bg-emerald-50 text-emerald-600"
-                            : "bg-orange-50 text-orange-600"
+                            : "bg-blue-50 text-blue-600"
                         }`}
                       >
                         {row.status}

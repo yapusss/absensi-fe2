@@ -1,4 +1,4 @@
-import { AbsensiActionsCard } from "@/app/components/AbsensiActionsCard";
+﻿import { AbsensiActionsCard } from "@/app/components/AbsensiActionsCard";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
@@ -48,8 +48,8 @@ const totals = [
     label: "Terlambat",
     value: "12",
     meta: "Perlu follow-up",
-    tone: "border-l-orange-400",
-    iconBg: "bg-orange-50 text-orange-600",
+    tone: "border-l-blue-400",
+    iconBg: "bg-blue-50 text-blue-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -154,7 +154,7 @@ const highlights = [
     label: "Pengajuan cuti",
     value: "6",
     note: "Menunggu",
-    tone: "bg-orange-50 text-orange-600",
+    tone: "bg-blue-50 text-blue-600",
   },
   {
     label: "Outstation",
@@ -269,7 +269,7 @@ export default function HrDashboard() {
               <button className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500">
                 Harian
               </button>
-              <button className="rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs text-orange-600">
+              <button className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs text-blue-600">
                 Bulanan
               </button>
               <button className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500">
@@ -328,7 +328,7 @@ export default function HrDashboard() {
               ))}
               <div className="flex items-center justify-between text-xs text-slate-500">
                 <span>Menampilkan 3 dari 42 karyawan</span>
-                <button className="text-orange-600">Lihat semua</button>
+                <button className="text-blue-600">Lihat semua</button>
               </div>
             </div>
           </article>
@@ -649,7 +649,7 @@ export default function HrDashboard() {
                   className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
                 >
                   <div className="flex items-start gap-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50 text-orange-600">
+                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-blue-50 text-blue-600">
                       <svg
                         viewBox="0 0 24 24"
                         fill="none"

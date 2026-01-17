@@ -1,4 +1,4 @@
-import { DashboardShell } from "@/app/components/DashboardShell";
+﻿import { DashboardShell } from "@/app/components/DashboardShell";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
@@ -48,8 +48,8 @@ const totals = [
     label: "Terlambat",
     value: "9",
     meta: "Perlu perhatian",
-    tone: "border-l-orange-400",
-    iconBg: "bg-orange-50 text-orange-600",
+    tone: "border-l-blue-400",
+    iconBg: "bg-blue-50 text-blue-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -133,7 +133,7 @@ const highlights = [
     label: "Approval pending",
     value: "6",
     note: "Butuh review",
-    tone: "bg-orange-50 text-orange-600",
+    tone: "bg-blue-50 text-blue-600",
   },
 ];
 
@@ -320,7 +320,7 @@ export default function OwnerDashboard() {
             className={cardBase}
             toneMap={{
               Aktif: "bg-emerald-50 text-emerald-600",
-              Cuti: "bg-orange-50 text-orange-600",
+              Cuti: "bg-blue-50 text-blue-600",
             }}
           />
 
@@ -338,7 +338,7 @@ export default function OwnerDashboard() {
                   className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
                 >
                   <div className="flex items-start gap-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50 text-orange-600">
+                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-blue-50 text-blue-600">
                       <svg
                         viewBox="0 0 24 24"
                         fill="none"

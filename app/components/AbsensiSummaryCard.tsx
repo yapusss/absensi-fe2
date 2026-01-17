@@ -1,4 +1,4 @@
-import { DonutChart } from "@/app/components/charts/DonutChart";
+﻿import { DonutChart } from "@/app/components/charts/DonutChart";
 
 type AbsensiSummaryCardProps = {
   title?: string;
@@ -12,20 +12,23 @@ type AbsensiSummaryCardProps = {
   headline?: string;
 };
 
-const legendStyles = [
-  {
-    pill: "bg-emerald-50 text-emerald-600",
-    dot: "bg-emerald-500",
-  },
-  {
-    pill: "bg-orange-50 text-orange-600",
-    dot: "bg-orange-500",
-  },
-  {
-    pill: "bg-amber-50 text-amber-600",
-    dot: "bg-amber-500",
-  },
-];
+const isHexColor = (value: string) =>
+  /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(value);
+
+const hexToRgba = (hex: string, alpha: number) => {
+  const normalized = hex.replace("#", "");
+  const full =
+    normalized.length === 3
+      ? normalized
+          .split("")
+          .map((char) => `${char}${char}`)
+          .join("")
+      : normalized;
+  const red = parseInt(full.slice(0, 2), 16);
+  const green = parseInt(full.slice(2, 4), 16);
+  const blue = parseInt(full.slice(4, 6), 16);
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+};
 
 export function AbsensiSummaryCard({
   title,
@@ -63,16 +66,31 @@ export function AbsensiSummaryCard({
         <div className="space-y-2 text-xs text-slate-500">
           <p className="text-lg font-semibold text-slate-900">{headlineText}</p>
           {labels.map((label, index) => {
-            const style = legendStyles[index] ?? {
-              pill: "bg-slate-100 text-slate-600",
-              dot: "bg-slate-400",
-            };
+            const color = colors[index];
+            const useColor = color && isHexColor(color);
+            const pillStyle = useColor
+              ? {
+                  backgroundColor: hexToRgba(color, 0.12),
+                  color,
+                }
+              : undefined;
+            const dotStyle = useColor
+              ? { backgroundColor: color }
+              : undefined;
             return (
               <span
                 key={label}
-                className={`flex items-center gap-2 rounded-full px-3 py-1 ${style.pill}`}
+                className={`flex items-center gap-2 rounded-full px-3 py-1 ${
+                  useColor ? "" : "bg-slate-100 text-slate-600"
+                }`}
+                style={pillStyle}
               >
-                <span className={`h-2 w-2 rounded-full ${style.dot}`} />
+                <span
+                  className={`h-2 w-2 rounded-full ${
+                    useColor ? "" : "bg-slate-400"
+                  }`}
+                  style={dotStyle}
+                />
                 {label} {values[index] ?? 0}
               </span>
             );

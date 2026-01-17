@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 const navItems = [
   {
@@ -102,7 +102,7 @@ export function DashboardShell({
       <div className="flex min-h-screen min-w-0">
         <aside className="hidden w-64 flex-col border-r border-slate-200 bg-white lg:flex">
           <div className="flex items-center gap-3 px-6 py-6">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-rose-500 text-sm font-semibold text-white">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-blue-500 to-sky-500 text-sm font-semibold text-white">
               AP
             </span>
             <div>
@@ -124,7 +124,7 @@ export function DashboardShell({
                 href={item.href}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
                   active === item.label
-                    ? "bg-orange-50 text-orange-600 shadow-sm"
+                    ? "bg-blue-50 text-blue-600 shadow-sm"
                     : "text-slate-600 hover:bg-slate-50"
                 }`}
               >
@@ -153,7 +153,7 @@ export function DashboardShell({
                 <span className="text-emerald-600">+12%</span>
               </div>
               <div className="mt-2 h-1 rounded-full bg-slate-100">
-                <div className="h-1 w-[72%] rounded-full bg-orange-400" />
+                <div className="h-1 w-[72%] rounded-full bg-blue-400" />
               </div>
             </div>
             <div className="mt-3 min-w-0 rounded-xl border border-slate-200 bg-white px-4 py-3">
@@ -190,7 +190,7 @@ export function DashboardShell({
                   <input
                     type="text"
                     placeholder="Search in HRMS"
-                    className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100"
+                    className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
                   />
                 </div>
               </div>

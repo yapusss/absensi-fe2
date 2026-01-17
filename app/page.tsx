@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { DashboardShell } from "@/app/components/DashboardShell";
 
 const roles = [
@@ -7,7 +7,7 @@ const roles = [
     description:
       "Kelola perusahaan pelanggan, pemilik usaha, dan pantau pertumbuhan revenue langganan.",
     href: "/dashboard/provider",
-    tone: "bg-orange-50 text-orange-600",
+    tone: "bg-blue-50 text-blue-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -83,7 +83,7 @@ const quickStats = [
   {
     label: "Perusahaan aktif",
     value: "124",
-    tone: "bg-orange-50 text-orange-600",
+    tone: "bg-blue-50 text-blue-600",
   },
   {
     label: "HR online",
@@ -135,7 +135,7 @@ export default function Home() {
                 </span>
               </div>
               <div className="mt-4 h-1 rounded-full bg-slate-100">
-                <div className="h-1 w-[62%] rounded-full bg-orange-400" />
+                <div className="h-1 w-[62%] rounded-full bg-blue-400" />
               </div>
             </article>
           ))}
@@ -146,7 +146,7 @@ export default function Home() {
             <Link
               key={role.title}
               href={role.href}
-              className="flex min-w-0 items-start gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-md"
+              className="flex min-w-0 items-start gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
             >
               <span
                 className={`grid h-12 w-12 place-items-center rounded-full text-base font-semibold ${role.tone}`}
