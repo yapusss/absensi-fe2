@@ -68,20 +68,19 @@ export default function EmployeeLeavePage() {
             }
           />
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] table-fixed border-separate border-spacing-0 text-sm">
-              <thead className="bg-gradient-to-r from-sky-50 to-blue-100">
+            <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
+              <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                 <tr>
-                  {[
-                    "No.",
-                    "Tanggal Mulai",
-                    "Tanggal Selesai",
-                    "Jenis Cuti",
-                    "Status",
-                    "Aksi",
-                  ].map((label) => (
+                  {"No., Tanggal Mulai, Tanggal Selesai, Jenis Cuti, Status, Aksi"
+                    .split(",")
+                    .map((label) => (
                     <th
                       key={label}
-                      className="border-b border-r border-slate-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 last:border-r-0"
+                      className={`border-b border-r border-slate-200 px-3 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 ${
+                        label.trim().toLowerCase().startsWith("no")
+                          ? "w-10"
+                          : ""
+                      } last:border-r-0`.trim()}
                     >
                       {label}
                     </th>
@@ -90,35 +89,37 @@ export default function EmployeeLeavePage() {
               </thead>
               <tbody>
                 {leaveRows.map((row, index) => (
-                  <tr key={`${row.mulai}-${index}`}>
-                    <td className="border-b border-r border-slate-200 px-3 py-2 text-slate-700 last:border-r-0">
+                  <tr key={`${row.mulai}-${index}`} className="odd:bg-slate-50">
+                    <td className="w-10 border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
                       {index + 1}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-3 py-2 text-slate-600 last:border-r-0">
+                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.mulai}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-3 py-2 text-slate-600 last:border-r-0">
+                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.selesai}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-3 py-2 text-slate-600 last:border-r-0">
+                    <td className="border-b border-r border-slate-200 px-3 py-3 text-slate-700 last:border-r-0">
                       {row.jenis}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-3 py-2 text-slate-600 last:border-r-0">
+                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.status}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-3 py-2 text-slate-600 last:border-r-0">
-                      <span className="grid h-8 w-8 place-items-center rounded-full bg-slate-100 text-slate-600">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="h-4 w-4"
-                        >
-                          <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
-                          <circle cx="12" cy="12" r="3" />
-                        </svg>
-                      </span>
+                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
+                      <div className="flex items-center justify-center">
+                        <span className="grid h-8 w-8 place-items-center rounded-full bg-slate-100 text-slate-600">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -3,7 +3,12 @@ import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 
 const holidayRows = [
-  { no: 1, nama: "Anniversary", tanggal: "12/12/2025", status: "Aktif" },
+  {
+    no: 1,
+    nama: "Anniversary",
+    tanggal: "12/12/2025",
+    status: "Aktif",
+  },
   {
     no: 2,
     nama: "Jeda Akhir Tahun",

@@ -6,6 +6,7 @@ const businessRows = [
   {
     no: 1,
     usaha: "Ayam Aharis",
+    logoUrl: "/dempe.jpg",
     owner: "haris n",
     kontrakMulai: "01/01/2026",
     kontrakSelesai: "01/01/2027",
@@ -15,6 +16,7 @@ const businessRows = [
   {
     no: 2,
     usaha: "Laundry Dru",
+    logoUrl: "/hamriz.jpg",
     owner: "drupadi g",
     kontrakMulai: "01/01/2026",
     kontrakSelesai: "01/02/2026",
@@ -24,6 +26,7 @@ const businessRows = [
   {
     no: 3,
     usaha: "Kursus Ngoding",
+    logoUrl: "/jempi.jpg",
     owner: "timotius v",
     kontrakMulai: "01/01/2026",
     kontrakSelesai: "01/01/2027",
@@ -48,10 +51,11 @@ export default function ProviderUsahaPage() {
           <TableToolbar
             primaryActions={
               <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
-                Buat Pengajuan
+                Tambah Usaha
               </button>
             }
             searchPlaceholder="Cari Usaha..."
+            showDivider={false}
             rightActions={
               <button
                 type="button"
@@ -103,7 +107,15 @@ export default function ProviderUsahaPage() {
                       {row.no}
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
-                      {row.usaha}
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={row.logoUrl || "/icons/dot-blue.svg"}
+                          alt={`Logo ${row.usaha}`}
+                          className="h-6 w-6 rounded-full object-cover"
+                          loading="lazy"
+                        />
+                        <span>{row.usaha}</span>
+                      </div>
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
                       {row.owner}

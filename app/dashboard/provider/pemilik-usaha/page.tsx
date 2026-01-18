@@ -8,6 +8,7 @@ const ownerRows = [
   {
     no: 1,
     nama: "Haoris Nur",
+    fotoUrl: "/dempe.jpg",
     email: "haoris@gmail.com",
     telepon: "085692347596",
     status: "Aktif",
@@ -15,6 +16,7 @@ const ownerRows = [
   {
     no: 2,
     nama: "Drupadi Ginaris",
+    fotoUrl: "/hamriz.jpg",
     email: "dru@gmail.com",
     telepon: "085692347596",
     status: "Aktif",
@@ -22,6 +24,7 @@ const ownerRows = [
   {
     no: 3,
     nama: "Timotius Victory",
+    fotoUrl: "/jempi.jpg",
     email: "timotius@gmail.com",
     telepon: "085692347596",
     status: "Aktif",
@@ -42,7 +45,7 @@ export default function ProviderPemilikUsahaPage() {
           <TableToolbar
             primaryActions={
               <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
-                Buat Pengajuan
+                Tambah Pemilik Usaha
               </button>
             }
             searchPlaceholder="Cari Pemilik Usaha..."
@@ -93,7 +96,15 @@ export default function ProviderPemilikUsahaPage() {
                       {row.no}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-slate-700 last:border-r-0">
-                      {row.nama}
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={row.fotoUrl || "/icons/dot-blue.svg"}
+                          alt={`Foto ${row.nama}`}
+                          className="h-6 w-6 rounded-full object-cover"
+                          loading="lazy"
+                        />
+                        <span>{row.nama}</span>
+                      </div>
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.email}

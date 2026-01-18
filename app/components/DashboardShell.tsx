@@ -10,6 +10,7 @@ type MenuItem = {
   href: string;
   icon?: ReactNode;
   children?: MenuItem[];
+  autoExpand?: boolean;
 };
 const roleMenus: Record<string, MenuItem[]> = {
   Dashboard: [
@@ -37,6 +38,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     {
       label: "Usaha",
       href: "/dashboard/provider/usaha-menu",
+      autoExpand: false,
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -475,6 +477,7 @@ export function DashboardShell({
       const initial: Record<string, boolean> = {};
       menuItems.forEach((item) => {
         if (
+          item.autoExpand !== false &&
           item.children?.some((child) => child.href.split("#")[0] === pathname)
         ) {
           initial[item.label] = true;
@@ -526,6 +529,7 @@ export function DashboardShell({
       let changed = false;
       menuItems.forEach((item) => {
         if (
+          item.autoExpand !== false &&
           item.children?.some((child) => child.href.split("#")[0] === pathname)
         ) {
           if (!next[item.label]) {
@@ -566,13 +570,13 @@ export function DashboardShell({
           </div>
           <nav className="flex flex-col gap-1 px-4">
             {menuItems.map((item) => {
-              const hasChildren = Boolean(item.children?.length);
-              const childActive = item.children?.some(
-                (child) => child.href === activeHref,
-              );
-              const isActive = activeHref === item.href || childActive;
-              const isExpanded =
-                hasChildren && (expandedMenus[item.label] || childActive);
+          const hasChildren = Boolean(item.children?.length);
+          const childActive = item.children?.some(
+            (child) => child.href === activeHref,
+          );
+          const isActive = activeHref === item.href || childActive;
+          const isExpanded =
+            hasChildren && (expandedMenus[item.label] || childActive);
               const itemClasses = `flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
                 isActive
                   ? "bg-blue-50 text-blue-600 shadow-sm"

@@ -6,6 +6,7 @@ const employeeRows = [
   {
     no: 1,
     nama: "Haoris Nur",
+    fotoUrl: "/dempe.jpg",
     posisi: "Developer",
     email: "haoris@gmail.com",
     shift: "Shift 1",
@@ -14,6 +15,7 @@ const employeeRows = [
   {
     no: 2,
     nama: "Drupadi Ginaris",
+    fotoUrl: "/hamriz.jpg",
     posisi: "Developer",
     email: "dru@gmail.com",
     shift: "Shift 1",
@@ -22,6 +24,7 @@ const employeeRows = [
   {
     no: 3,
     nama: "Timotius Victory",
+    fotoUrl: "/jempi.jpg",
     posisi: "Developer",
     email: "timotius@gmail.com",
     shift: "Shift 1",
@@ -96,7 +99,15 @@ export default function HrKaryawanPage() {
                       {row.no}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-slate-700 last:border-r-0">
-                      {row.nama}
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={row.fotoUrl || "/icons/dot-blue.svg"}
+                          alt={`Foto ${row.nama}`}
+                          className="h-6 w-6 rounded-full object-cover"
+                          loading="lazy"
+                        />
+                        <span>{row.nama}</span>
+                      </div>
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.posisi}

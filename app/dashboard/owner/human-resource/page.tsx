@@ -6,16 +6,24 @@ import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 
 const hrRows = [
-  { no: 1, nama: "Haoris Nur", email: "haoris@gmail.com", status: "Aktif" },
+  {
+    no: 1,
+    nama: "Haoris Nur",
+    fotoUrl: "/dempe.jpg",
+    email: "haoris@gmail.com",
+    status: "Aktif",
+  },
   {
     no: 2,
     nama: "Drupadi Ginaris",
+    fotoUrl: "/hamriz.jpg",
     email: "dru@gmail.com",
     status: "Aktif",
   },
   {
     no: 3,
     nama: "Timotius Victory",
+    fotoUrl: "/jempi.jpg",
     email: "timotius@gmail.com",
     status: "Cuti",
   },
@@ -78,18 +86,20 @@ export default function OwnerHumanResourcePage() {
             <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                 <tr>
-                  {"No. Nama Email Status Aksi".split(" ").map((label) => (
-                    <th
-                      key={label}
-                      className={`border-b border-r border-slate-200 px-3 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 ${
-                        label.trim().toLowerCase().startsWith("no")
-                          ? "w-10"
-                          : ""
-                      } last:border-r-0`.trim()}
-                    >
-                      {label}
-                    </th>
-                  ))}
+                  {"No., Nama HR, Email, Status, Aksi"
+                    .split(",")
+                    .map((label) => (
+                      <th
+                        key={label}
+                        className={`border-b border-r border-slate-200 px-3 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 ${
+                          label.trim().toLowerCase().startsWith("no")
+                            ? "w-10"
+                            : ""
+                        } last:border-r-0`.trim()}
+                      >
+                        {label}
+                      </th>
+                    ))}
                 </tr>
               </thead>
               <tbody>
@@ -99,7 +109,15 @@ export default function OwnerHumanResourcePage() {
                       {row.no}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-slate-700 last:border-r-0">
-                      {row.nama}
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={row.fotoUrl || "/icons/dot-blue.svg"}
+                          alt={`Foto ${row.nama}`}
+                          className="h-6 w-6 rounded-full object-cover"
+                          loading="lazy"
+                        />
+                        <span>{row.nama}</span>
+                      </div>
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.email}
