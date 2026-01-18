@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
+import { Pagination } from "@/app/components/Pagination";
 
 const totals = [
   {
@@ -681,6 +682,12 @@ export default function HrDashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-4"
+              page={1}
+              totalPages={1}
+              summaryText={`Menampilkan ${sortedCheckTimes.length} data`}
+            />
           </article>
           <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
             <article className={cardBase}>
@@ -829,6 +836,12 @@ export default function HrDashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-4"
+              page={1}
+              totalPages={1}
+              summaryText={`Menampilkan ${sortedLeaveApprovals.length} data`}
+            />
           </article>
 
           <article className={cardBase}>

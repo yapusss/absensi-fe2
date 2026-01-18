@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Pagination } from "@/app/components/Pagination";
 
 const hrRows = [
   {
@@ -185,6 +186,12 @@ export default function OwnerHumanResourcePage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${filteredRows.length} data`}
+            className="mt-4"
+          />
         </article>
       </OwnerSectionLayout>
     </DashboardShell>

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
+import { Pagination } from "@/app/components/Pagination";
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -370,53 +371,13 @@ export default function EmployeeTeamPage() {
               </article>
             ))}
           </section>
-          <div className="mt-4 flex items-center justify-between gap-3 border-t border-slate-200 pt-3">
-            <p className="text-xs text-slate-500">
-              Menampilkan {startIndex + 1}-{endIndex} dari {teamRows.length}{" "}
-              data
-            </p>
-            <div className="ml-auto flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setPage((prev) => Math.max(1, prev - 1))}
-                disabled={page === 1}
-                className="grid h-8 w-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
-                aria-label="Sebelumnya"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="h-4 w-4"
-                >
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
-              </button>
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-blue-500 text-xs font-semibold text-white">
-                {page}
-              </span>
-              <button
-                type="button"
-                onClick={() =>
-                  setPage((prev) => Math.min(totalPages, prev + 1))
-                }
-                disabled={page === totalPages}
-                className="grid h-8 w-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
-                aria-label="Berikutnya"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="h-4 w-4"
-                >
-                  <path d="M9 6l6 6-6 6" />
-                </svg>
-              </button>
-            </div>
-          </div>
+          <Pagination
+            className="mt-4 border-t border-slate-200 pt-3"
+            page={page}
+            totalPages={totalPages}
+            summaryText={`Menampilkan ${startIndex + 1}-${endIndex} dari ${teamRows.length} data`}
+            onPageChange={setPage}
+          />
         </article>
       </div>
     </DashboardShell>

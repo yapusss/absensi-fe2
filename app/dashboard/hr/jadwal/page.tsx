@@ -1,6 +1,7 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Pagination } from "@/app/components/Pagination";
 
 const shiftRows = [
   {
@@ -129,6 +130,12 @@ export default function HrJadwalPage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${shiftRows.length} data`}
+            className="mt-4"
+          />
         </article>
       </OwnerSectionLayout>
     </DashboardShell>

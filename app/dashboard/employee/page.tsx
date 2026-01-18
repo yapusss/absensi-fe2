@@ -252,6 +252,36 @@ export default function EmployeeDashboard() {
           </p>
         </header>
 
+<section>
+          <article className="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 p-6 text-white shadow-sm">
+            <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="space-y-2">
+                <p className="text-xl font-semibold">
+                  Selamat datang kembali, Adrian
+                </p>
+                <p className="text-sm text-white/80">
+                  14 usaha baru berlangganan hari ini.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900"
+                >
+                  Pengaturan
+                </button>
+                <button
+                  type="button"
+                  className="rounded-full border border-white/50 px-4 py-2 text-xs font-semibold text-white"
+                >
+                  Keluar
+                </button>
+              </div>
+            </div>
+            <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/15" />
+            <div className="pointer-events-none absolute -bottom-8 left-12 h-24 w-24 rounded-full bg-white/10" />
+          </article>
+        </section>
 
         <section className="grid gap-4 lg:grid-cols-[1fr_2fr]">
           

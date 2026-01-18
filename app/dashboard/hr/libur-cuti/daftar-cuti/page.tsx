@@ -1,6 +1,7 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Pagination } from "@/app/components/Pagination";
 
 const leaveRows = [
   {
@@ -142,6 +143,12 @@ export default function HrDaftarCutiPage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${leaveRows.length} data`}
+            className="mt-4"
+          />
         </section>
       </OwnerSectionLayout>
     </DashboardShell>

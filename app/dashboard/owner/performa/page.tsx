@@ -1,5 +1,6 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { BarChart } from "@/app/components/charts/BarChart";
+import { Pagination } from "@/app/components/Pagination";
 
 const attendanceLabels = ["Haoris", "Drupadi", "Timotius"];
 const attendanceSeries = [
@@ -167,6 +168,12 @@ export default function OwnerPerformaPage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${performanceRows.length} data`}
+            className="mt-4"
+          />
         </article>
       </div>
     </DashboardShell>

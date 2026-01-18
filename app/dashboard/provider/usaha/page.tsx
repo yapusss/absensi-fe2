@@ -1,6 +1,7 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Pagination } from "@/app/components/Pagination";
 
 const businessRows = [
   {
@@ -47,6 +48,7 @@ export default function ProviderUsahaPage() {
         title="Daftar usaha pelanggan"
         breadcrumb="Beranda/Daftar Usaha"
       >
+        
         <section className={cardBase}>
           <TableToolbar
             primaryActions={
@@ -160,6 +162,12 @@ export default function ProviderUsahaPage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            className="mt-4"
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${businessRows.length} data`}
+          />
         </section>
       </OwnerSectionLayout>
     </DashboardShell>

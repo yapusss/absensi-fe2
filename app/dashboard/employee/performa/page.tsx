@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { DonutChart } from "@/app/components/charts/DonutChart";
+import { Pagination } from "@/app/components/Pagination";
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -315,28 +316,29 @@ export default function EmployeePerformancePage() {
             <table className="w-full min-w-[720px] table-fixed border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                 <tr>
-                  {[
-                    "No.",
-                    "Tanggal",
-                    "Masuk",
-                    "Pulang",
-                    "Total Jam",
-                    "Status",
-                    "Dinas Luar",
-                  ].map((label) => (
-                    <th
-                      key={label}
-                      className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0"
-                    >
-                      {label}
-                    </th>
-                  ))}
+                    {[
+                      "No.",
+                      "Tanggal",
+                      "Masuk",
+                      "Pulang",
+                      "Total Jam",
+                      "Status", 
+                    ].map((label) => (
+                      <th
+                        key={label}
+                        className={`border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0 ${
+                          label === "No." ? "w-12" : ""
+                        }`}
+                      >
+                        {label}
+                      </th>
+                    ))}
                 </tr>
               </thead>
               <tbody>
                 {filteredLogs.map((row, index) => (
                   <tr key={`${row.tanggal}-${row.masuk}`}>
-                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-center text-slate-700 last:border-r-0 w-12">
                       {index + 1}
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
@@ -354,14 +356,18 @@ export default function EmployeePerformancePage() {
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
                       {row.status}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
-                      {row.dinasLuar}
-                    </td>
+                     
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          <Pagination
+            className="mt-4"
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${filteredLogs.length} data`}
+          />
         </article>
       </div>
     </DashboardShell>
