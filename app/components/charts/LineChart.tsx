@@ -11,6 +11,7 @@ export function LineChart({
   tension = 0,
   showAllTicks = false,
   valueFormat = "number",
+  series,
 }: {
   labels: string[];
   values: number[];
@@ -19,6 +20,13 @@ export function LineChart({
   tension?: number;
   showAllTicks?: boolean;
   valueFormat?: "number" | "rupiah-juta";
+  series?: {
+    label: string;
+    values: number[];
+    stroke: string;
+    fill?: string;
+    tension?: number;
+  }[];
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<Chart | null>(null);
@@ -59,26 +67,45 @@ export function LineChart({
       callback: (value: string | number) => formatValue(Number(value)),
     };
 
-    chartRef.current = new Chart(canvasRef.current, {
-      type: "line",
-      data: {
-        labels,
-        datasets: [
-          {
-            data: values,
-            borderColor: stroke,
-            backgroundColor: fill,
-            tension,
+    const datasets =
+      series && series.length > 0
+        ? series.map((item) => ({
+            label: item.label,
+            data: item.values,
+            borderColor: item.stroke,
+            backgroundColor: item.fill ?? "transparent",
+            tension: item.tension ?? tension,
             fill: false,
             pointRadius: 3,
             pointHoverRadius: 5,
             pointHitRadius: 12,
-            pointBackgroundColor: stroke,
+            pointBackgroundColor: item.stroke,
             pointBorderColor: "#ffffff",
             pointBorderWidth: 2,
             borderWidth: 2,
-          },
-        ],
+          }))
+        : [
+            {
+              data: values,
+              borderColor: stroke,
+              backgroundColor: fill,
+              tension,
+              fill: false,
+              pointRadius: 3,
+              pointHoverRadius: 5,
+              pointHitRadius: 12,
+              pointBackgroundColor: stroke,
+              pointBorderColor: "#ffffff",
+              pointBorderWidth: 2,
+              borderWidth: 2,
+            },
+          ];
+
+    chartRef.current = new Chart(canvasRef.current, {
+      type: "line",
+      data: {
+        labels,
+        datasets,
       },
       options: {
         plugins: {
@@ -108,7 +135,16 @@ export function LineChart({
     return () => {
       chartRef.current?.destroy();
     };
-  }, [labels, values, stroke, fill, tension, showAllTicks, valueFormat]);
+  }, [
+    labels,
+    values,
+    stroke,
+    fill,
+    tension,
+    showAllTicks,
+    valueFormat,
+    series,
+  ]);
 
   return <canvas ref={canvasRef} className="h-full w-full" />;
 }
