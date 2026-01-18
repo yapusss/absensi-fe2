@@ -5,7 +5,6 @@ import { DashboardShell } from "@/app/components/DashboardShell";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
-import { Pagination } from "@/app/components/Pagination";
 import { OwnerSubnav } from "./OwnerSubnav";
 
 const totals = [
@@ -320,11 +319,40 @@ export default function OwnerDashboard() {
             Pantau performa tim dan kesehatan absensi
           </h1>
           <p className="max-w-2xl text-sm text-slate-500">
-            Ringkasan cepat untuk memastikan kehadiran hari ini, jam kerja
-            karyawan, dan persetujuan cuti berjalan rapi.
+            Ringkasan cepat untuk memastikan kehadiran hari ini, danjam kerja
+            karyawan.
           </p>
         </header>
-
+<section>
+          <article className="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 p-6 text-white shadow-sm">
+            <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="space-y-2">
+                <p className="text-xl font-semibold">
+                  Selamat datang kembali, Adrian
+                </p>
+                <p className="text-sm text-white/80">
+                  14 usaha baru berlangganan hari ini.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900"
+                >
+                  Pengaturan
+                </button>
+                <button
+                  type="button"
+                  className="rounded-full border border-white/50 px-4 py-2 text-xs font-semibold text-white"
+                >
+                  Keluar
+                </button>
+              </div>
+            </div>
+            <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/15" />
+            <div className="pointer-events-none absolute -bottom-8 left-12 h-24 w-24 rounded-full bg-white/10" />
+          </article>
+        </section>
 
 
         <section className="grid gap-4 lg:grid-cols-[1fr_2fr]">
@@ -541,7 +569,7 @@ export default function OwnerDashboard() {
                              <article className={cardBase}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
-                Jam masuk dan pulang
+                Status absensi karyawan
               </h2>
               <div className="flex flex-wrap items-center gap-2">
                 <span className={rangeBadgeClass}>{attendanceRange}</span>
@@ -594,12 +622,6 @@ export default function OwnerDashboard() {
                 </tbody>
               </table>
             </div>
-            <Pagination
-              className="mt-4"
-              page={1}
-              totalPages={1}
-              summaryText={`Menampilkan ${sortedCheckTimes.length} data`}
-            />
           </article>
           </div>
 

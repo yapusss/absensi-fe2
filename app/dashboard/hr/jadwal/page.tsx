@@ -28,25 +28,7 @@ export default function HrJadwalPage() {
               </button>
             }
             searchPlaceholder="Cari Jadwal..."
-            rightActions={
-              <button
-                type="button"
-                className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-100"
-                aria-label="Urutkan"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="h-4 w-4"
-                >
-                  <path d="M4 7h16" />
-                  <path d="M6 12h12" />
-                  <path d="M10 17h8" />
-                </svg>
-              </button>
-            }
+            
           />
           <div className="overflow-x-auto">
             <table className="w-full table-fixed border-separate border-spacing-0 text-sm">

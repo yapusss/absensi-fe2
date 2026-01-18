@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Pagination } from "@/app/components/Pagination";
 
 const totalKaryawan = 40;
 const attendanceDaily = Array.from({ length: 31 }, (_, index) => {
@@ -120,14 +121,7 @@ export default function OwnerPerformaPage() {
           <p className="text-xs text-slate-400">Beranda/Performa</p>
         </header>
 
-        <div className="flex justify-end">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-600"
-          >
-            Cetak Laporan
-          </button>
-        </div>
+ 
 
         <div className="grid gap-4 lg:grid-cols-4">
           <article className={`${cardBase} lg:col-span-3`}>
@@ -232,6 +226,11 @@ export default function OwnerPerformaPage() {
 
         <article className={cardBase}>
           <TableToolbar
+          primaryActions={
+              <button className="h-10 rounded-lg bg-green-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-green-600">
+                Cetak Laporan
+              </button>
+            }
             searchPlaceholder="Cari Jadwal..."
             rightActions={
               <button
@@ -322,6 +321,12 @@ export default function OwnerPerformaPage() {
               </tbody>
             </table>
           </div>
+                    <Pagination
+                      page={1}
+                      totalPages={1}
+                      summaryText={`Menampilkan ${performanceRows.length} data`}
+                      className="mt-4"
+                    />
         </article>
       </div>
     </DashboardShell>

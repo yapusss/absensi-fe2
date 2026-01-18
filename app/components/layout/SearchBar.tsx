@@ -51,12 +51,12 @@ export function SearchBar({
         className={`${fieldClass} ${inputClassName}`.trim()}
       />
       {showButton ? (
-        <button
-          type="button"
-          onClick={onButtonClick}
-          aria-label={buttonAriaLabel}
-          className="grid h-10 w-10 place-items-center rounded-md bg-blue-600 text-white shadow-sm transition hover:bg-blue-700"
-        >
+<button
+  type="button"
+  className="grid h-10 w-10 place-items-center rounded-tr-md rounded-br-md bg-blue-500 text-white shadow-sm hover:bg-blue-600"
+  aria-label="Cari"
+>
+
           <svg
             viewBox="0 0 24 24"
             fill="none"

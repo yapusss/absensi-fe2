@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
-import { Pagination } from "@/app/components/Pagination";
+import { WelcomeBanner } from "@/app/components/WelcomeBanner";
 
 const totals = [
   {
@@ -106,7 +106,7 @@ const totals = [
     ),
   },
   {
-    label: "Ulang tahun karyawan",
+    label: "Ultah karyawan",
     value: "2",
     meta: "Nisa Lestari, Rendi Haris",
     metaTone: "text-slate-500",
@@ -444,13 +444,17 @@ export default function HrDashboard() {
             Human Resource
           </span>
           <h1 className="text-2xl font-semibold text-slate-900">
-            Operasional HR harian yang tertata
+            Operasional Human Resource
           </h1>
           <p className="max-w-2xl text-sm text-slate-500">
-            Kelola karyawan, shift, absensi, dan approval dalam satu dashboard
-            yang mudah dibaca.
+            Kelola karyawan, shift, absensi, dan approval.
           </p>
         </header>
+        <WelcomeBanner
+          title="Selamat datang kembali, Haoris"
+          subtitle="Pantau operasional HR hari ini dalam satu tempat."
+
+        />
 
         <section id="ringkasan" className="grid gap-4 lg:grid-cols-2">
           <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -682,12 +686,12 @@ export default function HrDashboard() {
                 </tbody>
               </table>
             </div>
-            <Pagination
+            {/* <Pagination
               className="mt-4"
               page={1}
               totalPages={1}
               summaryText={`Menampilkan ${sortedCheckTimes.length} data`}
-            />
+            /> */}
           </article>
           <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
             <article className={cardBase}>
@@ -836,12 +840,12 @@ export default function HrDashboard() {
                 </tbody>
               </table>
             </div>
-            <Pagination
+            {/* <Pagination
               className="mt-4"
               page={1}
               totalPages={1}
               summaryText={`Menampilkan ${sortedLeaveApprovals.length} data`}
-            />
+            /> */}
           </article>
 
           <article className={cardBase}>

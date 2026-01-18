@@ -2,10 +2,11 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { LineChart } from "@/app/components/charts/LineChart";
+import { WelcomeBanner } from "@/app/components/WelcomeBanner";
 
 const summaries = [
   {
-    label: "Kehadiran bulan ini",
+    label: "Tepat waktu",
     value: "20 hari",
     meta: "Target 22 hari",
     tone: "border-l-yellow-400",
@@ -44,7 +45,7 @@ const summaries = [
     ),
   },
   {
-    label: "Jam kerja hari ini",
+    label: "Tidak masuk",
     value: "6j 12m",
     meta: "Sisa 1j 48m",
     tone: "border-l-sky-400",
@@ -83,7 +84,7 @@ const summaries = [
     ),
   },
   {
-    label: "Poin kehadiran",
+    label: "Kehadiran bulan ini",
     value: "92",
     meta: "Stabil",
     tone: "border-l-emerald-400",
@@ -101,8 +102,8 @@ const summaries = [
     ),
   },
   {
-    label: "Streak hadir",
-    value: "8 hari",
+    label: "Jam kerja",
+    value: "8 jam",
     meta: "Personal best",
     tone: "border-l-rose-400",
     iconBg: "bg-rose-50 text-rose-600",
@@ -247,41 +248,16 @@ export default function EmployeeDashboard() {
             Kehadiran dan performa harianmu
           </h1>
           <p className="max-w-2xl text-sm text-slate-500">
-            Pantau ringkasan kehadiran, jam kerja, serta status tim agar lebih
-            mudah mengelola target bulanan.
+            Pantau ringkasan kehadiran, jam kerja, serta status tim.
           </p>
         </header>
 
-<section>
-          <article className="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 p-6 text-white shadow-sm">
-            <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="space-y-2">
-                <p className="text-xl font-semibold">
-                  Selamat datang kembali, Adrian
-                </p>
-                <p className="text-sm text-white/80">
-                  14 usaha baru berlangganan hari ini.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900"
-                >
-                  Pengaturan
-                </button>
-                <button
-                  type="button"
-                  className="rounded-full border border-white/50 px-4 py-2 text-xs font-semibold text-white"
-                >
-                  Keluar
-                </button>
-              </div>
-            </div>
-            <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/15" />
-            <div className="pointer-events-none absolute -bottom-8 left-12 h-24 w-24 rounded-full bg-white/10" />
-          </article>
-        </section>
+        <WelcomeBanner
+          title="Selamat datang kembali, Adrian"
+          subtitle="14 usaha baru berlangganan hari ini."
+          primaryLabel="Pengaturan"
+          secondaryLabel="Keluar"
+        />
 
         <section className="grid gap-4 lg:grid-cols-[1fr_2fr]">
           

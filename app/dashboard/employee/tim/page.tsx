@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { Pagination } from "@/app/components/Pagination";
+import { SearchBar } from "@/app/components/layout/SearchBar";
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -262,44 +263,18 @@ export default function EmployeeTeamPage() {
           <h1 className="text-2xl font-semibold text-slate-900">Tim</h1>
           <p className="text-xs text-slate-400">Beranda/Tim</p>
         </header>
-        <div className="flex flex-col gap-3 border-b border-slate-200 pb-3 sm:flex-row sm:items-center">
+        
+        <article className={cardBase}>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           {/* <span className="inline-flex items-center rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-600">
               Sisa Cuti: 20/25
             </span> */}
 
-          <div className="flex flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white px-0 py-0">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="h-4 w-4 text-slate-400 mx-2"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="M20 20l-3.5-3.5" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Cari pengajuan..."
-              className="w-full text-sm text-slate-600 outline-none "
-            />
-            <button
-              type="button"
-              className="grid h-9 w-9 place-items-center rounded-tr-md rounded-br-md bg-blue-500 text-white shadow-sm hover:bg-blue-600"
-              aria-label="Cari"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="h-4 w-4"
-              >
-                <circle cx="11" cy="11" r="7" />
-                <path d="M20 20l-3.5-3.5" />
-              </svg>
-            </button>
-          </div>
+          <SearchBar
+            placeholder="Cari pengajuan..."
+            showButton
+            className="flex-1"
+          />
           <div className="flex items-center gap-2">
             <details className="relative">
               <summary
@@ -334,8 +309,7 @@ export default function EmployeeTeamPage() {
             </details>
           </div>
         </div>
-        <article className={cardBase}>
-          <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <section className="grid mt-5 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {pagedRows.map((row, index) => (
               <article
                 key={`${row.email}-${startIndex + index}`}

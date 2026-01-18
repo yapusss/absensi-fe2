@@ -1,8 +1,7 @@
 ﻿import { DashboardShell } from "@/app/components/DashboardShell";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { BarChart } from "@/app/components/charts/BarChart";
-import { DonutChart } from "@/app/components/charts/DonutChart";
-import { Pagination } from "@/app/components/Pagination";
+import { DonutChart } from "@/app/components/charts/DonutChart"; 
 
 const kpis = [
   {
@@ -24,7 +23,7 @@ const kpis = [
     ),
   },
   {
-    label: "Owner terdaftar",
+    label: "Pemilik terdaftar",
     value: "180",
     meta: "+8 baru",
     tone: "border-l-sky-400",
@@ -349,11 +348,12 @@ export default function ProviderDashboard() {
                     <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                       Usaha
                     </th>
-                    <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
-                      Status
-                    </th>
+
                     <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                       Masa aktif
+                    </th>
+                                        <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                      Status
                     </th>
                   </tr>
                 </thead>
@@ -363,7 +363,11 @@ export default function ProviderDashboard() {
                       <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
                         {row.usaha}
                       </td>
+
                       <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.masa}
+                      </td>
+                                            <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
                         <span
                           className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold ${statusTone(
                             row.status,
@@ -372,20 +376,17 @@ export default function ProviderDashboard() {
                           {row.status}
                         </span>
                       </td>
-                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
-                        {row.masa}
-                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <Pagination
+            {/* <Pagination
               page={1}
               totalPages={1}
               summaryText={`Menampilkan ${subscriptionRows.length} data`}
               className="mt-4"
-            />
+            /> */}
           </article>
 
           <article id="kontributor" className={`${cardBase} lg:col-span-1`}>
@@ -441,9 +442,7 @@ export default function ProviderDashboard() {
                   Kenaikan usaha aktif dalam beberapa bulan terakhir
                 </p>
               </div>
-              <span className="rounded-full border border-slate-200 bg-white py-1 text-xs text-slate-500">
-                7 Bulan
-              </span>
+ 
             </div>
             <div className="mt-4 h-44 sm:h-54">
               <BarChart

@@ -57,7 +57,7 @@ export default function OwnerHumanResourcePage() {
           <TableToolbar
             primaryActions={
               <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
-                Buat Pengajuan
+                Tambahkan HR
               </button>
             }
             searchPlaceholder="Cari HR..."

@@ -3,9 +3,9 @@ import { DashboardShell } from "@/app/components/DashboardShell";
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
-export default function OwnerAkunPage() {
+export default function ProviderAkunPage() {
   return (
-    <DashboardShell active="Owner" ownerSubActive="Akun">
+    <DashboardShell active="Penyedia">
       <div className="space-y-6">
         <header>
           <h1 className="text-2xl font-semibold text-slate-900">Akun</h1>
@@ -34,16 +34,10 @@ export default function OwnerAkunPage() {
             <div className="space-y-4 max-w-[520px]">
               <div className="grid gap-3 sm:grid-cols-1">
                 {[
-                  { label: "Nama", value: "Haaris Nur Salim" },
-                  { label: "Nomor Karyawan", value: "EMP-2025-0142" },
-                  { label: "Posisi", value: "Owner" },
-                  { label: "Alamat", value: "Jl. Merpati No. 12, Bandung" },
-                  { label: "Tempat Lahir", value: "Bandung" },
-                  { label: "Tanggal Lahir", value: "12 Mar 1996" },
-                  {
-                    label: "Pendidikan Terakhir",
-                    value: "S1 Teknik Informatika",
-                  },
+ { label: "Nama", value: "Haaris Nur Salim" },
+          { label: "Password", value: "EMP-2025-0142" },
+          { label: "Posisi", value: "Developer" },
+                 { label: "Alamat", value: "Jl. Merpati No. 12, Bandung" },
                 ].map((field) => (
                   <div
                     key={field.label}
@@ -62,6 +56,9 @@ export default function OwnerAkunPage() {
           </div>
 
           <div className="flex justify-end">
+            <button className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+              Ubah Data
+            </button>
             <button className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
               Ubah Data
             </button>

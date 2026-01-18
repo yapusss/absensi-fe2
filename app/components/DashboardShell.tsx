@@ -92,7 +92,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Akun",
-      href: "/dashboard/provider#status",
+      href: "/dashboard/provider/akun",
       icon: (
         <svg
           viewBox="0 0 24 24"
