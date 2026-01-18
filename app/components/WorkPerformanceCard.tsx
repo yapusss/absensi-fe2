@@ -1,4 +1,5 @@
 import { BarChart } from "@/app/components/charts/BarChart";
+import { LineChart } from "@/app/components/charts/LineChart";
 import type { ReactNode } from "react";
 
 type WorkPerformanceCardProps = {
@@ -13,10 +14,12 @@ type WorkPerformanceCardProps = {
   color?: string;
   lineValues?: number[];
   lineColor?: string;
+  barRadius?: number;
+  chartType?: "bar" | "line";
 };
 
 export function WorkPerformanceCard({
-  label = "Performa kerja top 5",
+  label = "Performa kerja",
   badge,
   badgeClassName = "rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500",
   className,
@@ -27,6 +30,8 @@ export function WorkPerformanceCard({
   color = "#fb7185",
   lineValues,
   lineColor,
+  barRadius,
+  chartType = "bar",
 }: WorkPerformanceCardProps) {
   const hasHeader = label || badge;
 
@@ -50,13 +55,23 @@ export function WorkPerformanceCard({
       ) : null}
       <div className={`mt-4 ${chartWrapperClassName ?? ""}`}>
         <div className={chartClassName}>
-          <BarChart
-            labels={labels}
-            values={values}
-            color={color}
-            lineValues={lineValues}
-            lineColor={lineColor}
-          />
+          {chartType === "line" ? (
+            <LineChart
+              labels={labels}
+              values={values}
+              tension={0}
+              stroke={lineColor ?? color}
+            />
+          ) : (
+            <BarChart
+              labels={labels}
+              values={values}
+              color={color}
+              lineValues={lineValues}
+              lineColor={lineColor}
+              barRadius={barRadius}
+            />
+          )}
         </div>
       </div>
     </article>

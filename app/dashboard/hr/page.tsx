@@ -524,6 +524,8 @@ export default function HrDashboard() {
                 </button>
               </div>
             }
+            chartType="line"
+            lineColor="#1671f9"
             labels={performanceSeries.labels}
             values={performanceSeries.values}
             className={cardBase}

@@ -9,6 +9,7 @@ export function BarChart({
   color = "#fb7185",
   lineValues,
   lineColor = "#f43f5e",
+  barRadius = 10,
   showAllTicks = false,
   compact = false,
   series,
@@ -18,6 +19,7 @@ export function BarChart({
   color?: string;
   lineValues?: number[];
   lineColor?: string;
+  barRadius?: number;
   showAllTicks?: boolean;
   compact?: boolean;
   series?: { label: string; values: number[]; color: string }[];
@@ -61,7 +63,7 @@ export function BarChart({
           {
             data: values,
             backgroundColor: color,
-            borderRadius: 10,
+            borderRadius: barRadius,
             maxBarThickness: 32,
           },
         ];
@@ -79,11 +81,10 @@ export function BarChart({
                   data: lineValues || [],
                   borderColor: lineColor,
                   backgroundColor: "transparent",
-                  borderWidth: 2,
-                  pointRadius: 3,
-                  pointHoverRadius: 4,
+                  borderWidth: 2, 
+                  pointHoverRadius: 5,
                   pointBackgroundColor: lineColor,
-                  tension: 0.35,
+                  tension: 0,
                 },
               ]
             : []),
