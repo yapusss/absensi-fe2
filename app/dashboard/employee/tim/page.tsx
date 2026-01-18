@@ -48,7 +48,11 @@ export default function EmployeeTeamPage() {
                   ].map((label) => (
                     <th
                       key={label}
-                      className="border-b border-r border-slate-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 last:border-r-0"
+                      className={`border-b border-r border-slate-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 ${
+                        label.trim().toLowerCase().startsWith("no")
+                          ? "w-10"
+                          : ""
+                      } last:border-r-0`.trim()}
                     >
                       {label}
                     </th>
@@ -58,7 +62,7 @@ export default function EmployeeTeamPage() {
               <tbody>
                 {teamRows.map((row, index) => (
                   <tr key={row.nama}>
-                    <td className="border-b border-r border-slate-200 px-3 py-2 text-slate-700 last:border-r-0">
+                    <td className="w-10 border-b border-r border-slate-200 px-3 py-2 text-slate-700 last:border-r-0">
                       {index + 1}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-2 text-slate-700 last:border-r-0">

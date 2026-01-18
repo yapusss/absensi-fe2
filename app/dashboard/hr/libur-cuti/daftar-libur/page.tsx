@@ -1,5 +1,6 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
+import { TableToolbar } from "@/app/components/layout/TableToolbar";
 
 const holidayRows = [
   { no: 1, nama: "Anniversary", tanggal: "12/12/2025", status: "Aktif" },
@@ -20,17 +21,35 @@ export default function HrDaftarLiburPage() {
       <OwnerSectionLayout
         title="Daftar Libur"
         breadcrumb="Beranda/Libur & Cuti/Daftar Libur"
-        searchPlaceholder="Cari hari libur"
-        action={
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
-          >
-            Tambah Libur
-          </button>
-        }
       >
         <section className={cardBase}>
+          <TableToolbar
+            primaryActions={
+              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+                Buat Libur
+              </button>
+            }
+            searchPlaceholder="Cari Libur..."
+            rightActions={
+              <button
+                type="button"
+                className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-100"
+                aria-label="Urutkan"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="h-4 w-4"
+                >
+                  <path d="M4 7h16" />
+                  <path d="M6 12h12" />
+                  <path d="M10 17h8" />
+                </svg>
+              </button>
+            }
+          />
           <div className="overflow-x-auto">
             <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
@@ -40,7 +59,11 @@ export default function HrDaftarLiburPage() {
                     .map((label) => (
                       <th
                         key={label}
-                        className="border-b border-r border-slate-200 px-3 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0"
+                        className={`border-b border-r border-slate-200 px-3 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 ${
+                          label.trim().toLowerCase().startsWith("no")
+                            ? "w-10"
+                            : ""
+                        } last:border-r-0`.trim()}
                       >
                         {label}
                       </th>
@@ -50,7 +73,7 @@ export default function HrDaftarLiburPage() {
               <tbody>
                 {holidayRows.map((row) => (
                   <tr key={row.no} className="odd:bg-slate-50">
-                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
+                    <td className="w-10 border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
                       {row.no}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-slate-700 last:border-r-0">

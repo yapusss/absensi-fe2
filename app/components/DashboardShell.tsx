@@ -35,8 +35,8 @@ const roleMenus: Record<string, MenuItem[]> = {
       ),
     },
     {
-      label: "Daftar Usaha",
-      href: "/dashboard/provider/usaha",
+      label: "Usaha",
+      href: "/dashboard/provider/usaha-menu",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -51,22 +51,42 @@ const roleMenus: Record<string, MenuItem[]> = {
           <path d="M10 18v-5h4v5" />
         </svg>
       ),
-    },
-    {
-      label: "Owner Usaha",
-      href: "/dashboard/provider/pemilik-usaha",
-      icon: (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="h-4 w-4"
-        >
-          <path d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12z" />
-          <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-        </svg>
-      ),
+      children: [
+        {
+          label: "Daftar Usaha",
+          href: "/dashboard/provider/usaha",
+          icon: (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-4 w-4"
+            >
+              <rect x="3" y="4" width="18" height="16" rx="2" />
+              <path d="M7 8h10" />
+              <path d="M7 12h10" />
+              <path d="M7 16h6" />
+            </svg>
+          ),
+        },
+        {
+          label: "Owner Usaha",
+          href: "/dashboard/provider/pemilik-usaha",
+          icon: (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-4 w-4"
+            >
+              <path d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12z" />
+              <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+            </svg>
+          ),
+        },
+      ],
     },
     {
       label: "Akun",

@@ -1,5 +1,6 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
+import { TableToolbar } from "@/app/components/layout/TableToolbar";
 
 const businessRows = [
   {
@@ -31,8 +32,7 @@ const businessRows = [
   },
 ];
 
-const formatRupiah = (value: number) =>
-  `Rp${value.toLocaleString("id-ID")}`;
+const formatRupiah = (value: number) => `Rp${value.toLocaleString("id-ID")}`;
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -43,28 +43,40 @@ export default function ProviderUsahaPage() {
       <OwnerSectionLayout
         title="Daftar usaha pelanggan"
         breadcrumb="Beranda/Daftar Usaha"
-        searchPlaceholder="Cari usaha atau pemilik"
-        actionClassName="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
-        action={
-          <>
-            <button className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
-              Tambah Usaha
-            </button>
-          </>
-        }
       >
         <section className={cardBase}>
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold text-slate-900">Daftar</h2>
-            <span className="text-xs text-slate-400">
-              {businessRows.length} usaha terdaftar
-            </span>
-          </div>
+          <TableToolbar
+            primaryActions={
+              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+                Buat Pengajuan
+              </button>
+            }
+            searchPlaceholder="Cari Usaha..."
+            rightActions={
+              <button
+                type="button"
+                className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-100"
+                aria-label="Urutkan"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="h-4 w-4"
+                >
+                  <path d="M4 7h16" />
+                  <path d="M6 12h12" />
+                  <path d="M10 17h8" />
+                </svg>
+              </button>
+            }
+          />
           <div className="mt-4 overflow-x-auto">
             <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                 <tr>
-                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                  <th className="w-10 border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     No.
                   </th>
                   <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
@@ -87,7 +99,7 @@ export default function ProviderUsahaPage() {
               <tbody>
                 {businessRows.map((row) => (
                   <tr key={row.no}>
-                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-600 last:border-r-0">
+                    <td className="w-10 border-b border-r border-slate-200 px-2 py-3 text-center text-slate-600 last:border-r-0">
                       {row.no}
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
@@ -96,14 +108,14 @@ export default function ProviderUsahaPage() {
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
                       {row.owner}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-center text-slate-500 last:border-r-0">
                       {row.kontrakMulai} - {row.kontrakSelesai}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-center text-slate-700 last:border-r-0">
                       {formatRupiah(row.nilai)}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-2 py-3 last:border-r-0">
-                      <div className="flex items-center gap-2">
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-center last:border-r-0">
+                      <div className="flex items-center justify-center gap-2">
                         <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
                           <svg
                             viewBox="0 0 24 24"

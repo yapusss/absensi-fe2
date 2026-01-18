@@ -6,6 +6,9 @@ type SearchBarProps = {
   inputClassName?: string;
   value?: string;
   onChange?: (value: string) => void;
+  showButton?: boolean;
+  buttonAriaLabel?: string;
+  onButtonClick?: () => void;
 };
 
 export function SearchBar({
@@ -14,14 +17,19 @@ export function SearchBar({
   inputClassName = "",
   value,
   onChange,
+  showButton = false,
+  buttonAriaLabel = "Cari",
+  onButtonClick,
 }: SearchBarProps) {
-  const wrapperClass = `relative w-full sm:max-w-sm ${className}`.trim();
+  const wrapperClass = `flex min-w-0 w-full items-center rounded-lg border border-slate-200 bg-white shadow-sm h-10 ${
+    showButton ? "pl-3 pr-0" : "px-3"
+  } ${className}`.trim();
   const fieldClass =
-    "w-full rounded-lg border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-700 shadow-sm focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-100";
+    "h-full w-full min-w-0 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400";
 
   return (
     <div className={wrapperClass}>
-      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+      <span className="mr-2 text-slate-400">
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -42,6 +50,25 @@ export function SearchBar({
         }
         className={`${fieldClass} ${inputClassName}`.trim()}
       />
+      {showButton ? (
+        <button
+          type="button"
+          onClick={onButtonClick}
+          aria-label={buttonAriaLabel}
+          className="grid h-10 w-10 place-items-center rounded-md bg-blue-600 text-white shadow-sm transition hover:bg-blue-700"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="h-4 w-4"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
+        </button>
+      ) : null}
     </div>
   );
 }

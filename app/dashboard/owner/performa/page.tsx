@@ -104,7 +104,11 @@ export default function OwnerPerformaPage() {
                     .map((label) => (
                       <th
                         key={label}
-                        className="border-b border-r border-slate-200 px-3 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0"
+                        className={`border-b border-r border-slate-200 px-3 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 ${
+                          label.trim().toLowerCase().startsWith("no")
+                            ? "w-10"
+                            : ""
+                        } last:border-r-0`.trim()}
                       >
                         {label}
                       </th>
@@ -114,7 +118,7 @@ export default function OwnerPerformaPage() {
               <tbody>
                 {performanceRows.map((row) => (
                   <tr key={row.no} className="odd:bg-slate-50">
-                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
+                    <td className="w-10 border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
                       {row.no}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-slate-700 last:border-r-0">
