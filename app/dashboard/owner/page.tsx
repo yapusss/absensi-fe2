@@ -142,20 +142,32 @@ const attendanceBreakdown = {
 
 const attendanceRange = "Harian";
 
-const workHourChart = {
-  labels: [
-    "Ayu",
-    "Damar",
-    "Naya",
-    "Raka",
-    "Sinta",
-    "Ilham",
-    "Bimo",
-    "Sari",
-    "Rio",
-    "Fina",
-  ],
-  values: [8.1, 7.4, 7.8, 8.6, 6.9, 7.5, 8.2, 7.1, 6.8, 7.9],
+const performanceByRange = {
+  minggu: {
+    labels: ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"],
+    values: [82, 76, 88, 91, 79, 72, 68],
+  },
+  bulan: {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
+    ],
+    values: [78, 81, 85, 80, 84, 86, 83, 82, 79, 88, 90, 87],
+  },
+  tahun: {
+    labels: ["2021", "2022", "2023", "2024", "2025"],
+    values: [920, 980, 1040, 1100, 1175],
+  },
 };
 
 const checkTimes = [
@@ -221,6 +233,10 @@ const checkTimes = [
   },
 ];
 
+const holidayCalendar = { monthLabel: "Maret 2025" };
+const holidayDays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+const holidayMap = new Map([[1, "Hari Kemerdekaan"]]);
+
 const statusList = [
   { nama: "Ayu Pratiwi", status: "Aktif" },
   { nama: "Damar Wijaya", status: "Dinas luar" },
@@ -233,6 +249,12 @@ const leaveRequests = [
   { nama: "Bimo Setia", alasan: "Izin keluarga", tanggal: "18 Jan" },
 ];
 
+const birthdayRoster = [
+  { nama: "Ayu Pratiwi", posisi: "Manager", tanggal: "12 Mar" },
+  { nama: "Raka Putra", posisi: "Developer", tanggal: "15 Mar" },
+  { nama: "Sinta Wardani", posisi: "Designer", tanggal: "20 Mar" },
+];
+
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 const cardSoft =
@@ -242,16 +264,13 @@ export default function OwnerDashboard() {
   const rangeBadgeClass =
     "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700";
   const [sortKey, setSortKey] = useState("masuk-asc");
+  const [performanceRange, setPerformanceRange] = useState("minggu");
 
-  const topWorkHours = useMemo(() => {
-    return workHourChart.labels
-      .map((label, index) => ({
-        label,
-        value: workHourChart.values[index] ?? 0,
-      }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 5);
-  }, []);
+  const performanceSeries = useMemo(() => {
+    return performanceByRange[
+      performanceRange as keyof typeof performanceByRange
+    ];
+  }, [performanceRange]);
 
   const sortedCheckTimes = useMemo(() => {
     const parseTime = (value: string) => {
@@ -388,7 +407,7 @@ export default function OwnerDashboard() {
                     <path d="M4 7h4l2-2h4l2 2h4v12H4z" />
                     <circle cx="12" cy="13" r="3" />
                   </svg>
-                  Absen masuk
+                  Absen 
                 </button>
                
               </div>
@@ -430,23 +449,95 @@ export default function OwnerDashboard() {
             badgeClassName={rangeBadgeClass}
             className={cardBase}
           /> */}
-        </section>
+           <div className="grid gap-4 mt-3">
+            <article className={cardBase}>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-900">
+                    Kalender libur perusahaan
+                  </h2>
+                </div>
+                <span className="rounded-full border border-slate-200 bg-white px-3 text-xs text-slate-500">
+                  {holidayCalendar.monthLabel}
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-7 gap-0 text-center text-[10px] uppercase tracking-[0.2em] text-slate-400">
+                {"Min Sen Sel Rab Kam Jum Sab".split(" ").map((label) => (
+                  <span key={label} className="min-w-0">
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-3 grid auto-rows-fr grid-cols-7 gap-0.5 text-xs">
+                {holidayDays.map((day, index) => {
+                  if (!day) {
+                    return (
+                      <span key={`empty-${index}`} className="min-h-[40px]" />
+                    );
+                  }
+                  const holidayLabel = holidayMap.get(day);
+                  return (
+                    <div
+                      key={day}
+                      className={`group relative max-h-[44px] rounded-lg border px-1.5 py-1.5 text-center ${
+                        holidayLabel
+                          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          : "border-slate-200 bg-white text-slate-600"
+                      }`}
+                      title={holidayLabel ?? undefined}
+                    >
+                      <div className="text-xs font-semibold">{day}</div>
+                      {holidayLabel ? (
+                        <div className="pointer-events-none absolute left-1/2 top-0 z-10 hidden -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] text-slate-600 shadow-sm group-hover:block">
+                          {holidayLabel}
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </article>
 
-
-
-        <section className="grid gap-4 lg:grid-cols-2">
-          <div>
-            <WorkPerformanceCard
-              labels={topWorkHours.map((item) => item.label)}
-              values={topWorkHours.map((item) => item.value)}
-              badge={attendanceRange}
-              badgeClassName={rangeBadgeClass}
-              className={cardBase}
-              chartClassName="h-44 sm:h-48"
-            />
-          </div>
-
-          <article className={cardBase}>
+            </div>
+            <div className="grid gap-4 lg:grid-cols-[1fr_2fr] mt-3">
+            <article className={cardBase}>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Ulang tahun
+                </h2>
+                <p className="text-xs text-slate-400">
+                  Karyawan yang berulang tahun
+                </p>
+              </div>
+              <div className="mt-4 space-y-3">
+                {birthdayRoster.map((person) => (
+                  <div
+                    key={person.nama}
+                    className="flex items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-3 py-2"
+                  >
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-emerald-50 text-xs font-semibold text-emerald-600">
+                      {person.nama
+                        .split(" ")
+                        .map((part) => part[0])
+                        .slice(0, 2)
+                        .join("")}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-slate-900">
+                        {person.nama}
+                      </p>
+                      <p className="text-xs text-slate-500">{person.posisi}</p>
+                    </div>
+                    <span className="ml-auto text-xs text-slate-400">
+                      {person.tanggal}
+                    </span>
+                  </div>
+                ))}
+              </div>
+          
+            </article>
+          
+                             <article className={cardBase}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Jam masuk dan pulang
@@ -503,107 +594,15 @@ export default function OwnerDashboard() {
               </table>
             </div>
           </article>
+          </div>
+
+
+
+
+
         </section>
 
-        <section className="grid gap-4 md:grid-cols-2">
-                    <StatusListCard
-            title="Status karyawan"
-            subtitle="Hari ini"
-            items={statusList}
-            className={cardBase}
-            toneMap={{
-              Aktif: "bg-emerald-50 text-emerald-600",
-              Cuti: "bg-blue-50 text-blue-600",
-            }}
-          />
-          {/* <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-900">
-                Kehadiran hari ini
-              </h2>
-              <p className="text-xs text-slate-400">
-                Filter periode berlaku untuk tiga ringkasan di bawah
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              {["Harian", "Bulanan", "Tahunan"].map((label) => (
-                <button
-                  key={label}
-                  type="button"
-                  className={
-                    label === attendanceRange
-                      ? rangeBadgeClass
-                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
-                  }
-                >
-                  {label}
-                </button>
-              ))}
-              <select className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500">
-                <option>Pilih bulan</option>
-                <option>Januari</option>
-                <option>Februari</option>
-                <option>Maret</option>
-                <option>April</option>
-                <option>Mei</option>
-                <option>Juni</option>
-                <option>Juli</option>
-                <option>Agustus</option>
-                <option>September</option>
-                <option>Oktober</option>
-                <option>November</option>
-                <option>Desember</option>
-              </select>
-            </div>
-          </div> */}
-
-
-
-
-          <article id="akun" className={cardSoft}>
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">
-                Cuti dan persetujuan
-              </h2>
-              <span className="text-xs text-slate-400">Perlu tindakan</span>
-            </div>
-            <div className="mt-4 space-y-3">
-              {leaveRequests.map((req) => (
-                <div
-                  key={req.nama}
-                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-blue-50 text-blue-600">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="h-4 w-4"
-                      >
-                        <path d="M7 4h10v4H7zM5 8h14v12H5z" />
-                        <path d="M9 14h6" />
-                      </svg>
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">
-                        {req.nama}
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        {req.alasan} - {req.tanggal}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-500">
-                    Tinjau
-                  </span>
-                </div>
-              ))}
-            </div>
-          </article>
-        </section>
-      </div>
+             </div>
     </DashboardShell>
   );
 }
