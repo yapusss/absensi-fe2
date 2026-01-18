@@ -105,9 +105,10 @@ const totals = [
     ),
   },
   {
-    label: "Outstation",
-    value: "4",
-    meta: "Butuh approval",
+    label: "Ulang tahun karyawan",
+    value: "2",
+    meta: "Nisa Lestari, Rendi Haris",
+    metaTone: "text-slate-500",
     tone: "border-l-emerald-400",
     iconBg: "bg-emerald-50 text-emerald-600",
     icon: (
@@ -132,8 +133,8 @@ const attendanceBreakdown = {
 
 const performanceByRange = {
   minggu: {
-    labels: ["Sen", "Sel", "Rab", "Kam", "Jum"],
-    values: [82, 76, 88, 91, 79],
+    labels: ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"],
+    values: [82, 76, 88, 91, 79, 72, 68],
   },
   bulan: {
     labels: [
@@ -177,6 +178,78 @@ const checkTimes = [
     pulang: "--",
     status: "Sedang bekerja",
   },
+  {
+    nama: "Ayu Pratiwi",
+    masuk: "08:03",
+    pulang: "17:02",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Damar Wijaya",
+    masuk: "08:12",
+    pulang: "17:10",
+    status: "Terlambat",
+  },
+  {
+    nama: "Naya Kinanti",
+    masuk: "07:58",
+    pulang: "16:58",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Bimo Setia",
+    masuk: "08:10",
+    pulang: "--",
+    status: "Sedang bekerja",
+  },
+  {
+    nama: "Sari Andini",
+    masuk: "08:05",
+    pulang: "17:08",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Rio Mahesa",
+    masuk: "08:15",
+    pulang: "17:04",
+    status: "Terlambat",
+  },
+  {
+    nama: "Fina Lestari",
+    masuk: "08:00",
+    pulang: "17:00",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Putri Lestari",
+    masuk: "08:07",
+    pulang: "17:12",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Hendra Saputra",
+    masuk: "08:22",
+    pulang: "17:18",
+    status: "Terlambat",
+  },
+  {
+    nama: "Dika Prasetyo",
+    masuk: "08:11",
+    pulang: "--",
+    status: "Sedang bekerja",
+  },
+  {
+    nama: "Salsa Putri",
+    masuk: "08:04",
+    pulang: "17:01",
+    status: "Tepat waktu",
+  },
+  {
+    nama: "Rendi Haris",
+    masuk: "08:17",
+    pulang: "17:09",
+    status: "Terlambat",
+  },
 ];
 
 const attendanceRange = "Harian";
@@ -193,6 +266,11 @@ const outstationApprovals = [
   { nama: "Salsa Putri", tanggal: "16 Jan", status: "Menunggu" },
   { nama: "Doni Pratama", tanggal: "17 Jan", status: "Menunggu" },
   { nama: "Intan Sari", tanggal: "18 Jan", status: "Menunggu" },
+];
+
+const birthdayRoster = [
+  { nama: "Nisa Lestari", posisi: "HR Generalist", tanggal: "6 Jan" },
+  { nama: "Rendi Haris", posisi: "Finance Manager", tanggal: "18 Jan" },
 ];
 
 const leaveApprovals = [
@@ -226,6 +304,19 @@ const leaveStatusTone: Record<string, string> = {
   Menunggu: "bg-amber-50 text-amber-600",
   Disetujui: "bg-emerald-50 text-emerald-600",
   Ditolak: "bg-rose-50 text-rose-600",
+};
+
+const holidayCalendar = {
+  monthLabel: "Januari 2026",
+  startDayIndex: 3,
+  daysInMonth: 31,
+  holidays: [
+    { day: 1, label: "Tahun Baru" },
+    { day: 6, label: "Ulang tahun Nisa Lestari" },
+    { day: 12, label: "Cuti bersama" },
+    { day: 18, label: "Ulang tahun Rendi Haris" },
+    { day: 26, label: "Libur perusahaan" },
+  ],
 };
 
 export default function HrDashboard() {
@@ -326,6 +417,24 @@ export default function HrDashboard() {
     return sorted;
   }, [leaveSortKey]);
 
+  const holidayDays = useMemo(() => {
+    const blanks = Array.from(
+      { length: holidayCalendar.startDayIndex },
+      () => null,
+    );
+    const days = Array.from(
+      { length: holidayCalendar.daysInMonth },
+      (_, index) => index + 1,
+    );
+    return [...blanks, ...days];
+  }, []);
+
+  const holidayMap = useMemo(() => {
+    return new Map(
+      holidayCalendar.holidays.map((item) => [item.day, item.label]),
+    );
+  }, []);
+
   return (
     <DashboardShell active="HR">
       <div className="space-y-8">
@@ -364,19 +473,63 @@ export default function HrDashboard() {
                     {item.icon}
                   </span>
                 </div>
-                <p className="mt-3 text-xs text-emerald-600">{item.meta}</p>
+                <p
+                  className={`mt-3 text-xs ${
+                    item.metaTone ?? "text-emerald-600"
+                  }`}
+                >
+                  {item.meta}
+                </p>
               </article>
             ))}
           </div>
+<section className="grid gap-4">
 
-          <AbsensiSummaryCard
-            title="Absensi hari ini"
-            badge="Today"
-            labels={attendanceBreakdown.labels}
-            values={attendanceBreakdown.values}
-            colors={attendanceBreakdown.colors}
+          <WorkPerformanceCard
+            label="Performa kinerja"
+            badge={
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPerformanceRange("minggu")}
+                  className={
+                    performanceRange === "minggu"
+                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
+                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
+                  }
+                >
+                  minggu
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPerformanceRange("bulan")}
+                  className={
+                    performanceRange === "bulan"
+                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
+                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
+                  }
+                >
+                  bulan
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPerformanceRange("tahun")}
+                  className={
+                    performanceRange === "tahun"
+                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
+                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
+                  }
+                >
+                  tahun
+                </button>
+              </div>
+            }
+            labels={performanceSeries.labels}
+            values={performanceSeries.values}
             className={cardBase}
           />
+          </section>
+
         </section>
 {/* 
         <section id="sorotan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"> */}
@@ -400,8 +553,7 @@ export default function HrDashboard() {
           ))} */}
         {/* </section> */}
 
-        <section id="list-absensi" className="grid gap-4 lg:grid-cols-2">
-{/* <article className={cardSoft}>
+        {/* <article className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 List absensi
@@ -468,51 +620,11 @@ export default function HrDashboard() {
           </article> */}
 
           
-          <WorkPerformanceCard
-            label="Performa kinerja"
-            badge={
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setPerformanceRange("minggu")}
-                  className={
-                    performanceRange === "minggu"
-                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
-                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
-                  }
-                >
-                  minggu
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPerformanceRange("bulan")}
-                  className={
-                    performanceRange === "bulan"
-                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
-                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
-                  }
-                >
-                  bulan
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPerformanceRange("tahun")}
-                  className={
-                    performanceRange === "tahun"
-                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
-                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
-                  }
-                >
-                  tahun
-                </button>
-              </div>
-            }
-            labels={performanceSeries.labels}
-            values={performanceSeries.values}
-            className={cardBase}
-          />
-
-          <article className={cardBase}>
+          
+                    <section id="list-absensi" className="grid gap-4 lg:grid-cols-[2fr_2fr]">
+          
+<article className={cardBase}>
+            
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Jam masuk dan pulang
@@ -523,7 +635,7 @@ export default function HrDashboard() {
                   value={sortKey}
                   onChange={(event) => setSortKey(event.target.value)}
                   className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
-                >
+                >  
                   <option value="masuk-asc">Masuk tercepat</option>
                   <option value="masuk-desc">Masuk terlambat</option>
                   <option value="pulang-asc">Pulang tercepat</option>
@@ -533,7 +645,7 @@ export default function HrDashboard() {
                 </select>
               </div>
             </div>
-            <div className="mt-4 max-h-44 overflow-auto pr-2">
+            <div className="mt-4 max-h-64 overflow-auto pr-2">
               <table className="w-full min-w-[520px] table-fixed border-separate border-spacing-0 text-sm">
                 <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                   <tr>
@@ -568,6 +680,93 @@ export default function HrDashboard() {
               </table>
             </div>
           </article>
+          <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
+            <article className={cardBase}>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-900">
+                    Kalender libur perusahaan
+                  </h2>
+                </div>
+                <span className="rounded-full border border-slate-200 bg-white px-3 text-xs text-slate-500">
+                  {holidayCalendar.monthLabel}
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-7 gap-0 text-center text-[10px] uppercase tracking-[0.2em] text-slate-400">
+                {"Min Sen Sel Rab Kam Jum Sab".split(" ").map((label) => (
+                  <span key={label} className="min-w-0">
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-3 grid auto-rows-fr grid-cols-7 gap-0.5 text-xs">
+                {holidayDays.map((day, index) => {
+                  if (!day) {
+                    return (
+                      <span key={`empty-${index}`} className="min-h-[40px]" />
+                    );
+                  }
+                  const holidayLabel = holidayMap.get(day);
+                  return (
+                    <div
+                      key={day}
+                      className={`group relative max-h-[44px] rounded-lg border px-1.5 py-1.5 text-center ${
+                        holidayLabel
+                          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          : "border-slate-200 bg-white text-slate-600"
+                      }`}
+                      title={holidayLabel ?? undefined}
+                    >
+                      <div className="text-xs font-semibold">{day}</div>
+                      {holidayLabel ? (
+                        <div className="pointer-events-none absolute left-1/2 top-0 z-10 hidden -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] text-slate-600 shadow-sm group-hover:block">
+                          {holidayLabel}
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </article>
+
+            <article className={cardBase}>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Ulang tahun
+                </h2>
+                <p className="text-xs text-slate-400">
+                  Karyawan yang berulang tahun
+                </p>
+              </div>
+              <div className="mt-4 space-y-3">
+                {birthdayRoster.map((person) => (
+                  <div
+                    key={person.nama}
+                    className="flex items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-3 py-2"
+                  >
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-emerald-50 text-xs font-semibold text-emerald-600">
+                      {person.nama
+                        .split(" ")
+                        .map((part) => part[0])
+                        .slice(0, 2)
+                        .join("")}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-slate-900">
+                        {person.nama}
+                      </p>
+                      <p className="text-xs text-slate-500">{person.posisi}</p>
+                    </div>
+                    <span className="ml-auto text-xs text-slate-400">
+                      {person.tanggal}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </div>
+        </section>
+        <section id="cuti-persetujuan" className="grid gap-4 lg:grid-cols-2">
           <article className={cardBase}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
@@ -685,334 +884,11 @@ export default function HrDashboard() {
               ))}
             </div>
           </article>
+
         </section>
-
-
-
-        {/* <section id="karyawan" className="grid gap-4 lg:grid-cols-2">
-          <article className={cardSoft}>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Daftar karyawan
-                </h2>
-                <p className="text-xs text-slate-400">
-                  Kelola data karyawan aktif
-                </p>
-              </div>
-              <button className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="h-4 w-4"
-                >
-                  <path d="M12 5v14M5 12h14" />
-                </svg>
-                Tambah karyawan
-              </button>
-            </div>
-            <div className="mt-4 space-y-3">
-              {[
-                {
-                  nama: "Ayu Pratiwi",
-                  role: "HR Generalist",
-                  departemen: "People Ops",
-                  status: "Aktif",
-                  statusTone: "bg-emerald-50 text-emerald-600",
-                },
-                {
-                  nama: "Bimo Setia",
-                  role: "Recruitment Lead",
-                  departemen: "Talent Acquisition",
-                  status: "Aktif",
-                  statusTone: "bg-emerald-50 text-emerald-600",
-                },
-                {
-                  nama: "Damar Wijaya",
-                  role: "Payroll Specialist",
-                  departemen: "People Ops",
-                  status: "Kontrak",
-                  statusTone: "bg-amber-50 text-amber-600",
-                },
-              ].map((item) => (
-                <div
-                  key={item.nama}
-                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
-                >
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-slate-900">
-                      {item.nama}
-                    </p>
-                    <p className="text-xs text-slate-500">{item.role}</p>
-                    <p className="text-xs text-slate-400">{item.departemen}</p>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2 text-xs">
-                    <span
-                      className={`rounded-full px-3 py-1 text-[11px] font-medium ${item.statusTone}`}
-                    >
-                      {item.status}
-                    </span>
-                    <details className="relative">
-                      <summary className="list-none cursor-pointer rounded-full border border-slate-200 bg-white p-2 text-slate-500 hover:text-slate-700 [&::-webkit-details-marker]:hidden">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="h-4 w-4"
-                        >
-                          <circle cx="12" cy="5" r="1.5" />
-                          <circle cx="12" cy="12" r="1.5" />
-                          <circle cx="12" cy="19" r="1.5" />
-                        </svg>
-                      </summary>
-                      <div className="absolute right-0 z-10 mt-2 w-32 rounded-lg border border-slate-200 bg-white p-1 text-xs shadow-lg">
-                        <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
-                          Detail
-                        </button>
-                        <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
-                          Edit
-                        </button>
-                        <button className="w-full rounded-md px-3 py-2 text-left text-rose-600 hover:bg-rose-50">
-                          Hapus
-                        </button>
-                      </div>
-                    </details>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </article>
-
-          <article id="cuti" className={cardSoft}>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Jenis cuti
-                </h2>
-                <p className="text-xs text-slate-400">
-                  Atur katalog cuti perusahaan
-                </p>
-              </div>
-              <button className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="h-4 w-4"
-                >
-                  <path d="M12 5v14M5 12h14" />
-                </svg>
-                Tambah cuti
-              </button>
-            </div>
-            <div className="mt-4 space-y-3">
-              {[
-                {
-                  nama: "Cuti tahunan",
-                  jatah: "12 hari/tahun",
-                  status: "Aktif",
-                  statusTone: "bg-emerald-50 text-emerald-600",
-                },
-                {
-                  nama: "Cuti berobat",
-                  jatah: "6 hari/tahun",
-                  status: "Aktif",
-                  statusTone: "bg-emerald-50 text-emerald-600",
-                },
-                {
-                  nama: "Cuti melahirkan",
-                  jatah: "90 hari",
-                  status: "Draft",
-                  statusTone: "bg-amber-50 text-amber-600",
-                },
-              ].map((item) => (
-                <div
-                  key={item.nama}
-                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
-                >
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900">
-                      {item.nama}
-                    </p>
-                    <p className="text-xs text-slate-500">{item.jatah}</p>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2 text-xs">
-                    <span
-                      className={`rounded-full px-3 py-1 text-[11px] font-medium ${item.statusTone}`}
-                    >
-                      {item.status}
-                    </span>
-                    <details className="relative">
-                      <summary className="list-none cursor-pointer rounded-full border border-slate-200 bg-white p-2 text-slate-500 hover:text-slate-700 [&::-webkit-details-marker]:hidden">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="h-4 w-4"
-                        >
-                          <circle cx="12" cy="5" r="1.5" />
-                          <circle cx="12" cy="12" r="1.5" />
-                          <circle cx="12" cy="19" r="1.5" />
-                        </svg>
-                      </summary>
-                      <div className="absolute right-0 z-10 mt-2 w-32 rounded-lg border border-slate-200 bg-white p-1 text-xs shadow-lg">
-                        <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
-                          Detail
-                        </button>
-                        <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
-                          Edit
-                        </button>
-                        <button className="w-full rounded-md px-3 py-2 text-left text-rose-600 hover:bg-rose-50">
-                          Hapus
-                        </button>
-                      </div>
-                    </details>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </article>
-        </section> */}
-
-        {/* <section id="shift" className="grid gap-4 lg:grid-cols-2">
-          <article id="outstation" className={cardBase}>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Shift kerja
-                </h2>
-                <p className="text-xs text-slate-400">Daftar shift</p>
-              </div>
-              <button className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="h-4 w-4"
-                >
-                  <path d="M12 5v14M5 12h14" />
-                </svg>
-                Tambah shift
-              </button>
-            </div>
-            <div className="mt-4 space-y-3">
-              {shiftList.map((shift) => (
-                <div
-                  key={shift.nama}
-                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-sky-50 text-sky-600">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="h-4 w-4"
-                      >
-                        <path d="M12 8v5l3 3" />
-                        <circle cx="12" cy="12" r="9" />
-                      </svg>
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">
-                        {shift.nama}
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        {shift.jam} - {shift.jumlah}
-                      </p>
-                    </div>
-                  </div>
-                  <details className="relative">
-                    <summary className="list-none cursor-pointer rounded-full border border-slate-200 bg-white p-2 text-slate-500 hover:text-slate-700 [&::-webkit-details-marker]:hidden">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="h-4 w-4"
-                      >
-                        <circle cx="12" cy="5" r="1.5" />
-                        <circle cx="12" cy="12" r="1.5" />
-                        <circle cx="12" cy="19" r="1.5" />
-                      </svg>
-                    </summary>
-                    <div className="absolute right-0 z-10 mt-2 w-32 rounded-lg border border-slate-200 bg-white p-1 text-xs shadow-lg">
-                      <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
-                        Detail
-                      </button>
-                      <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
-                        Edit
-                      </button>
-                      <button className="w-full rounded-md px-3 py-2 text-left text-rose-600 hover:bg-rose-50">
-                        Hapus
-                      </button>
-                    </div>
-                  </details>
-                </div>
-              ))}
-            </div>
-          </article>
-
-          <article className={cardBase}>
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">
-                Outstation
-              </h2>
-              <span className="text-xs text-slate-400">Approval</span>
-            </div>
-            <div className="mt-4 max-h-44 space-y-3 overflow-auto pr-2">
-              {outstationApprovals.map((item) => (
-                <div
-                  key={item.nama}
-                  className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-3"
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-blue-50 text-blue-600">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="h-4 w-4"
-                      >
-                        <path d="M12 8v5l3 3" />
-                        <circle cx="12" cy="12" r="9" />
-                      </svg>
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">
-                        {item.nama}
-                      </p>
-                      <p className="text-xs text-slate-500">{item.tanggal}</p>
-                    </div>
-                  </div>
-                  <details className="relative">
-                    <summary className="list-none cursor-pointer rounded-full border border-slate-200 bg-white p-2 text-slate-500 hover:text-slate-700 [&::-webkit-details-marker]:hidden">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="h-4 w-4"
-                      >
-                        <circle cx="12" cy="5" r="1.5" />
-                        <circle cx="12" cy="12" r="1.5" />
-                        <circle cx="12" cy="19" r="1.5" />
-                      </svg>
-                    </summary>
-                    <div className="absolute right-0 z-10 mt-2 w-32 rounded-lg border border-slate-200 bg-white p-1 text-xs shadow-lg">
-                      <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
-                        Detail
-                      </button>
-                    </div>
-                  </details>
-                </div>
-              ))}
-            </div>
-          </article>
-        </section> */}
       </div>
+       
     </DashboardShell>
   );
 }
-
 

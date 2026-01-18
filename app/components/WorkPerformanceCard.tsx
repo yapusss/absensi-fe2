@@ -11,6 +11,8 @@ type WorkPerformanceCardProps = {
   labels: string[];
   values: number[];
   color?: string;
+  lineValues?: number[];
+  lineColor?: string;
 };
 
 export function WorkPerformanceCard({
@@ -23,6 +25,8 @@ export function WorkPerformanceCard({
   labels,
   values,
   color = "#fb7185",
+  lineValues,
+  lineColor,
 }: WorkPerformanceCardProps) {
   const hasHeader = label || badge;
 
@@ -46,7 +50,13 @@ export function WorkPerformanceCard({
       ) : null}
       <div className={`mt-4 ${chartWrapperClassName ?? ""}`}>
         <div className={chartClassName}>
-          <BarChart labels={labels} values={values} color={color} />
+          <BarChart
+            labels={labels}
+            values={values}
+            color={color}
+            lineValues={lineValues}
+            lineColor={lineColor}
+          />
         </div>
       </div>
     </article>

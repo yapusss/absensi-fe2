@@ -7,12 +7,16 @@ export function BarChart({
   labels,
   values,
   color = "#fb7185",
+  lineValues,
+  lineColor = "#f43f5e",
   showAllTicks = false,
   compact = false,
 }: {
   labels: string[];
   values: number[];
   color?: string;
+  lineValues?: number[];
+  lineColor?: string;
   showAllTicks?: boolean;
   compact?: boolean;
 }) {
@@ -41,6 +45,8 @@ export function BarChart({
       ...(compact ? { padding: 0 } : {}),
     };
 
+    const hasLine = Boolean(lineValues?.length);
+
     chartRef.current = new Chart(canvasRef.current, {
       type: "bar",
       data: {
@@ -52,6 +58,21 @@ export function BarChart({
             borderRadius: 10,
             maxBarThickness: 32,
           },
+          ...(hasLine
+            ? [
+                {
+                  type: "line" as const,
+                  data: lineValues,
+                  borderColor: lineColor,
+                  backgroundColor: "transparent",
+                  borderWidth: 2,
+                  pointRadius: 3,
+                  pointHoverRadius: 4,
+                  pointBackgroundColor: lineColor,
+                  tension: 0.35,
+                },
+              ]
+            : []),
         ],
       },
       options: {

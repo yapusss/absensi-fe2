@@ -307,7 +307,93 @@ export default function OwnerDashboard() {
 
 
 
-        <section className="grid gap-4 lg:grid-cols-2">
+        <section className="grid gap-4 lg:grid-cols-[1fr_2fr]">
+          
+<article
+            className={`${cardBase} border-orange-100 bg-orange-50/40`}
+          >
+            <div className="text-center">
+              <p className="text-xl font-semibold text-black">Absensi</p>
+              <p className="mt-1 text-lg font-semibold text-slate-900">
+                08:35, 11 Mar 2025
+              </p>
+            </div>
+            <div className="mt-6 flex flex-col items-center gap-4">
+              <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-center sm:gap-6">
+                <div
+                  className="relative grid h-40 w-40 place-items-center rounded-full"
+                  style={{
+                    background:
+                      "conic-gradient(#22c55e 0deg 260deg, #e2e8f0 260deg 360deg)",
+                  }}
+                >
+                  <div className="absolute inset-2 rounded-full bg-orange-50/80">
+                    <div className="flex h-full w-full flex-col items-center justify-center text-center">
+                      <span className="text-sm text-slate-500">
+                        Total jam kerja
+                      </span>
+                      <span className="text-lg font-semibold text-slate-900">
+                        5:45:32
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-2 text-sm font-semibold text-slate-700">
+                  <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-slate-200 bg-white px-3 py-1 text-lg text-slate-600">
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-blue-50 text-blue-600">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="h-3.5 w-3.5"
+                      >
+                        <path d="M4 7h4l2-2h4l2 2h4v12H4z" />
+                        <circle cx="12" cy="13" r="3" />
+                      </svg>
+                    </span>
+                    Absen masuk 10.00
+                  </span>
+                  <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-slate-200 bg-white px-3 py-1 text-lg text-slate-600">
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-emerald-50 text-emerald-600">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="h-3.5 w-3.5"
+                      >
+                        <path d="M12 7v5l4 2" />
+                        <circle cx="12" cy="12" r="9" />
+                      </svg>
+                    </span>
+                    Absen keluar 17.15
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid w-full gap-3 sm:grid-cols-1">
+                <button
+                  type="button"
+                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="h-5 w-5"
+                  >
+                    <path d="M4 7h4l2-2h4l2 2h4v12H4z" />
+                    <circle cx="12" cy="13" r="3" />
+                  </svg>
+                  Absen masuk
+                </button>
+               
+              </div>
+            </div>
+          </article>
           <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {totals.map((item) => (
               <article
@@ -335,8 +421,7 @@ export default function OwnerDashboard() {
               </article>
             ))}
           </div>
-
-          <AbsensiSummaryCard
+          {/* <AbsensiSummaryCard
             eyebrow="Distribusi kehadiran"
             labels={attendanceBreakdown.labels}
             values={attendanceBreakdown.values}
@@ -344,20 +429,22 @@ export default function OwnerDashboard() {
             badge={attendanceRange}
             badgeClassName={rangeBadgeClass}
             className={cardBase}
-          />
+          /> */}
         </section>
 
+
+
         <section className="grid gap-4 lg:grid-cols-2">
-          <StatusListCard
-            title="Status karyawan"
-            subtitle="Hari ini"
-            items={statusList}
-            className={cardBase}
-            toneMap={{
-              Aktif: "bg-emerald-50 text-emerald-600",
-              Cuti: "bg-blue-50 text-blue-600",
-            }}
-          />
+          <div>
+            <WorkPerformanceCard
+              labels={topWorkHours.map((item) => item.label)}
+              values={topWorkHours.map((item) => item.value)}
+              badge={attendanceRange}
+              badgeClassName={rangeBadgeClass}
+              className={cardBase}
+              chartClassName="h-44 sm:h-48"
+            />
+          </div>
 
           <article className={cardBase}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -380,7 +467,7 @@ export default function OwnerDashboard() {
                 </select>
               </div>
             </div>
-            <div className="mt-4 max-h-64 overflow-auto pr-2">
+            <div className="mt-4 max-h-44 overflow-auto pr-2">
               <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
                 <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                   <tr>
@@ -419,6 +506,16 @@ export default function OwnerDashboard() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
+                    <StatusListCard
+            title="Status karyawan"
+            subtitle="Hari ini"
+            items={statusList}
+            className={cardBase}
+            toneMap={{
+              Aktif: "bg-emerald-50 text-emerald-600",
+              Cuti: "bg-blue-50 text-blue-600",
+            }}
+          />
           {/* <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
@@ -459,16 +556,7 @@ export default function OwnerDashboard() {
               </select>
             </div>
           </div> */}
-          <div>
-            <WorkPerformanceCard
-              labels={topWorkHours.map((item) => item.label)}
-              values={topWorkHours.map((item) => item.value)}
-              badge={attendanceRange}
-              badgeClassName={rangeBadgeClass}
-              className={cardBase}
-              chartClassName="h-44 sm:h-48"
-            />
-          </div>
+
 
 
 
