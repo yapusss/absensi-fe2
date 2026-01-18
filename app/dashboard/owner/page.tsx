@@ -5,7 +5,6 @@ import { DashboardShell } from "@/app/components/DashboardShell";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
-import { OwnerSubnav } from "./OwnerSubnav";
 
 const totals = [
   {
@@ -305,13 +304,8 @@ export default function OwnerDashboard() {
           </p>
         </header>
 
-
-
         <section className="grid gap-4 lg:grid-cols-[1fr_2fr]">
-          
-<article
-            className={`${cardBase} border-orange-100 bg-orange-50/40`}
-          >
+          <article className={`${cardBase} border-orange-100 bg-orange-50/40`}>
             <div className="text-center">
               <p className="text-xl font-semibold text-black">Absensi</p>
               <p className="mt-1 text-lg font-semibold text-slate-900">
@@ -390,7 +384,6 @@ export default function OwnerDashboard() {
                   </svg>
                   Absen masuk
                 </button>
-               
               </div>
             </div>
           </article>
@@ -415,13 +408,15 @@ export default function OwnerDashboard() {
                     {item.icon}
                   </span>
                 </div>
-                <p className={`mt-3 text-xs ${item.metaTone ?? "text-slate-500"}`}>
+                <p
+                  className={`mt-3 text-xs ${item.metaTone ?? "text-slate-500"}`}
+                >
                   {item.meta}
                 </p>
               </article>
             ))}
           </div>
-          {/* <AbsensiSummaryCard
+          <AbsensiSummaryCard
             eyebrow="Distribusi kehadiran"
             labels={attendanceBreakdown.labels}
             values={attendanceBreakdown.values}
@@ -429,10 +424,8 @@ export default function OwnerDashboard() {
             badge={attendanceRange}
             badgeClassName={rangeBadgeClass}
             className={cardBase}
-          /> */}
+          />
         </section>
-
-
 
         <section className="grid gap-4 lg:grid-cols-2">
           <div>
@@ -496,7 +489,6 @@ export default function OwnerDashboard() {
                       <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
                         {row.status}
                       </td>
-                       
                     </tr>
                   ))}
                 </tbody>
@@ -506,7 +498,7 @@ export default function OwnerDashboard() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
-                    <StatusListCard
+          <StatusListCard
             title="Status karyawan"
             subtitle="Hari ini"
             items={statusList}
@@ -557,9 +549,6 @@ export default function OwnerDashboard() {
             </div>
           </div> */}
 
-
-
-
           <article id="akun" className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
@@ -607,5 +596,3 @@ export default function OwnerDashboard() {
     </DashboardShell>
   );
 }
-
-

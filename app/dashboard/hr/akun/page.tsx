@@ -1,12 +1,12 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 
-export default function OwnerAkunPage() {
+export default function HrAkunPage() {
   return (
-    <DashboardShell active="Owner" ownerSubActive="Akun">
+    <DashboardShell active="HR">
       <div className="space-y-6">
         <header className="space-y-2">
           <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
-            Owner Usaha
+            Human Resource
           </span>
           <h1 className="text-2xl font-semibold text-slate-900">Akun</h1>
           <p className="max-w-2xl text-sm text-slate-500">

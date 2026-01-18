@@ -12,8 +12,7 @@ type AbsensiSummaryCardProps = {
   headline?: string;
 };
 
-const isHexColor = (value: string) =>
-  /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(value);
+const isHexColor = (value: string) => /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(value);
 
 const hexToRgba = (hex: string, alpha: number) => {
   const normalized = hex.replace("#", "");
@@ -56,14 +55,16 @@ export function AbsensiSummaryCard({
         </div>
       ) : null}
       <div
-        className={`flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6 ${
-          hasHeader ? "mt-4" : ""
+        className={`flex flex-col gap-4 sm:flex-row sm:items-stretch sm:gap-6 ${
+          hasHeader ? "mt-10" : ""
         }`}
       >
-        <div className="h-40 w-40 sm:h-44 sm:w-44 sm:mx-0">
-          <DonutChart labels={labels} values={values} colors={colors} />
+        <div className="flex flex-1 items-center justify-center">
+          <div className="h-44 w-44 sm:h-52 sm:w-52">
+            <DonutChart labels={labels} values={values} colors={colors} />
+          </div>
         </div>
-        <div className="space-y-2 text-xs text-slate-500">
+        <div className="flex flex-1 flex-col justify-center space-y-2 text-xs text-slate-500">
           <p className="text-lg font-semibold text-slate-900">{headlineText}</p>
           {labels.map((label, index) => {
             const color = colors[index];
@@ -74,9 +75,7 @@ export function AbsensiSummaryCard({
                   color,
                 }
               : undefined;
-            const dotStyle = useColor
-              ? { backgroundColor: color }
-              : undefined;
+            const dotStyle = useColor ? { backgroundColor: color } : undefined;
             return (
               <span
                 key={label}

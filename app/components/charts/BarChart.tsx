@@ -11,6 +11,7 @@ export function BarChart({
   lineColor = "#f43f5e",
   showAllTicks = false,
   compact = false,
+  series,
 }: {
   labels: string[];
   values: number[];
@@ -19,6 +20,7 @@ export function BarChart({
   lineColor?: string;
   showAllTicks?: boolean;
   compact?: boolean;
+  series?: { label: string; values: number[]; color: string }[];
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<Chart | null>(null);
@@ -46,23 +48,35 @@ export function BarChart({
     };
 
     const hasLine = Boolean(lineValues?.length);
-
-    chartRef.current = new Chart(canvasRef.current, {
-      type: "bar",
-      data: {
-        labels,
-        datasets: [
+    const isMulti = Boolean(series?.length);
+    const barDatasets = isMulti
+      ? series!.map((item) => ({
+          label: item.label,
+          data: item.values,
+          backgroundColor: item.color,
+          borderRadius: 10,
+          maxBarThickness: 22,
+        }))
+      : [
           {
             data: values,
             backgroundColor: color,
             borderRadius: 10,
             maxBarThickness: 32,
           },
+        ];
+
+    chartRef.current = new Chart(canvasRef.current, {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [
+          ...barDatasets,
           ...(hasLine
             ? [
                 {
                   type: "line" as const,
-                  data: lineValues,
+                  data: lineValues || [],
                   borderColor: lineColor,
                   backgroundColor: "transparent",
                   borderWidth: 2,
@@ -98,9 +112,16 @@ export function BarChart({
     return () => {
       chartRef.current?.destroy();
     };
-  }, [labels, values, color, showAllTicks, compact]);
+  }, [
+    labels,
+    values,
+    color,
+    showAllTicks,
+    compact,
+    series,
+    lineValues,
+    lineColor,
+  ]);
 
-  return (
-    <canvas ref={canvasRef} className="h-full w-full" />
-  );
+  return <canvas ref={canvasRef} className="h-full w-full" />;
 }

@@ -19,7 +19,7 @@ const roleMenus: Record<string, MenuItem[]> = {
   Penyedia: [
     {
       label: "Beranda",
-      href: "/dashboard/provider#ringkasan",
+      href: "/dashboard/provider",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -53,7 +53,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Owner Usaha",
-      href: "/dashboard/provider#owner-usaha",
+      href: "/dashboard/provider/pemilik-usaha",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -85,20 +85,213 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
   ],
   Owner: [
-    { label: "Beranda", href: "/dashboard/owner#beranda" },
-    { label: "Human Resource", href: "/dashboard/owner#human-resource" },
-    { label: "Performa", href: "/dashboard/owner#performa" },
-    { label: "Akun", href: "/dashboard/owner#akun" },
+    {
+      label: "Beranda",
+      href: "/dashboard/owner",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M3 12l9-9 9 9" />
+          <path d="M9 21V9h6v12" />
+        </svg>
+      ),
+    },
+    {
+      label: "Human Resource",
+      href: "/dashboard/owner/human-resource",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="9" cy="7" r="3" />
+          <circle cx="17" cy="10" r="2" />
+          <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+          <path d="M14 20c0-2.2 1.8-4 4-4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Performa",
+      href: "/dashboard/owner/performa",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M4 19h16" />
+          <path d="M7 16V9" />
+          <path d="M12 16V6" />
+          <path d="M17 16v-4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Akun",
+      href: "/dashboard/owner/akun",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+        </svg>
+      ),
+    },
   ],
   HR: [
-    { label: "Ringkasan", href: "/dashboard/hr#ringkasan" },
-    { label: "Sorotan", href: "/dashboard/hr#sorotan" },
-    { label: "Absensi", href: "/dashboard/hr#absensi" },
-    { label: "List absensi", href: "/dashboard/hr#list-absensi" },
-    { label: "Karyawan", href: "/dashboard/hr#karyawan" },
-    { label: "Cuti", href: "/dashboard/hr#cuti" },
-    { label: "Shift", href: "/dashboard/hr#shift" },
-    { label: "Outstation", href: "/dashboard/hr#outstation" },
+    {
+      label: "Beranda",
+      href: "/dashboard/hr",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M3 12l9-9 9 9" />
+          <path d="M9 21V9h6v12" />
+        </svg>
+      ),
+    },
+    {
+      label: "Jadwal",
+      href: "/dashboard/hr/jadwal",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 3" />
+        </svg>
+      ),
+    },
+    {
+      label: "Karyawan",
+      href: "/dashboard/hr/karyawan",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M7 11c2 0 3.5-1.6 3.5-3.5S9 4 7 4 3.5 5.6 3.5 7.5 5 11 7 11z" />
+          <path d="M17 11c2 0 3.5-1.6 3.5-3.5S19 4 17 4s-3.5 1.6-3.5 3.5S15 11 17 11z" />
+          <path d="M3 20c0-3 2.5-5.5 5.5-5.5S14 17 14 20" />
+          <path d="M10 20c0-2.4 1.9-4.3 4.3-4.3H18" />
+        </svg>
+      ),
+    },
+    {
+      label: "Libur & Cuti",
+      href: "/dashboard/hr/libur-cuti",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <rect x="4" y="5" width="16" height="15" rx="2" />
+          <path d="M8 3v4M16 3v4" />
+          <path d="M4 10h16" />
+        </svg>
+      ),
+    },
+    {
+      label: "Pengajuan Cuti",
+      href: "/dashboard/hr/pengajuan-cuti",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M7 4h10v4H7z" />
+          <path d="M5 8h14v12H5z" />
+          <path d="M9 14h6" />
+          <path d="M9 17h4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Performa",
+      href: "/dashboard/hr/performa",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M4 19h16" />
+          <path d="M7 16V9" />
+          <path d="M12 16V6" />
+          <path d="M17 16v-4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Tim",
+      href: "/dashboard/hr/tim",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="9" cy="7" r="3" />
+          <circle cx="17" cy="9" r="2" />
+          <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+          <path d="M14 20c0-2.2 1.8-4 4-4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Akun",
+      href: "/dashboard/hr/akun",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+        </svg>
+      ),
+    },
   ],
   Karyawan: [
     { label: "Ringkasan", href: "/dashboard/employee#ringkasan" },

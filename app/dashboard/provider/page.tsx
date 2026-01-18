@@ -448,6 +448,7 @@ export default function ProviderDashboard() {
             </div>
           </article>
         </section>
+
       </div>
     </DashboardShell>
   );
