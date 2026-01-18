@@ -32,10 +32,22 @@ export function DonutChart({
       chartRef.current.destroy();
     }
 
+    const totalValue = values.reduce((sum, value) => sum + value, 0);
+    const formatAuto = (value: number) => {
+      const rounded = Math.round(value);
+      if (Math.abs(value - rounded) < 0.01) {
+        return `${rounded}`;
+      }
+
+      return value.toFixed(1).replace(".", ",");
+    };
+    const resolvedCenterValue = centerValue ?? formatAuto(totalValue);
+    const hasCenterText = Boolean(centerLabel || resolvedCenterValue);
+
     const centerTextPlugin = {
       id: "centerText",
       afterDraw: (chart: Chart) => {
-        if (!centerLabel && !centerValue) {
+        if (!hasCenterText) {
           return;
         }
 
@@ -55,17 +67,17 @@ export function DonutChart({
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        if (centerLabel && centerValue) {
+        if (centerLabel && resolvedCenterValue) {
           ctx.fillStyle = centerLabelColor;
           ctx.font = `600 11px ${fontFamily}`;
           ctx.fillText(centerLabel, centerX, centerY - 8);
 
           ctx.fillStyle = centerValueColor;
           ctx.font = `700 14px ${fontFamily}`;
-          ctx.fillText(centerValue, centerX, centerY + 10);
+          ctx.fillText(resolvedCenterValue, centerX, centerY + 10);
         } else {
-          const singleText = centerValue ?? centerLabel ?? "";
-          ctx.fillStyle = centerValue ? centerValueColor : centerLabelColor;
+          const singleText = resolvedCenterValue || centerLabel || "";
+          ctx.fillStyle = resolvedCenterValue ? centerValueColor : centerLabelColor;
           ctx.font = `600 12px ${fontFamily}`;
           ctx.fillText(singleText, centerX, centerY);
         }

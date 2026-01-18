@@ -61,9 +61,9 @@ const kpis = [
     ),
   },
   {
-    label: "MRR",
-    value: "Rp 86 jt",
-    meta: "+14% vs bulan lalu",
+    label: "Total pengguna",
+    value: "1.248",
+    meta: "+6% vs bulan lalu",
     tone: "border-l-rose-400",
     iconBg: "bg-rose-50 text-rose-600",
     icon: (
@@ -106,7 +106,7 @@ const statusTone = (status: string) => {
 
 const highlights = [
   {
-    label: "Signups baru",
+    label: "Pengguna baru",
     value: "28",
     meta: "Minggu ini",
     metaDetail: "vs minggu lalu",
@@ -129,9 +129,9 @@ const highlights = [
     ),
   },
   {
-    label: "Churn risiko",
+    label: "Layanan segera berakhir",
     value: "6",
-    meta: "Perlu follow-up",
+    meta: "Perlu perpanjang",
     metaDetail: "minggu ini",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
@@ -152,7 +152,7 @@ const highlights = [
   },
 ];
 
-const revenueTrend = {
+const userGrowth = {
   labels: [
     "Jan",
     "Feb",
@@ -167,7 +167,9 @@ const revenueTrend = {
     "Nov",
     "Dec",
   ],
-  values: [18, 21, 24, 27, 30, 33, 31, 34, 36, 40, 44, 48],
+  values: [
+    1200, 1280, 1350, 1420, 1500, 1600, 1580, 1650, 1730, 1810, 1900, 2050,
+  ],
 };
 
 const businessGrowth = {
@@ -196,7 +198,7 @@ const topRevenueColors = [
 
 const totalTopRevenue = topRevenueBusinesses.values.reduce(
   (total, value) => total + value,
-  0
+  0,
 );
 const formatJuta = (value: number) => value.toFixed(1).replace(".", ",");
 
@@ -211,24 +213,51 @@ export default function ProviderDashboard() {
             Penyedia Platform
           </span>
           <h1 className="text-2xl font-semibold text-slate-900">
-            Kontrol bisnis langganan dalam satu layar
+            Dashboard Penyedia Platform
           </h1>
-          <p className="max-w-2xl text-sm text-slate-500">
-            Fokus pada pertumbuhan revenue, kesehatan langganan, dan konsistensi
-            data owner serta perusahaan yang menggunakan platform.
-          </p>
         </header>
+
+        <section>
+          <article className="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 p-6 text-white shadow-sm">
+            <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="space-y-2">
+                <p className="text-xl font-semibold">
+                  Selamat datang kembali, Adrian
+                </p>
+                <p className="text-sm text-white/80">
+                  14 usaha baru berlangganan hari ini.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900"
+                >
+                  Pengaturan
+                </button>
+                <button
+                  type="button"
+                  className="rounded-full border border-white/50 px-4 py-2 text-xs font-semibold text-white"
+                >
+                  Keluar
+                </button>
+              </div>
+            </div>
+            <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/15" />
+            <div className="pointer-events-none absolute -bottom-8 left-12 h-24 w-24 rounded-full bg-white/10" />
+          </article>
+        </section>
 
         <section id="sorotan" className="grid gap-4 lg:grid-cols-2">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {kpis.map((item) => (
               <article
                 key={item.label}
-                className={`${cardBase} border-l-4 ${item.tone}`}
+                className={`${cardBase} flex min-h-[132px] flex-col border-l-4 ${item.tone}`}
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                    <p className="min-h-[32px] text-xs uppercase leading-4 tracking-[0.2em] text-slate-400">
                       {item.label}
                     </p>
                     <p className="mt-2 text-2xl font-semibold text-slate-900">
@@ -241,7 +270,7 @@ export default function ProviderDashboard() {
                     {item.icon}
                   </span>
                 </div>
-                <div className="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                <div className="mt-auto flex items-center gap-2 pt-4 text-xs text-slate-500">
                   <span className="font-semibold text-emerald-600">
                     {item.meta}
                   </span>
@@ -252,11 +281,11 @@ export default function ProviderDashboard() {
             {highlights.map((item) => (
               <article
                 key={item.label}
-                className={`${cardBase} border-l-4 ${item.tone}`}
+                className={`${cardBase} flex min-h-[132px] flex-col border-l-4 ${item.tone}`}
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                    <p className="min-h-[32px] text-xs uppercase leading-4 tracking-[0.2em] text-slate-400">
                       {item.label}
                     </p>
                     <p className="mt-2 text-2xl font-semibold text-slate-900">
@@ -269,7 +298,7 @@ export default function ProviderDashboard() {
                     {item.icon}
                   </span>
                 </div>
-                <div className="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                <div className="mt-auto flex items-center gap-2 pt-4 text-xs text-slate-500">
                   <span className={`font-semibold ${item.metaTone}`}>
                     {item.meta}
                   </span>
@@ -282,20 +311,19 @@ export default function ProviderDashboard() {
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-lg font-semibold text-slate-900">
-                  Revenue trend
+                  Pertumbuhan Jumlah Pengguna
                 </h2>
                 <p className="text-xs text-slate-400">
-                  Pertumbuhan revenue langganan
+                  Kenaikan user aktif per bulan
                 </p>
               </div>
             </div>
             <div className="mt-4 h-36 sm:h-44">
               <LineChart
-                labels={revenueTrend.labels}
-                values={revenueTrend.values}
+                labels={userGrowth.labels}
+                values={userGrowth.values}
                 tension={0}
                 showAllTicks
-                valueFormat="rupiah-juta"
               />
             </div>
           </article>
@@ -357,7 +385,7 @@ export default function ProviderDashboard() {
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-slate-900">
-                  Kontributor revenue terbesar
+                  Kontributor Revenue Terbesar
                 </h3>
                 <p className="text-xs text-slate-400">
                   Perbandingan pemasukan per usaha (bulan ini)
@@ -400,7 +428,7 @@ export default function ProviderDashboard() {
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-slate-900">
-                  Pertumbuhan jumlah usaha
+                  Pertumbuhan Jumlah Usaha
                 </h3>
                 <p className="text-xs text-slate-400">
                   Kenaikan usaha aktif dalam beberapa bulan terakhir

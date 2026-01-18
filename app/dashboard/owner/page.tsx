@@ -292,7 +292,7 @@ export default function OwnerDashboard() {
   return (
     <DashboardShell active="Owner" ownerSubActive="Dashboard">
       <div className="space-y-8">
-        <header className="space-y-2">
+        <header id="beranda" className="space-y-2">
           <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
             Owner Usaha
           </span>
@@ -560,7 +560,7 @@ export default function OwnerDashboard() {
 
 
 
-          <article id="cuti" className={cardSoft}>
+          <article id="akun" className={cardSoft}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Cuti dan persetujuan

@@ -6,9 +6,9 @@ import { useEffect, useRef } from "react";
 export function LineChart({
   labels,
   values,
-  stroke = "#f97316",
+  stroke = "#1671f9",
   fill = "rgba(249,115,22,0.15)",
-  tension = 0.35,
+  tension = 0,
   showAllTicks = false,
   valueFormat = "number",
 }: {

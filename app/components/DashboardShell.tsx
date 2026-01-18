@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+import { AppFooter } from "@/app/components/AppFooter";
 
 type MenuItem = {
   label: string;
@@ -29,23 +30,6 @@ const roleMenus: Record<string, MenuItem[]> = {
         >
           <path d="M3 12l9-9 9 9" />
           <path d="M9 21V9h6v12" />
-        </svg>
-      ),
-    },
-    {
-      label: "Keuangan",
-      href: "/dashboard/provider/keuangan",
-      icon: (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="h-4 w-4"
-        >
-          <rect x="3" y="5" width="18" height="14" rx="2" />
-          <path d="M7 9h10" />
-          <path d="M7 13h6" />
         </svg>
       ),
     },
@@ -101,11 +85,10 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
   ],
   Owner: [
-    { label: "Ringkasan", href: "/dashboard/owner#ringkasan" },
-    { label: "Sorotan", href: "/dashboard/owner#sorotan" },
-    { label: "Kehadiran", href: "/dashboard/owner#kehadiran" },
-    { label: "Status tim", href: "/dashboard/owner#status" },
-    { label: "Cuti", href: "/dashboard/owner#cuti" },
+    { label: "Beranda", href: "/dashboard/owner#beranda" },
+    { label: "Human Resource", href: "/dashboard/owner#human-resource" },
+    { label: "Performa", href: "/dashboard/owner#performa" },
+    { label: "Akun", href: "/dashboard/owner#akun" },
   ],
   HR: [
     { label: "Ringkasan", href: "/dashboard/hr#ringkasan" },
@@ -226,49 +209,13 @@ export function DashboardShell({
               </Link>
             ))}
           </nav>
-          <div className="px-6 pt-6 text-[11px] uppercase tracking-[0.3em] text-slate-400">
-            Insights
-          </div>
-          <div className="px-4 pb-4">
-            <div className="min-w-0 rounded-xl border border-slate-200 bg-white px-4 py-3">
-              <p className="text-xs font-semibold text-slate-700">
-                Active accounts
-              </p>
-              <div className="mt-2 flex items-center justify-between text-xs text-slate-500">
-                <span>1,248 users</span>
-                <span className="text-emerald-600">+12%</span>
-              </div>
-              <div className="mt-2 h-1 rounded-full bg-slate-100">
-                <div className="h-1 w-[72%] rounded-full bg-blue-400" />
-              </div>
-            </div>
-            <div className="mt-3 min-w-0 rounded-xl border border-slate-200 bg-white px-4 py-3">
-              <p className="text-xs font-semibold text-slate-700">
-                Queue health
-              </p>
-              <div className="mt-2 flex items-center justify-between text-xs text-slate-500">
-                <span>Latency 0.8s</span>
-                <span className="text-slate-500">Stable</span>
-              </div>
-              <div className="mt-2 h-1 rounded-full bg-slate-100">
-                <div className="h-1 w-[86%] rounded-full bg-sky-400" />
-              </div>
-            </div>
-          </div>
-          <div className="mt-auto border-t border-slate-200 px-6 py-5">
-            <div className="min-w-0 rounded-xl bg-slate-50 px-4 py-3">
-              <p className="text-xs font-semibold text-slate-700">
-                Platform Status
-              </p>
-              <p className="text-xs text-slate-500">All systems normal</p>
-            </div>
-          </div>
         </aside>
 
         <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-          <div className="min-w-0 flex-1 px-4 py-4 sm:px-6 sm:py-6">
+          <div className="min-w-0 flex-1 px-4 pb-2 pt-4 sm:px-6 sm:pb-3 sm:pt-6">
             {children}
           </div>
+          <AppFooter />
         </div>
       </div>
     </div>
