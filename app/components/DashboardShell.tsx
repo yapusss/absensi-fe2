@@ -343,13 +343,15 @@ const roleMenus: Record<string, MenuItem[]> = {
           strokeWidth="2"
           className="h-4 w-4"
         >
-          <path d="M3 12l9-9 9 9" />
-          <path d="M9 21V9h6v12" />
+          <path d="M4 13h7V4H4z" />
+          <path d="M13 20h7v-7h-7z" />
+          <path d="M13 4h7v7h-7z" />
+          <path d="M4 20h7v-5H4z" />
         </svg>
       ),
     },
     {
-      label: "Pengajuan Cuti",
+      label: "Pengajuan cuti",
       href: "/dashboard/employee/pengajuan-cuti",
       icon: (
         <svg
@@ -362,13 +364,12 @@ const roleMenus: Record<string, MenuItem[]> = {
           <path d="M7 4h10v4H7z" />
           <path d="M5 8h14v12H5z" />
           <path d="M9 14h6" />
-          <path d="M9 17h4" />
         </svg>
       ),
     },
     {
       label: "Performa",
-      href: "/dashboard/employee#performa",
+      href: "/dashboard/employee/performa",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -404,7 +405,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Akun",
-      href: "/dashboard/employee#akun",
+      href: "/dashboard/employee/akun",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -454,15 +455,13 @@ export function DashboardShell({
       const initial: Record<string, boolean> = {};
       menuItems.forEach((item) => {
         if (
-          item.children?.some(
-            (child) => child.href.split("#")[0] === pathname
-          )
+          item.children?.some((child) => child.href.split("#")[0] === pathname)
         ) {
           initial[item.label] = true;
         }
       });
       return initial;
-    }
+    },
   );
 
   useEffect(() => {
@@ -507,9 +506,7 @@ export function DashboardShell({
       let changed = false;
       menuItems.forEach((item) => {
         if (
-          item.children?.some(
-            (child) => child.href.split("#")[0] === pathname
-          )
+          item.children?.some((child) => child.href.split("#")[0] === pathname)
         ) {
           if (!next[item.label]) {
             next[item.label] = true;
@@ -541,13 +538,17 @@ export function DashboardShell({
             </div>
           </div>
           <div className="px-6 pb-2 text-[11px] uppercase tracking-[0.3em] text-slate-400">
-            {isOwner ? "Owner Menu" : `${active} Menu`}
+            {active === "Karyawan"
+              ? "Menu Karyawan"
+              : isOwner
+                ? "Owner Menu"
+                : `${active} Menu`}
           </div>
           <nav className="flex flex-col gap-1 px-4">
             {menuItems.map((item) => {
               const hasChildren = Boolean(item.children?.length);
               const childActive = item.children?.some(
-                (child) => child.href === activeHref
+                (child) => child.href === activeHref,
               );
               const isActive = activeHref === item.href || childActive;
               const isExpanded =
@@ -560,7 +561,11 @@ export function DashboardShell({
 
               if (!hasChildren) {
                 return (
-                  <Link key={item.label} href={item.href} className={itemClasses}>
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={itemClasses}
+                  >
                     <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-current shadow-sm">
                       {item.icon ? (
                         item.icon
