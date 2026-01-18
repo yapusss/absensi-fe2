@@ -294,12 +294,93 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
   ],
   Karyawan: [
-    { label: "Ringkasan", href: "/dashboard/employee#ringkasan" },
-    { label: "Sorotan", href: "/dashboard/employee#sorotan" },
-    { label: "Absensi", href: "/dashboard/employee#absensi" },
-    { label: "Performa", href: "/dashboard/employee#performa" },
-    { label: "Status tim", href: "/dashboard/employee#status" },
-    { label: "Daftar karyawan", href: "/dashboard/employee#daftar-karyawan" },
+    {
+      label: "Dashboard",
+      href: "/dashboard/employee",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M4 13h7V4H4z" />
+          <path d="M13 20h7v-7h-7z" />
+          <path d="M13 4h7v7h-7z" />
+          <path d="M4 20h7v-5H4z" />
+        </svg>
+      ),
+    },
+    {
+      label: "Pengajuan cuti",
+      href: "/dashboard/employee/pengajuan-cuti",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M7 4h10v4H7z" />
+          <path d="M5 8h14v12H5z" />
+          <path d="M9 14h6" />
+        </svg>
+      ),
+    },
+    {
+      label: "Performa",
+      href: "/dashboard/employee/performa",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M4 19h16" />
+          <path d="M7 16V9" />
+          <path d="M12 16V6" />
+          <path d="M17 16v-4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Tim",
+      href: "/dashboard/employee/tim",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="9" cy="7" r="3" />
+          <circle cx="17" cy="9" r="2" />
+          <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+          <path d="M14 20c0-2.2 1.8-4 4-4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Akun",
+      href: "/dashboard/employee/akun",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+        </svg>
+      ),
+    },
   ],
 };
 
@@ -378,7 +459,7 @@ export function DashboardShell({
             </div>
           </div>
           <div className="px-6 pb-2 text-[11px] uppercase tracking-[0.3em] text-slate-400">
-            {isOwner ? "Owner Menu" : `${active} Menu`}
+            {active === "Karyawan" ? "Menu Karyawan" : isOwner ? "Owner Menu" : `${active} Menu`}
           </div>
           <nav className="flex flex-col gap-1 px-4">
             {menuItems.map((item) => (

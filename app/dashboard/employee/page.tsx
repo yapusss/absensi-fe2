@@ -8,8 +8,8 @@ const summaries = [
     label: "Kehadiran bulan ini",
     value: "20 hari",
     meta: "Target 22 hari",
-    tone: "border-l-emerald-400",
-    iconBg: "bg-emerald-50 text-emerald-600",
+    tone: "border-l-yellow-400",
+    iconBg: "bg-yellow-50 text-yellow-600",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -82,11 +82,84 @@ const summaries = [
       </svg>
     ),
   },
+  {
+    label: "Poin kehadiran",
+    value: "92",
+    meta: "Stabil",
+    tone: "border-l-emerald-400",
+    iconBg: "bg-emerald-50 text-emerald-600",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-5 w-5"
+      >
+        <path d="M12 3l2.6 5.3 5.9.9-4.3 4.2 1 5.9L12 16.8 6.8 19.3l1-5.9-4.3-4.2 5.9-.9L12 3z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Streak hadir",
+    value: "8 hari",
+    meta: "Personal best",
+    tone: "border-l-rose-400",
+    iconBg: "bg-rose-50 text-rose-600",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-5 w-5"
+      >
+        <path d="M8 6v10" />
+        <path d="M12 3v18" />
+        <path d="M16 8v8" />
+      </svg>
+    ),
+  }, 
 ];
 
 const performanceTrend = {
-  labels: ["1", "5", "10", "15", "20", "25", "30"],
-  values: [8, 7.5, 8.2, 7.8, 8.6, 8.4, 8.9],
+  labels: [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+  ],
+  values: [
+    8.0, 7.6, 7.9, 8.2, 7.5, 8.1, 7.8, 8.3, 7.7, 8.0,
+    7.9, 8.4, 7.6, 8.1, 7.8, 8.5, 7.9, 8.2, 7.7, 8.6,
+    7.8, 8.3, 7.9, 8.1, 7.6, 8.2, 7.8, 8.4, 7.9, 8.7,
+  ],
 };
 
 const absensiActions = [
@@ -118,31 +191,49 @@ const employeeDirectory = [
   { nama: "Sinta Wardani", divisi: "HR", status: "Aktif" },
 ];
 
-const highlights = [
-  {
-    label: "Poin kehadiran",
-    value: "92",
-    note: "Stabil",
-    tone: "bg-emerald-50 text-emerald-600",
-  },
-  {
-    label: "Streak hadir",
-    value: "8 hari",
-    note: "Personal best",
-    tone: "bg-sky-50 text-sky-600",
-  },
-  {
-    label: "Sisa lembur",
-    value: "3 jam",
-    note: "Minggu ini",
-    tone: "bg-amber-50 text-amber-600",
-  },
+const birthdayRoster = [
+  { nama: "Ayu Pratiwi", posisi: "Marketing Manager", tanggal: "15 Mar" },
+  { nama: "Bimo Setia", posisi: "Finance Analyst", tanggal: "22 Mar" },
+  { nama: "Damar Wijaya", posisi: "Sales Executive", tanggal: "28 Mar" },
 ];
+
+// const highlights = [
+//   {
+//     label: "Poin kehadiran",
+//     value: "92",
+//     note: "Stabil",
+//     tone: "bg-emerald-50 text-emerald-600",
+//   },
+//   {
+//     label: "Streak hadir",
+//     value: "8 hari",
+//     note: "Personal best",
+//     tone: "bg-sky-50 text-sky-600",
+//   },
+//   {
+//     label: "Sisa lembur",
+//     value: "3 jam",
+//     note: "Minggu ini",
+//     tone: "bg-amber-50 text-amber-600",
+//   },
+// ];
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 const cardSoft =
   "min-w-0 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:shadow-md";
+
+const holidayCalendar = {
+  monthLabel: "Januari 2024",
+};
+
+const holidayDays = [null, null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+
+const holidayMap = new Map([
+  [1, "Tahun Baru"],
+  [25, "Hari Raya Idul Fitri"],
+  [26, "Hari Raya Idul Fitri"],
+]);
 
 export default function EmployeeDashboard() {
   return (
@@ -161,63 +252,212 @@ export default function EmployeeDashboard() {
           </p>
         </header>
 
-        <section id="ringkasan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {summaries.map((item) => (
-            <article
-              key={item.label}
-              className={`${cardBase} border-l-4 ${item.tone}`}
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                    {item.label}
-                  </p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">
-                    {item.value}
-                  </p>
-                </div>
-                <span
-                  className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
-                >
-                  {item.icon}
-                </span>
-              </div>
-              <p className="mt-3 text-xs text-emerald-600">{item.meta}</p>
-            </article>
-          ))}
-        </section>
 
-        <section id="sorotan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {highlights.map((item) => (
-            <article key={item.label} className={cardSoft}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                  {item.label}
-                </p>
-                <span className={`rounded-full px-3 py-1 text-xs ${item.tone}`}>
-                  {item.note}
-                </span>
-              </div>
-              <p className="mt-4 text-2xl font-semibold text-slate-900">
-                {item.value}
+        <section className="grid gap-4 lg:grid-cols-[1fr_2fr]">
+          
+<article
+            className={`${cardBase} border-orange-100 bg-orange-50/40`}
+          >
+            <div className="text-center">
+              <p className="text-xl font-semibold text-black">Absensi</p>
+              <p className="mt-1 text-lg font-semibold text-slate-900">
+                08:35, 11 Mar 2025
               </p>
-              <div className="mt-3 h-1 rounded-full bg-slate-100">
-                <div className="h-1 w-[58%] rounded-full bg-amber-400" />
+            </div>
+            <div className="mt-6 flex flex-col items-center gap-4">
+              <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-center sm:gap-6">
+                <div
+                  className="relative grid h-40 w-40 place-items-center rounded-full"
+                  style={{
+                    background:
+                      "conic-gradient(#22c55e 0deg 260deg, #e2e8f0 260deg 360deg)",
+                  }}
+                >
+                  <div className="absolute inset-2 rounded-full bg-orange-50/80">
+                    <div className="flex h-full w-full flex-col items-center justify-center text-center">
+                      <span className="text-sm text-slate-500">
+                        Total jam kerja
+                      </span>
+                      <span className="text-lg font-semibold text-slate-900">
+                        5:45:32
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-2 text-sm font-semibold text-slate-700">
+                  <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-slate-200 bg-white px-3 py-1 text-lg text-slate-600">
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-blue-50 text-blue-600">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="h-3.5 w-3.5"
+                      >
+                        <path d="M4 7h4l2-2h4l2 2h4v12H4z" />
+                        <circle cx="12" cy="13" r="3" />
+                      </svg>
+                    </span>
+                    Absen masuk 10.00
+                  </span>
+                  <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-slate-200 bg-white px-3 py-1 text-lg text-slate-600">
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-emerald-50 text-emerald-600">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="h-3.5 w-3.5"
+                      >
+                        <path d="M12 7v5l4 2" />
+                        <circle cx="12" cy="12" r="9" />
+                      </svg>
+                    </span>
+                    Absen keluar 17.15
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid w-full gap-3 sm:grid-cols-1">
+                <button
+                  type="button"
+                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="h-5 w-5"
+                  >
+                    <path d="M4 7h4l2-2h4l2 2h4v12H4z" />
+                    <circle cx="12" cy="13" r="3" />
+                  </svg>
+                  Absen 
+                </button>
+               
+              </div>
+            </div>
+          </article>
+          <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {summaries.map((item) => (
+              <article
+                key={item.label}
+                className={`${cardBase} border-l-4 ${item.tone}`}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                      {item.label}
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold text-slate-900">
+                      {item.value}
+                    </p>
+                  </div>
+                  <span
+                    className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                  >
+                    {item.icon}
+                  </span>
+                </div>
+                <p
+                  className={`mt-3 text-xs ${
+                    item.meta ?? "text-slate-500"
+                  }`}
+                >
+                  {item.meta}
+                </p>
+              </article>
+            ))}
+          </div>
+          
+          <div className="grid gap-4 mt-3">
+            <article className={cardBase}>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-900">
+                    Kalender libur perusahaan
+                  </h2>
+                </div>
+                <span className="rounded-full border border-slate-200 bg-white px-3 text-xs text-slate-500">
+                  {holidayCalendar.monthLabel}
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-7 gap-0 text-center text-[10px] uppercase tracking-[0.2em] text-slate-400">
+                {"Min Sen Sel Rab Kam Jum Sab".split(" ").map((label) => (
+                  <span key={label} className="min-w-0">
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-3 grid auto-rows-fr grid-cols-7 gap-0.5 text-xs">
+                {holidayDays.map((day, index) => {
+                  if (!day) {
+                    return (
+                      <span key={`empty-${index}`} className="min-h-[40px]" />
+                    );
+                  }
+                  const holidayLabel = holidayMap.get(day);
+                  return (
+                    <div
+                      key={day}
+                      className={`group relative max-h-[44px] rounded-lg border px-1.5 py-1.5 text-center ${
+                        holidayLabel
+                          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          : "border-slate-200 bg-white text-slate-600"
+                      }`}
+                      title={holidayLabel ?? undefined}
+                    >
+                      <div className="text-xs font-semibold">{day}</div>
+                      {holidayLabel ? (
+                        <div className="pointer-events-none absolute left-1/2 top-0 z-10 hidden -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] text-slate-600 shadow-sm group-hover:block">
+                          {holidayLabel}
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })}
               </div>
             </article>
-          ))}
-        </section>
-
-        <section id="absensi" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr,1.2fr]">
-          <AbsensiActionsCard
-            title="Absensi hari ini"
-            badge="Today"
-            badgeClassName="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500"
-            actions={absensiActions}
-            className={cardSoft}
-          />
-
-          <article id="performa" className={cardBase}>
+          </div> 
+          <div className="grid gap-4 lg:grid-cols-[1fr_2fr] mt-3">
+            <article className={cardBase}>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Ulang tahun
+                </h2>
+                <p className="text-xs text-slate-400">
+                  Karyawan yang berulang tahun
+                </p>
+              </div>
+              <div className="mt-4 space-y-3">
+                {birthdayRoster.map((person) => (
+                  <div
+                    key={person.nama}
+                    className="flex items-center gap-3 rounded-lg border border-dashed border-slate-200 bg-white px-3 py-2"
+                  >
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-emerald-50 text-xs font-semibold text-emerald-600">
+                      {person.nama
+                        .split(" ")
+                        .map((part) => part[0])
+                        .slice(0, 2)
+                        .join("")}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-slate-900">
+                        {person.nama}
+                      </p>
+                      <p className="text-xs text-slate-500">{person.posisi}</p>
+                    </div>
+                    <span className="ml-auto text-xs text-slate-400">
+                      {person.tanggal}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </article>
+             <article className={cardBase}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Performa bulanan
@@ -244,19 +484,25 @@ export default function EmployeeDashboard() {
               </span>
             </div>
           </article>
+          </div> 
+           
         </section>
 
-        <section id="status" className="grid gap-4 lg:grid-cols-2">
+
+      
+
+   
+        {/* <section id="status" className="grid gap-4 lg:grid-cols-2">
           <div>
             <StatusListCard
-            title="Status tim"
-            subtitle="Hari ini"
-            items={teamStatus}
-            className={cardBase}
-            toneMap={{
-              Hadir: "bg-emerald-50 text-emerald-600",
-              Cuti: "bg-blue-50 text-blue-600",
-            }}
+              title="Status tim"
+              subtitle="Hari ini"
+              items={teamStatus}
+              className={cardBase}
+              toneMap={{
+                Hadir: "bg-emerald-50 text-emerald-600",
+                Cuti: "bg-blue-50 text-blue-600",
+              }}
             />
           </div>
 
@@ -300,7 +546,7 @@ export default function EmployeeDashboard() {
               </table>
             </div>
           </article>
-        </section>
+        </section> */}
       </div>
     </DashboardShell>
   );
