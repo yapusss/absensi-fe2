@@ -9,6 +9,7 @@ type MenuItem = {
   label: string;
   href: string;
   icon?: ReactNode;
+  children?: MenuItem[];
 };
 const roleMenus: Record<string, MenuItem[]> = {
   Dashboard: [
@@ -221,6 +222,43 @@ const roleMenus: Record<string, MenuItem[]> = {
           <path d="M4 10h16" />
         </svg>
       ),
+      children: [
+        {
+          label: "Daftar Libur",
+          href: "/dashboard/hr/libur-cuti/daftar-libur",
+          icon: (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-4 w-4"
+            >
+              <rect x="4" y="5" width="16" height="15" rx="2" />
+              <path d="M8 3v4M16 3v4" />
+              <path d="M4 10h16" />
+              <path d="M9 14h6" />
+            </svg>
+          ),
+        },
+        {
+          label: "Daftar Cuti",
+          href: "/dashboard/hr/libur-cuti/daftar-cuti",
+          icon: (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-4 w-4"
+            >
+              <path d="M7 4h10v4H7z" />
+              <path d="M5 8h14v12H5z" />
+              <path d="M9 14h6" />
+            </svg>
+          ),
+        },
+      ],
     },
     {
       label: "Pengajuan Cuti",
@@ -294,12 +332,92 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
   ],
   Karyawan: [
-    { label: "Ringkasan", href: "/dashboard/employee#ringkasan" },
-    { label: "Sorotan", href: "/dashboard/employee#sorotan" },
-    { label: "Absensi", href: "/dashboard/employee#absensi" },
-    { label: "Performa", href: "/dashboard/employee#performa" },
-    { label: "Status tim", href: "/dashboard/employee#status" },
-    { label: "Daftar karyawan", href: "/dashboard/employee#daftar-karyawan" },
+    {
+      label: "Beranda",
+      href: "/dashboard/employee#ringkasan",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M3 12l9-9 9 9" />
+          <path d="M9 21V9h6v12" />
+        </svg>
+      ),
+    },
+    {
+      label: "Pengajuan Cuti",
+      href: "/dashboard/employee/pengajuan-cuti",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M7 4h10v4H7z" />
+          <path d="M5 8h14v12H5z" />
+          <path d="M9 14h6" />
+          <path d="M9 17h4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Performa",
+      href: "/dashboard/employee#performa",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M4 19h16" />
+          <path d="M7 16V9" />
+          <path d="M12 16V6" />
+          <path d="M17 16v-4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Tim",
+      href: "/dashboard/employee/tim",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="9" cy="7" r="3" />
+          <circle cx="17" cy="9" r="2" />
+          <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+          <path d="M14 20c0-2.2 1.8-4 4-4" />
+        </svg>
+      ),
+    },
+    {
+      label: "Akun",
+      href: "/dashboard/employee#akun",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+        </svg>
+      ),
+    },
   ],
 };
 
@@ -314,14 +432,38 @@ export function DashboardShell({
 }) {
   const pathname = usePathname();
   const menuItems = roleMenus[active] ?? roleMenus.Dashboard;
+  const flattenMenuItems = (items: MenuItem[]) => {
+    const flattened: MenuItem[] = [];
+    items.forEach((item) => {
+      flattened.push(item);
+      item.children?.forEach((child) => flattened.push(child));
+    });
+    return flattened;
+  };
   const [role, setRole] = useState("guest");
   const [activeHref, setActiveHref] = useState(() => {
-    const matchByPath = menuItems.find((item) => {
+    const allItems = flattenMenuItems(menuItems);
+    const matchByPath = allItems.find((item) => {
       const [itemPath] = item.href.split("#");
       return itemPath === pathname;
     });
     return matchByPath?.href ?? menuItems[0]?.href ?? "";
   });
+  const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>(
+    () => {
+      const initial: Record<string, boolean> = {};
+      menuItems.forEach((item) => {
+        if (
+          item.children?.some(
+            (child) => child.href.split("#")[0] === pathname
+          )
+        ) {
+          initial[item.label] = true;
+        }
+      });
+      return initial;
+    }
+  );
 
   useEffect(() => {
     setRole(localStorage.getItem("absensiRole") ?? "guest");
@@ -330,7 +472,8 @@ export function DashboardShell({
   useEffect(() => {
     const resolveActive = () => {
       const hash = typeof window !== "undefined" ? window.location.hash : "";
-      const matchByHash = menuItems.find((item) => {
+      const allItems = flattenMenuItems(menuItems);
+      const matchByHash = allItems.find((item) => {
         const [itemPath, itemHash] = item.href.split("#");
         if (!itemHash || !hash) {
           return false;
@@ -343,7 +486,7 @@ export function DashboardShell({
         return;
       }
 
-      const matchByPath = menuItems.find((item) => {
+      const matchByPath = allItems.find((item) => {
         const [itemPath] = item.href.split("#");
         return itemPath === pathname;
       });
@@ -356,6 +499,26 @@ export function DashboardShell({
       window.addEventListener("hashchange", resolveActive);
       return () => window.removeEventListener("hashchange", resolveActive);
     }
+  }, [menuItems, pathname]);
+
+  useEffect(() => {
+    setExpandedMenus((prev) => {
+      const next = { ...prev };
+      let changed = false;
+      menuItems.forEach((item) => {
+        if (
+          item.children?.some(
+            (child) => child.href.split("#")[0] === pathname
+          )
+        ) {
+          if (!next[item.label]) {
+            next[item.label] = true;
+            changed = true;
+          }
+        }
+      });
+      return changed ? next : prev;
+    });
   }, [menuItems, pathname]);
 
   const isOwner = role === "owner";
@@ -381,26 +544,98 @@ export function DashboardShell({
             {isOwner ? "Owner Menu" : `${active} Menu`}
           </div>
           <nav className="flex flex-col gap-1 px-4">
-            {menuItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
-                  activeHref === item.href
-                    ? "bg-blue-50 text-blue-600 shadow-sm"
-                    : "text-slate-600 hover:bg-slate-50"
-                }`}
-              >
-                <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-current shadow-sm">
-                  {item.icon ? (
-                    item.icon
-                  ) : (
-                    <span className="h-2 w-2 rounded-full bg-current" />
-                  )}
-                </span>
-                <span className="flex-1">{item.label}</span>
-              </Link>
-            ))}
+            {menuItems.map((item) => {
+              const hasChildren = Boolean(item.children?.length);
+              const childActive = item.children?.some(
+                (child) => child.href === activeHref
+              );
+              const isActive = activeHref === item.href || childActive;
+              const isExpanded =
+                hasChildren && (expandedMenus[item.label] || childActive);
+              const itemClasses = `flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
+                isActive
+                  ? "bg-blue-50 text-blue-600 shadow-sm"
+                  : "text-slate-600 hover:bg-slate-50"
+              }`;
+
+              if (!hasChildren) {
+                return (
+                  <Link key={item.label} href={item.href} className={itemClasses}>
+                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-current shadow-sm">
+                      {item.icon ? (
+                        item.icon
+                      ) : (
+                        <span className="h-2 w-2 rounded-full bg-current" />
+                      )}
+                    </span>
+                    <span className="flex-1">{item.label}</span>
+                  </Link>
+                );
+              }
+
+              return (
+                <div key={item.label} className="flex flex-col gap-1">
+                  <button
+                    type="button"
+                    className={itemClasses}
+                    onClick={() =>
+                      setExpandedMenus((prev) => ({
+                        ...prev,
+                        [item.label]: !prev[item.label],
+                      }))
+                    }
+                    aria-expanded={isExpanded}
+                  >
+                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-current shadow-sm">
+                      {item.icon ? (
+                        item.icon
+                      ) : (
+                        <span className="h-2 w-2 rounded-full bg-current" />
+                      )}
+                    </span>
+                    <span className="flex-1 text-left">{item.label}</span>
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className={`h-4 w-4 transition ${
+                        isExpanded ? "rotate-180" : ""
+                      }`}
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
+                  {isExpanded ? (
+                    <div className="flex flex-col gap-1">
+                      {item.children?.map((child) => {
+                        const childIsActive = activeHref === child.href;
+                        return (
+                          <Link
+                            key={child.label}
+                            href={child.href}
+                            className={`flex items-center gap-3 rounded-lg py-2 pl-12 pr-3 text-sm font-medium ${
+                              childIsActive
+                                ? "bg-blue-50 text-blue-600 shadow-sm"
+                                : "text-slate-600 hover:bg-slate-50"
+                            }`}
+                          >
+                            <span className="grid h-7 w-7 place-items-center rounded-md bg-white text-current shadow-sm">
+                              {child.icon ? (
+                                child.icon
+                              ) : (
+                                <span className="h-1.5 w-1.5 rounded-full bg-current" />
+                              )}
+                            </span>
+                            <span className="flex-1">{child.label}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
           </nav>
         </aside>
 

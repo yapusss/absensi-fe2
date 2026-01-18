@@ -1,12 +1,12 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 
-const shiftRows = [
+const holidayRows = [
+  { no: 1, nama: "Anniversary", tanggal: "12/12/2025", status: "Aktif" },
   {
-    no: 1,
-    nama: "Shift 1",
-    jamKerja: "08.00-16.00",
-    jamIstirahat: "12.00-13.00",
+    no: 2,
+    nama: "Jeda Akhir Tahun",
+    tanggal: "30/12/2025 - 31/12/2025",
     status: "Aktif",
   },
 ];
@@ -14,31 +14,28 @@ const shiftRows = [
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
-export default function HrJadwalPage() {
+export default function HrDaftarLiburPage() {
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout
-        title="Jadwal Kerja"
-        breadcrumb="Beranda/Jadwal"
-        searchPlaceholder="Cari shift"
-        actionClassName="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        title="Daftar Libur"
+        breadcrumb="Beranda/Libur & Cuti/Daftar Libur"
+        searchPlaceholder="Cari hari libur"
         action={
-          <>
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
-            >
-              Tambah Shift
-            </button>
-          </>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+          >
+            Tambah Libur
+          </button>
         }
       >
-        <article className={cardBase}>
+        <section className={cardBase}>
           <div className="overflow-x-auto">
             <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                 <tr>
-                  {"No., Nama Shift, Jam Kerja, Jam Istirahat, Status, Aksi"
+                  {"No., Nama Libur, Tanggal, Status, Aksi"
                     .split(",")
                     .map((label) => (
                       <th
@@ -51,27 +48,38 @@ export default function HrJadwalPage() {
                 </tr>
               </thead>
               <tbody>
-                {shiftRows.map((row) => (
+                {holidayRows.map((row) => (
                   <tr key={row.no} className="odd:bg-slate-50">
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
                       {row.no}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
+                    <td className="border-b border-r border-slate-200 px-3 py-3 text-slate-700 last:border-r-0">
                       {row.nama}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
-                      {row.jamKerja}
+                      {row.tanggal}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
-                      {row.jamIstirahat}
-                    </td>
-                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
-                      <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
-                        {row.status}
-                      </span>
+                      {row.status}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
+                          aria-label={`Lihat ${row.nama}`}
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </button>
                         <button
                           type="button"
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
@@ -112,7 +120,7 @@ export default function HrJadwalPage() {
               </tbody>
             </table>
           </div>
-        </article>
+        </section>
       </OwnerSectionLayout>
     </DashboardShell>
   );

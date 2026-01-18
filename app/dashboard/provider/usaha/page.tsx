@@ -1,5 +1,5 @@
-﻿import { DashboardShell } from "@/app/components/DashboardShell";
-import { DonutChart } from "@/app/components/charts/DonutChart";
+import { DashboardShell } from "@/app/components/DashboardShell";
+import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 
 const businessRows = [
   {
@@ -31,23 +31,6 @@ const businessRows = [
   },
 ];
 
-const contractLabels = ["Berlangsung", "Hampir selesai", "Selesai"];
-const contractSummary = {
-  labels: contractLabels,
-  values: contractLabels.map(
-    (label) => businessRows.filter((row) => row.status === label).length
-  ),
-  colors: ["#22c55e", "#facc15", "#fb7185"],
-};
-
-const revenueSummary = {
-  labels: businessRows.map((row) => row.usaha),
-  values: businessRows.map((row) =>
-    Number((row.nilai / 1000000).toFixed(1))
-  ),
-  colors: ["#22c55e", "#facc15", "#fb7185"],
-};
-
 const formatRupiah = (value: number) =>
   `Rp${value.toLocaleString("id-ID")}`;
 
@@ -57,82 +40,19 @@ const cardBase =
 export default function ProviderUsahaPage() {
   return (
     <DashboardShell active="Penyedia">
-      <div className="space-y-8">
-        <header className="space-y-2">
-          <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
-            Daftar Usaha
-          </span>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold text-slate-900">
-                Daftar usaha pelanggan
-              </h1>
-              <p className="text-xs text-slate-400">Beranda/Daftar Usaha</p>
-            </div>
-            <button className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700">
+      <OwnerSectionLayout
+        title="Daftar usaha pelanggan"
+        breadcrumb="Beranda/Daftar Usaha"
+        searchPlaceholder="Cari usaha atau pemilik"
+        actionClassName="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        action={
+          <>
+            <button className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
               Tambah Usaha
             </button>
-          </div>
-        </header>
-
-        <section className="grid gap-4 lg:grid-cols-2">
-          <article className={cardBase}>
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-semibold text-slate-900">
-                Jumlah Kontrak
-              </h2>
-            </div>
-            <div className="mt-4 flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
-              <div className="h-36 w-36 sm:h-40 sm:w-40">
-                <DonutChart
-                  labels={contractSummary.labels}
-                  values={contractSummary.values}
-                  colors={contractSummary.colors}
-                />
-              </div>
-              <div className="space-y-2 text-xs text-slate-500">
-                {contractSummary.labels.map((label, index) => (
-                  <div key={label} className="flex items-center gap-3">
-                    <span
-                      className="h-4 w-4 rounded-sm"
-                      style={{ backgroundColor: contractSummary.colors[index] }}
-                    />
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </article>
-
-          <article className={cardBase}>
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-semibold text-slate-900">
-                Pendapatan
-              </h2>
-            </div>
-            <div className="mt-4 flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
-              <div className="h-36 w-36 sm:h-40 sm:w-40">
-                <DonutChart
-                  labels={revenueSummary.labels}
-                  values={revenueSummary.values}
-                  colors={revenueSummary.colors}
-                />
-              </div>
-              <div className="space-y-2 text-xs text-slate-500">
-                {revenueSummary.labels.map((label, index) => (
-                  <div key={label} className="flex items-center gap-3">
-                    <span
-                      className="h-4 w-4 rounded-sm"
-                      style={{ backgroundColor: revenueSummary.colors[index] }}
-                    />
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </article>
-        </section>
-
+          </>
+        }
+      >
         <section className={cardBase}>
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Daftar</h2>
@@ -217,9 +137,7 @@ export default function ProviderUsahaPage() {
             </table>
           </div>
         </section>
-      </div>
+      </OwnerSectionLayout>
     </DashboardShell>
   );
 }
-
-

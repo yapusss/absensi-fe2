@@ -1,9 +1,9 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 
-export default function HrPengajuanCutiPage() {
+export default function EmployeePengajuanCutiPage() {
   return (
-    <DashboardShell active="HR">
+    <DashboardShell active="Karyawan">
       <OwnerSectionLayout
         title="Pengajuan Cuti"
         breadcrumb="Beranda/Pengajuan Cuti"
