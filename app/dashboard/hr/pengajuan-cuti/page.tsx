@@ -1,25 +1,19 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
+import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 
 export default function HrPengajuanCutiPage() {
   return (
     <DashboardShell active="HR">
-      <div className="space-y-6">
-        <header className="space-y-2">
-          <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">
-            Human Resource
-          </span>
-          <h1 className="text-2xl font-semibold text-slate-900">
-            Pengajuan Cuti
-          </h1>
-          <p className="max-w-2xl text-sm text-slate-500">
-            Halaman ini masih kosong dan siap diisi.
-          </p>
-        </header>
-
+      <OwnerSectionLayout
+        title="Pengajuan Cuti"
+        breadcrumb="Beranda/Pengajuan Cuti"
+        searchPlaceholder="Cari pengajuan cuti"
+        actionClassName="flex justify-start"
+      >
         <section className="rounded-xl border border-dashed border-slate-200 bg-white p-6 text-sm text-slate-500">
           Konten Pengajuan Cuti akan ditambahkan di sini.
         </section>
-      </div>
+      </OwnerSectionLayout>
     </DashboardShell>
   );
 }

@@ -35,9 +35,7 @@ export default function EmployeeLeavePage() {
             </h1>
             <p className="text-xs text-slate-400">Beranda/Pengajuan Cuti</p>
           </div>
-          <div className="flex items-center gap-2">
-
-          </div>
+          <div className="flex items-center gap-2"></div>
         </header>
 
         <article className={cardBase}>

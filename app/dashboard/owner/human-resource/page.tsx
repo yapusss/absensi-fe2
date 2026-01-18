@@ -1,4 +1,8 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
+import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 
 const hrRows = [
   { no: 1, nama: "Haoris Nur", email: "haoris@gmail.com", status: "Aktif" },
@@ -20,25 +24,39 @@ const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function OwnerHumanResourcePage() {
+  const [query, setQuery] = useState("");
+
+  const filteredRows = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return hrRows;
+    return hrRows.filter(
+      (row) =>
+        row.nama.toLowerCase().includes(normalized) ||
+        row.email.toLowerCase().includes(normalized) ||
+        row.status.toLowerCase().includes(normalized)
+    );
+  }, [query]);
+
   return (
     <DashboardShell active="Owner" ownerSubActive="Human Resource">
-      <div className="space-y-6">
-        <header className="space-y-2">
-          <h1 className="text-2xl font-semibold text-slate-900">
-            Human Resource
-          </h1>
-          <p className="text-xs text-slate-400">Beranda/Human Resource</p>
-        </header>
-
-        <div className="flex justify-end">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
-          >
-            Tambah HR
-          </button>
-        </div>
-
+      <OwnerSectionLayout
+        title="Human Resource"
+        breadcrumb="Beranda/Human Resource"
+        searchPlaceholder="Cari nama atau email"
+        searchValue={query}
+        onSearchChange={setQuery}
+        actionClassName="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        action={
+          <>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+            >
+              Tambah HR
+            </button>
+          </>
+        }
+      >
         <article className={cardBase}>
           <div className="overflow-x-auto">
             <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
@@ -55,7 +73,7 @@ export default function OwnerHumanResourcePage() {
                 </tr>
               </thead>
               <tbody>
-                {hrRows.map((row) => (
+                {filteredRows.map((row) => (
                   <tr key={row.no} className="odd:bg-slate-50">
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
                       {row.no}
@@ -116,11 +134,21 @@ export default function OwnerHumanResourcePage() {
                     </td>
                   </tr>
                 ))}
+                {filteredRows.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="border-b border-slate-200 px-3 py-8 text-center text-sm text-slate-500"
+                    >
+                      Tidak ada data yang cocok.
+                    </td>
+                  </tr>
+                ) : null}
               </tbody>
             </table>
           </div>
         </article>
-      </div>
+      </OwnerSectionLayout>
     </DashboardShell>
   );
 }

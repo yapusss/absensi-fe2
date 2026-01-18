@@ -1,6 +1,7 @@
 "use client";
 
 import { DashboardShell } from "@/app/components/DashboardShell";
+import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 
 const ownerRows = [
   {
@@ -32,16 +33,12 @@ const cardBase =
 export default function ProviderPemilikUsahaPage() {
   return (
     <DashboardShell active="Penyedia">
-      <div className="space-y-6">
-        <header className="flex flex-col gap-3">
-          <div>
-            <h1 className="text-2xl font-semibold text-slate-900">
-              Pemilik Usaha
-            </h1>
-            <p className="text-xs text-slate-400">Beranda/Pemilik Usaha</p>
-          </div>
-        </header>
-
+      <OwnerSectionLayout
+        title="Pemilik Usaha"
+        breadcrumb="Beranda/Pemilik Usaha"
+        searchPlaceholder="Cari pemilik atau email"
+        actionClassName="flex justify-start"
+      >
         <article className={cardBase}>
           <div className="overflow-x-auto">
             <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
@@ -122,7 +119,7 @@ export default function ProviderPemilikUsahaPage() {
             </table>
           </div>
         </article>
-      </div>
+      </OwnerSectionLayout>
     </DashboardShell>
   );
 }
