@@ -5,6 +5,7 @@ import { DashboardShell } from "@/app/components/DashboardShell";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
+import { Pagination } from "@/app/components/Pagination";
 import { OwnerSubnav } from "./OwnerSubnav";
 
 const totals = [
@@ -593,6 +594,12 @@ export default function OwnerDashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              className="mt-4"
+              page={1}
+              totalPages={1}
+              summaryText={`Menampilkan ${sortedCheckTimes.length} data`}
+            />
           </article>
           </div>
 

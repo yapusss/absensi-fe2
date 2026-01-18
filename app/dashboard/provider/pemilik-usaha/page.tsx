@@ -3,6 +3,7 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Pagination } from "@/app/components/Pagination";
 
 const ownerRows = [
   {
@@ -41,6 +42,7 @@ export default function ProviderPemilikUsahaPage() {
         title="Pemilik Usaha"
         breadcrumb="Beranda/Pemilik Usaha"
       >
+        
         <article className={cardBase}>
           <TableToolbar
             primaryActions={
@@ -159,6 +161,12 @@ export default function ProviderPemilikUsahaPage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${ownerRows.length} data`}
+            className="mt-4"
+          />
         </article>
       </OwnerSectionLayout>
     </DashboardShell>

@@ -1,6 +1,7 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Pagination } from "@/app/components/Pagination";
 
 const holidayRows = [
   {
@@ -148,6 +149,12 @@ export default function HrDaftarLiburPage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${holidayRows.length} data`}
+            className="mt-4"
+          />
         </section>
       </OwnerSectionLayout>
     </DashboardShell>

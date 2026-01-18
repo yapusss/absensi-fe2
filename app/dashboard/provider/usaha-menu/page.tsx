@@ -8,7 +8,9 @@ export default function ProviderUsahaMenuPage() {
         <section className="rounded-xl border border-dashed border-slate-200 bg-white p-6 text-sm text-slate-500">
           Konten Usaha akan ditambahkan di sini.
         </section>
+        
       </OwnerSectionLayout>
+      
     </DashboardShell>
   );
 }

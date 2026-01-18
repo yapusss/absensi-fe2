@@ -1,4 +1,5 @@
 import { DashboardShell } from "@/app/components/DashboardShell";
+import { Pagination } from "@/app/components/Pagination";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 
 const cardBase =
@@ -126,6 +127,12 @@ export default function EmployeeLeavePage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            className="mt-4"
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${leaveRows.length} data`}
+          />
         </article>
       </div>
     </DashboardShell>

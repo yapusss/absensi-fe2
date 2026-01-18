@@ -1,7 +1,8 @@
 "use client";
+import { DashboardShell } from "@/app/components/DashboardShell";
+import { Pagination } from "@/app/components/Pagination";
 
 import { useMemo, useState } from "react";
-import { DashboardShell } from "@/app/components/DashboardShell";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 
@@ -322,6 +323,12 @@ export default function OwnerPerformaPage() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={1}
+            totalPages={1}
+            summaryText={`Menampilkan ${performanceRows.length} data`}
+            className="mt-4"
+          />
         </article>
       </div>
     </DashboardShell>

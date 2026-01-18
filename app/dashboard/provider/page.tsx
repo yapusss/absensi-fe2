@@ -2,6 +2,7 @@
 import { LineChart } from "@/app/components/charts/LineChart";
 import { BarChart } from "@/app/components/charts/BarChart";
 import { DonutChart } from "@/app/components/charts/DonutChart";
+import { Pagination } from "@/app/components/Pagination";
 
 const kpis = [
   {
@@ -379,6 +380,12 @@ export default function ProviderDashboard() {
                 </tbody>
               </table>
             </div>
+            <Pagination
+              page={1}
+              totalPages={1}
+              summaryText={`Menampilkan ${subscriptionRows.length} data`}
+              className="mt-4"
+            />
           </article>
 
           <article id="kontributor" className={`${cardBase} lg:col-span-1`}>
