@@ -45,16 +45,16 @@ export default function EmployeeLeavePage() {
             {/* <span className="inline-flex items-center rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-600">
               Sisa Cuti: 20/25
             </span> */}
-                        <button className="rounded-lg bg-blue-500 px-4 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+                        <button className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
               Buat Pengajuan
             </button>
-            <div className="flex flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2">
+            <div className="flex flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white px-0 py-0">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="h-4 w-4 text-slate-400"
+                className="h-4 w-4 text-slate-400 mx-2"
               >
                 <circle cx="11" cy="11" r="7" />
                 <path d="M20 20l-3.5-3.5" />
@@ -62,13 +62,14 @@ export default function EmployeeLeavePage() {
               <input
                 type="text"
                 placeholder="Cari pengajuan..."
-                className="w-full text-sm text-slate-600 outline-none"
+                className="w-full text-sm text-slate-600 outline-none "
               />
-              <button
-                type="button"
-                className="grid h-9 w-9 place-items-center rounded-md bg-blue-500 text-white shadow-sm hover:bg-blue-600"
-                aria-label="Cari"
-              >
+             <button
+  type="button"
+  className="grid h-9 w-9 place-items-center rounded-tr-md rounded-br-md bg-blue-500 text-white shadow-sm hover:bg-blue-600"
+  aria-label="Cari"
+>
+
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
