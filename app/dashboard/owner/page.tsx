@@ -5,6 +5,7 @@ import { DashboardShell } from "@/app/components/DashboardShell";
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
+import { OwnerSubnav } from "./OwnerSubnav";
 
 const totals = [
   {
@@ -233,10 +234,7 @@ const checkTimes = [
 ];
 
 const holidayCalendar = { monthLabel: "Maret 2025" };
-const holidayDays = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26, 27, 28, 29, 30, 31,
-];
+const holidayDays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
 const holidayMap = new Map([[1, "Hari Kemerdekaan"]]);
 
 const statusList = [
@@ -326,8 +324,13 @@ export default function OwnerDashboard() {
           </p>
         </header>
 
+
+
         <section className="grid gap-4 lg:grid-cols-[1fr_2fr]">
-          <article className={`${cardBase} border-orange-100 bg-orange-50/40`}>
+          
+<article
+            className={`${cardBase} border-orange-100 bg-orange-50/40`}
+          >
             <div className="text-center">
               <p className="text-xl font-semibold text-black">Absensi</p>
               <p className="mt-1 text-lg font-semibold text-slate-900">
@@ -404,8 +407,9 @@ export default function OwnerDashboard() {
                     <path d="M4 7h4l2-2h4l2 2h4v12H4z" />
                     <circle cx="12" cy="13" r="3" />
                   </svg>
-                  Absen
+                  Absen 
                 </button>
+               
               </div>
             </div>
           </article>
@@ -430,15 +434,13 @@ export default function OwnerDashboard() {
                     {item.icon}
                   </span>
                 </div>
-                <p
-                  className={`mt-3 text-xs ${item.metaTone ?? "text-slate-500"}`}
-                >
+                <p className={`mt-3 text-xs ${item.metaTone ?? "text-slate-500"}`}>
                   {item.meta}
                 </p>
               </article>
             ))}
           </div>
-          <AbsensiSummaryCard
+          {/* <AbsensiSummaryCard
             eyebrow="Distribusi kehadiran"
             labels={attendanceBreakdown.labels}
             values={attendanceBreakdown.values}
@@ -446,8 +448,8 @@ export default function OwnerDashboard() {
             badge={attendanceRange}
             badgeClassName={rangeBadgeClass}
             className={cardBase}
-          />
-          <div className="grid gap-4 mt-3">
+          /> */}
+           <div className="grid gap-4 mt-3">
             <article className={cardBase}>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
@@ -495,8 +497,9 @@ export default function OwnerDashboard() {
                 })}
               </div>
             </article>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-[1fr_2fr] mt-3">
+
+            </div>
+            <div className="grid gap-4 lg:grid-cols-[1fr_2fr] mt-3">
             <article className={cardBase}>
               <div className="flex flex-col gap-1">
                 <h2 className="text-lg font-semibold text-slate-900">
@@ -531,69 +534,77 @@ export default function OwnerDashboard() {
                   </div>
                 ))}
               </div>
+          
             </article>
-
-            <article className={cardBase}>
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Jam masuk dan pulang
-                </h2>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className={rangeBadgeClass}>{attendanceRange}</span>
-                  <select
-                    value={sortKey}
-                    onChange={(event) => setSortKey(event.target.value)}
-                    className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
-                  >
-                    <option value="masuk-asc">Masuk tercepat</option>
-                    <option value="masuk-desc">Masuk terlambat</option>
-                    <option value="pulang-asc">Pulang tercepat</option>
-                    <option value="pulang-desc">Pulang terlambat</option>
-                    <option value="tepat-waktu">Tepat waktu dulu</option>
-                    <option value="status">Status A-Z</option>
-                  </select>
-                </div>
+          
+                             <article className={cardBase}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2 className="text-lg font-semibold text-slate-900">
+                Jam masuk dan pulang
+              </h2>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={rangeBadgeClass}>{attendanceRange}</span>
+                <select
+                  value={sortKey}
+                  onChange={(event) => setSortKey(event.target.value)}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
+                >
+                  <option value="masuk-asc">Masuk tercepat</option>
+                  <option value="masuk-desc">Masuk terlambat</option>
+                  <option value="pulang-asc">Pulang tercepat</option>
+                  <option value="pulang-desc">Pulang terlambat</option>
+                  <option value="tepat-waktu">Tepat waktu dulu</option>
+                  <option value="status">Status A-Z</option>
+                </select>
               </div>
-              <div className="mt-4 max-h-44 overflow-auto pr-2">
-                <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
-                  <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
-                    <tr>
-                      {"Karyawan Masuk Pulang Status"
-                        .split(" ")
-                        .map((label) => (
-                          <th
-                            key={label}
-                            className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0"
-                          >
-                            {label}
-                          </th>
-                        ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sortedCheckTimes.map((row) => (
-                      <tr key={row.nama}>
-                        <td className="border-b border-gir border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
-                          {row.nama}
-                        </td>
-                        <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
-                          {row.masuk}
-                        </td>
-                        <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
-                          {row.pulang}
-                        </td>
-                        <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
-                          {row.status}
-                        </td>
-                      </tr>
+            </div>
+            <div className="mt-4 max-h-44 overflow-auto pr-2">
+              <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
+                <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
+                  <tr>
+                    {"Karyawan Masuk Pulang Status".split(" ").map((label) => (
+                      <th
+                        key={label}
+                        className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0"
+                      >
+                        {label}
+                      </th>
                     ))}
-                  </tbody>
-                </table>
-              </div>
-            </article>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedCheckTimes.map((row) => (
+                    <tr key={row.nama}>
+                      <td className="border-b border-gir border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                        {row.nama}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.masuk}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.pulang}
+                      </td>
+                      <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">
+                        {row.status}
+                      </td>
+                       
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </article>
           </div>
+
+
+
+
+
         </section>
-      </div>
+
+             </div>
     </DashboardShell>
   );
 }
+
+

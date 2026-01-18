@@ -834,7 +834,7 @@ export default function HrDashboard() {
           <article className={cardBase}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
-                Outstation
+                Absen luar kota
               </h2>
               <span className="text-xs text-slate-400">Approval</span>
             </div>
@@ -864,24 +864,54 @@ export default function HrDashboard() {
                       <p className="text-xs text-slate-500">{item.tanggal}</p>
                     </div>
                   </div>
-                  <details className="relative">
-                    <summary className="list-none cursor-pointer rounded-full border border-slate-200 bg-white p-2 text-slate-500 hover:text-slate-700 [&::-webkit-details-marker]:hidden">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      className="grid h-9 w-9 place-items-center rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+                      aria-label="Setujui"
+                    >
                       <svg
                         viewBox="0 0 24 24"
-                        fill="currentColor"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
                         className="h-4 w-4"
                       >
-                        <circle cx="12" cy="5" r="1.5" />
-                        <circle cx="12" cy="12" r="1.5" />
-                        <circle cx="12" cy="19" r="1.5" />
+                        <path d="M20 6L9 17l-5-5" />
                       </svg>
-                    </summary>
-                    <div className="absolute right-0 z-10 mt-2 w-32 rounded-lg border border-slate-200 bg-white p-1 text-xs shadow-lg">
-                      <button className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100">
-                        Detail
-                      </button>
-                    </div>
-                  </details>
+                    </button>
+                    <button
+                      type="button"
+                      className="grid h-9 w-9 place-items-center rounded-full border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100"
+                      aria-label="Tolak"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="h-4 w-4"
+                      >
+                        <path d="M6 6l12 12M18 6l-12 12" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-blue-50 text-blue-600 hover:bg-blue-100"
+                      aria-label="Lihat detail"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="h-4 w-4"
+                      >
+                        <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
