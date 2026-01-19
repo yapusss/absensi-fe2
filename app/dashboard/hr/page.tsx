@@ -343,10 +343,10 @@ const holidayCalendar = {
 export default function HrDashboard() {
   const rangeBadgeClass =
     "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700";
-  const [sortKey, setSortKey] = useState("masuk-asc");
+  const [sortKey, setSortKey] = useState("");
   const [absensiSortKey, setAbsensiSortKey] = useState("nama-asc");
   const [performanceRange, setPerformanceRange] = useState("minggu");
-  const [leaveSortKey, setLeaveSortKey] = useState("tanggal-desc");
+  const [leaveSortKey, setLeaveSortKey] = useState("");
 
   const listAbsensi = useMemo(
     () => [
@@ -661,6 +661,9 @@ export default function HrDashboard() {
                   onChange={(event) => setSortKey(event.target.value)}
                   className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
                 >
+                  <option value="" disabled>
+                    Urut berdasarkan
+                  </option>
                   <option value="masuk-asc">Masuk tercepat</option>
                   <option value="masuk-desc">Masuk terlambat</option>
                   <option value="pulang-asc">Pulang tercepat</option>
@@ -810,6 +813,9 @@ export default function HrDashboard() {
                   onChange={(event) => setLeaveSortKey(event.target.value)}
                   className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
                 >
+                  <option value="" disabled>
+                    Urut berdasarkan
+                  </option>
                   <option value="tanggal-desc">Tanggal terbaru</option>
                   <option value="tanggal-asc">Tanggal terlama</option>
                   <option value="nama-asc">Nama A-Z</option>
