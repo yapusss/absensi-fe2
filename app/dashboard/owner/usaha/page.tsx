@@ -216,6 +216,22 @@ export default function ProviderUsahaPage() {
                             <path d="M16.5 3.5l4 4L7 21H3v-4z" />
                           </svg>
                         </button>
+                        <button
+                          type="button"
+                          className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50"
+                          aria-label={`Detail ${row.usaha}`}
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </button>
                         <button className="grid h-8 w-8 place-items-center rounded-full border border-rose-200 text-rose-600 hover:bg-rose-50">
                           <svg
                             viewBox="0 0 24 24"
