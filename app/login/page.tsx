@@ -9,28 +9,28 @@ const demoAccounts = [
     roleKey: "provider",
     email: "provider@demo.com",
     password: "provider123",
-    redirect: "/dashboard/provider",
+    redirect: "/v1/provider",
   },
   {
     role: "Owner",
     roleKey: "owner",
     email: "owner@demo.com",
     password: "owner123",
-    redirect: "/dashboard/owner",
+    redirect: "/v1/owner",
   },
   {
     role: "HR",
     roleKey: "hr",
     email: "hr@demo.com",
     password: "hr123",
-    redirect: "/dashboard/hr",
+    redirect: "/v1/hr",
   },
   {
     role: "Employee",
     roleKey: "employee",
     email: "employee@demo.com",
     password: "employee123",
-    redirect: "/dashboard/employee",
+    redirect: "/v1/employee",
   },
 ];
 

@@ -58,7 +58,7 @@ export default function ProviderUsahaPage() {
   return (
     <DashboardShell active="Owner">
       <OwnerSectionLayout
-        title="Daftar usaha pelanggan"
+        title="Daftar Usaha Saya"
         breadcrumb="Beranda/Daftar Usaha"
       >
         <section className={cardBase}>

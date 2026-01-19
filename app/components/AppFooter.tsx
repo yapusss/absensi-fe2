@@ -15,7 +15,7 @@ export function AppFooter({
 }: AppFooterProps) {
   const pathname = usePathname();
 
-  if (hideOnDashboard && pathname.startsWith("/dashboard")) {
+  if (hideOnDashboard && pathname.startsWith("/v1")) {
     return null;
   }
 

@@ -109,12 +109,12 @@ export default function HrPengajuanCutiPage() {
                         <img
                           src={row.fotoUrl || "/icons/dot-blue.svg"}
                           alt={`Foto ${row.nama}`}
-                          className="h-6 w-6 rounded-full object-cover"
+                          className="h-8 w-8   rounded-full object-cover"
                           loading="lazy"
                         />
-                        <span>{row.nama}</span>
+                        <span><div className="gap-2">{row.nama}<br></br>{row.posisi}</div></span>
                       </div>
-                      <div className="gap-2 ml-8">{row.posisi}</div>
+                      
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.sisaCuti}

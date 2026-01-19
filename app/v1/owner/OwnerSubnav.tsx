@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const subnavItems = [
-  { label: "Dashboard", href: "/dashboard/owner" },
-  { label: "Human Resource", href: "/dashboard/owner/human-resource" },
-  { label: "Performa", href: "/dashboard/owner/performa" },
-  { label: "Akun", href: "/dashboard/owner/akun" },
+  { label: "Dashboard", href: "/v1/owner" },
+  { label: "Human Resource", href: "/v1/owner/human-resource" },
+  { label: "Performa", href: "/v1/owner/performa" },
+  { label: "Akun", href: "/v1/owner/akun" },
 ];
 
 export function OwnerSubnav({ active }: { active: string }) {

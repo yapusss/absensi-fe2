@@ -6,7 +6,7 @@ const roles = [
     title: "Penyedia Platform",
     description:
       "Kelola perusahaan pelanggan, pemilik usaha, dan pantau pertumbuhan revenue langganan.",
-    href: "/dashboard/provider",
+    href: "/v1/provider",
     tone: "bg-blue-50 text-blue-600",
     icon: (
       <svg
@@ -24,7 +24,7 @@ const roles = [
     title: "Owner Usaha",
     description:
       "Pantau kehadiran, performa jam kerja, status karyawan, dan persetujuan cuti.",
-    href: "/dashboard/owner",
+    href: "/v1/owner",
     tone: "bg-emerald-50 text-emerald-600",
     icon: (
       <svg
@@ -43,7 +43,7 @@ const roles = [
     title: "HR",
     description:
       "Atur data karyawan, shift kerja, jadwal libur, dan rekap absensi perusahaan.",
-    href: "/dashboard/hr",
+    href: "/v1/hr",
     tone: "bg-amber-50 text-amber-600",
     icon: (
       <svg
@@ -62,7 +62,7 @@ const roles = [
     title: "Karyawan",
     description:
       "Lihat ringkasan kehadiran, jam kerja, status tim, dan absensi harian.",
-    href: "/dashboard/employee",
+    href: "/v1/employee",
     tone: "bg-sky-50 text-sky-600",
     icon: (
       <svg

@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const roleLinks = [
-  { label: "Penyedia", href: "/dashboard/provider" },
-  { label: "Owner", href: "/dashboard/owner" },
-  { label: "HR", href: "/dashboard/hr" },
-  { label: "Karyawan", href: "/dashboard/employee" },
+  { label: "Penyedia", href: "/v1/provider" },
+  { label: "Owner", href: "/v1/owner" },
+  { label: "HR", href: "/v1/hr" },
+  { label: "Karyawan", href: "/v1/employee" },
 ];
 
 export function TopNav({ active }: { active: string }) {

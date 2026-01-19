@@ -21,7 +21,7 @@ const roleMenus: Record<string, MenuItem[]> = {
   Penyedia: [
     {
       label: "Beranda",
-      href: "/dashboard/provider",
+      href: "/v1/provider",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Usaha",
-      href: "/dashboard/provider/usaha-menu",
+      href: "/v1/provider/usaha-menu",
       autoExpand: false,
       icon: (
         <svg
@@ -56,7 +56,7 @@ const roleMenus: Record<string, MenuItem[]> = {
       children: [
         {
           label: "Daftar Usaha",
-          href: "/dashboard/provider/usaha",
+          href: "/v1/provider/usaha",
           icon: (
             <svg
               viewBox="0 0 24 24"
@@ -74,7 +74,7 @@ const roleMenus: Record<string, MenuItem[]> = {
         },
         {
           label: "Owner Usaha",
-          href: "/dashboard/provider/pemilik-usaha",
+          href: "/v1/provider/pemilik-usaha",
           icon: (
             <svg
               viewBox="0 0 24 24"
@@ -92,7 +92,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Akun",
-      href: "/dashboard/provider/akun",
+      href: "/v1/provider/akun",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -110,7 +110,7 @@ const roleMenus: Record<string, MenuItem[]> = {
   Owner: [
     {
       label: "Beranda",
-      href: "/dashboard/owner",
+      href: "/v1/owner",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -126,7 +126,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Human Resource",
-      href: "/dashboard/owner/human-resource",
+      href: "/v1/owner/human-resource",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -144,7 +144,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Usaha",
-      href: "/dashboard/owner/usaha",
+      href: "/v1/owner/usaha",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -162,7 +162,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Performa",
-      href: "/dashboard/owner/performa",
+      href: "/v1/owner/performa",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -180,7 +180,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Akun",
-      href: "/dashboard/owner/akun",
+      href: "/v1/owner/akun",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -198,7 +198,7 @@ const roleMenus: Record<string, MenuItem[]> = {
   HR: [
     {
       label: "Beranda",
-      href: "/dashboard/hr",
+      href: "/v1/hr",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -214,7 +214,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Jadwal Kerja",
-      href: "/dashboard/hr/jadwal",
+      href: "/v1/hr/jadwal",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -230,7 +230,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Karyawan",
-      href: "/dashboard/hr/karyawan",
+      href: "/v1/hr/karyawan",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -248,7 +248,7 @@ const roleMenus: Record<string, MenuItem[]> = {
       children: [
         {
           label: "Data Karyawan",
-          href: "/dashboard/hr/karyawan/data-karyawan",
+          href: "/v1/hr/karyawan/data-karyawan",
           icon: (
             <svg
               viewBox="0 0 24 24"
@@ -266,7 +266,7 @@ const roleMenus: Record<string, MenuItem[]> = {
         },
         {
           label: "Performa",
-          href: "/dashboard/hr/karyawan /performa",
+          href: "/v1/hr/karyawan/performa",
           icon: (
             <svg
               viewBox="0 0 24 24"
@@ -287,7 +287,7 @@ const roleMenus: Record<string, MenuItem[]> = {
 
     {
       label: "Libur & Cuti",
-      href: "/dashboard/hr/libur-cuti",
+      href: "/v1/hr/libur-cuti",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -304,7 +304,7 @@ const roleMenus: Record<string, MenuItem[]> = {
       children: [
         {
           label: "Daftar Libur",
-          href: "/dashboard/hr/libur-cuti/daftar-libur",
+          href: "/v1/hr/libur-cuti/daftar-libur",
           icon: (
             <svg
               viewBox="0 0 24 24"
@@ -322,7 +322,7 @@ const roleMenus: Record<string, MenuItem[]> = {
         },
         {
           label: "Daftar Cuti",
-          href: "/dashboard/hr/libur-cuti/daftar-cuti",
+          href: "/v1/hr/libur-cuti/daftar-cuti",
           icon: (
             <svg
               viewBox="0 0 24 24"
@@ -339,7 +339,7 @@ const roleMenus: Record<string, MenuItem[]> = {
         },
         {
           label: "Pengajuan Cuti",
-          href: "/dashboard/hr/libur-cuti/pengajuan-cuti",
+          href: "/v1/hr/libur-cuti/pengajuan-cuti",
           icon: (
             <svg
               viewBox="0 0 24 24"
@@ -360,7 +360,7 @@ const roleMenus: Record<string, MenuItem[]> = {
 
     {
       label: "Tim",
-      href: "/dashboard/hr/tim",
+      href: "/v1/hr/tim",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -378,7 +378,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Akun",
-      href: "/dashboard/hr/akun",
+      href: "/v1/hr/akun",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -396,7 +396,7 @@ const roleMenus: Record<string, MenuItem[]> = {
   Karyawan: [
     {
       label: "Beranda",
-      href: "/dashboard/employee#ringkasan",
+      href: "/v1/employee#ringkasan",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -414,7 +414,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Pengajuan cuti",
-      href: "/dashboard/employee/pengajuan-cuti",
+      href: "/v1/employee/pengajuan-cuti",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -431,7 +431,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Performa",
-      href: "/dashboard/employee/performa",
+      href: "/v1/employee/performa",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -449,7 +449,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Tim",
-      href: "/dashboard/employee/tim",
+      href: "/v1/employee/tim",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -467,7 +467,7 @@ const roleMenus: Record<string, MenuItem[]> = {
     },
     {
       label: "Akun",
-      href: "/dashboard/employee/akun",
+      href: "/v1/employee/akun",
       icon: (
         <svg
           viewBox="0 0 24 24"
