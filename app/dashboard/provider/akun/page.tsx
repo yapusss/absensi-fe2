@@ -56,8 +56,8 @@ export default function ProviderAkunPage() {
           </div>
 
           <div className="flex justify-end">
-            <button className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
-              Ubah Data
+            <button className="mr-4 mt-4 rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600">
+              Ubah Password
             </button>
             <button className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
               Ubah Data

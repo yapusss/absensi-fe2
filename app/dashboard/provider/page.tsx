@@ -81,9 +81,24 @@ const kpis = [
 ];
 
 const subscriptionRows = [
-  { usaha: "Gudang Kopi", status: "Aktif", masa: "sisa 21 hari" },
-  { usaha: "Mitra Rasa", status: "Perlu pembaruan", masa: "sisa 3 hari" },
-  { usaha: "Bengkel Satu", status: "Aktif", masa: "sisa 12 hari" },
+  {
+    usaha: "Gudang Kopi",
+    logoUrl: "/dempe.jpg",
+    status: "Aktif",
+    masa: "sisa 21 hari",
+  },
+  {
+    usaha: "Mitra Rasa",
+    logoUrl: "/hamriz.jpg",
+    status: "Perlu pembaruan",
+    masa: "sisa 3 hari",
+  },
+  {
+    usaha: "Bengkel Satu",
+    logoUrl: "/jempi.jpg",
+    status: "Aktif",
+    masa: "sisa 12 hari",
+  },
 ];
 
 const statusTone = (status: string) => {
@@ -361,7 +376,15 @@ export default function ProviderDashboard() {
                   {subscriptionRows.map((row) => (
                     <tr key={row.usaha}>
                       <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
-                        {row.usaha}
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={row.logoUrl || "/icons/dot-blue.svg"}
+                            alt={`Logo ${row.usaha}`}
+                            className="h-6 w-6 rounded-full object-cover"
+                            loading="lazy"
+                          />
+                          <span>{row.usaha}</span>
+                        </div>
                       </td>
 
                       <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-500 last:border-r-0">

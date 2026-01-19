@@ -12,6 +12,9 @@ const businessRows = [
     kontrakMulai: "01/01/2026",
     kontrakSelesai: "01/01/2027",
     nilai: 3000000,
+    sisaWaktu: "11 bulan",
+    jumlahPengguna: 24,
+    masaAktif: "12 bulan",
     status: "Berlangsung",
   },
   {
@@ -22,6 +25,9 @@ const businessRows = [
     kontrakMulai: "01/01/2026",
     kontrakSelesai: "01/02/2026",
     nilai: 3000000,
+    sisaWaktu: "12 hari",
+    jumlahPengguna: 8,
+    masaAktif: "1 bulan",
     status: "Hampir selesai",
   },
   {
@@ -32,11 +38,17 @@ const businessRows = [
     kontrakMulai: "01/01/2026",
     kontrakSelesai: "01/01/2027",
     nilai: 3000000,
+    sisaWaktu: "0",
+    jumlahPengguna: 15,
+    masaAktif: "12 bulan",
     status: "Selesai",
   },
 ];
 
-const formatRupiah = (value: number) => `Rp${value.toLocaleString("id-ID")}`;
+const formatRupiah = (value: number) => ({
+  prefix: "Rp",
+  amount: value.toLocaleString("id-ID"),
+});
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -92,7 +104,20 @@ export default function ProviderUsahaPage() {
                     Pemilik Usaha
                   </th>
                   <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                    Jumlah Pengguna
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Kontrak Langganan
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                    Sisa Waktu Berlangganan
+                  </th>
+                  
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                    Masa Aktif
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
+                    Status
                   </th>
                   <th className="border-b border-r border-slate-200 px-2 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 last:border-r-0">
                     Nilai Kontrak
@@ -123,13 +148,42 @@ export default function ProviderUsahaPage() {
                       {row.owner}
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-center text-slate-500 last:border-r-0">
+                      {row.jumlahPengguna}
+                    </td>
+                    <td className="w-min border-b border-r border-slate-200 px-2 py-3 text-center text-slate-500 last:border-r-0">
                       {row.kontrakMulai} - {row.kontrakSelesai}
                     </td>
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-center text-slate-500 last:border-r-0">
+                      {row.sisaWaktu}
+                    </td>
+                    
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-center text-slate-500 last:border-r-0">
+                      {row.masaAktif}
+                    </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-center text-slate-700 last:border-r-0">
-                      {formatRupiah(row.nilai)}
+                      {row.status}
+                    </td>
+                    <td className="border-b border-r border-slate-200 px-2 py-3 text-slate-700 last:border-r-0">
+                      <div className="flex items-center justify-between tabular-nums">
+                        <span>{formatRupiah(row.nilai).prefix}</span>
+                        <span>{formatRupiah(row.nilai).amount}</span>
+                      </div>
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center gap-2">
+                        <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
+                        
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className="h-4 w-4"
+                        >
+                          <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      </button>
                         <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
                           <svg
                             viewBox="0 0 24 24"
