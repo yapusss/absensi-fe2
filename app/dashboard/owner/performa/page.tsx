@@ -6,71 +6,131 @@ import { useMemo, useState } from "react";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 
-const totalKaryawan = 40;
-const attendanceDaily = Array.from({ length: 31 }, (_, index) => {
-  const day = index + 1;
-  const step = (totalKaryawan - 16) / 30;
-  const base = 16 + step * index;
-  const wobble = Math.sin(index / 2) * 1.4 + Math.cos(index / 3) * 0.8;
-  const tepatWaktu = Math.min(
-    totalKaryawan,
-    Math.max(0, Math.round(base + wobble)),
-  );
-  const terlambat = Math.max(totalKaryawan - tepatWaktu, 0);
-  return { day, tepatWaktu, terlambat };
-});
+const buildAttendanceDaily = (totalKaryawan: number, offset: number) =>
+  Array.from({ length: 31 }, (_, index) => {
+    const day = index + 1;
+    const step = (totalKaryawan - 16) / 30;
+    const base = 16 + step * index;
+    const wobble =
+      Math.sin((index + offset) / 2) * 1.4 +
+      Math.cos((index + offset) / 3) * 0.8;
+    const tepatWaktu = Math.min(
+      totalKaryawan,
+      Math.max(0, Math.round(base + wobble)),
+    );
+    const terlambat = Math.max(totalKaryawan - tepatWaktu, 0);
+    return { day, tepatWaktu, terlambat };
+  });
 
-const attendanceLabels = attendanceDaily.map((item) => item.day.toString());
-const attendanceSeries = [
+const businessData = [
   {
-    label: "Tepat Waktu",
-    values: attendanceDaily.map((item) => item.tepatWaktu),
-    color: "#60a5fa",
+    id: "lobseter",
+    label: "Lobseter",
+    totalKaryawan: 40,
+    attendanceDaily: buildAttendanceDaily(40, 0),
+    performanceRows: [
+      {
+        no: 1,
+        nama: "Haoris Nur",
+        fotoUrl: "/dempe.jpg",
+        totalJam: 68,
+        totalTepatWaktu: 22,
+        totalTerlambat: 7,
+        totalAbsen: 7,
+      },
+      {
+        no: 2,
+        nama: "Drupadi Ginaris",
+        fotoUrl: "/hamriz.jpg",
+        totalJam: 63,
+        totalTepatWaktu: 18,
+        totalTerlambat: 13,
+        totalAbsen: 2,
+      },
+      {
+        no: 3,
+        nama: "Timotius Victory",
+        fotoUrl: "/jempi.jpg",
+        totalJam: 70,
+        totalTepatWaktu: 26,
+        totalTerlambat: 5,
+        totalAbsen: 5,
+      },
+    ],
   },
   {
-    label: "Terlambat",
-    values: attendanceDaily.map((item) => item.terlambat),
-    color: "#fb7185",
+    id: "ayam-aharis",
+    label: "Ayam Aharis",
+    totalKaryawan: 28,
+    attendanceDaily: buildAttendanceDaily(28, 3),
+    performanceRows: [
+      {
+        no: 1,
+        nama: "Haris N",
+        fotoUrl: "/dempe.jpg",
+        totalJam: 60,
+        totalTepatWaktu: 19,
+        totalTerlambat: 6,
+        totalAbsen: 4,
+      },
+      {
+        no: 2,
+        nama: "Lutfi A",
+        fotoUrl: "/hamriz.jpg",
+        totalJam: 55,
+        totalTepatWaktu: 16,
+        totalTerlambat: 9,
+        totalAbsen: 3,
+      },
+      {
+        no: 3,
+        nama: "Nina R",
+        fotoUrl: "/jempi.jpg",
+        totalJam: 64,
+        totalTepatWaktu: 21,
+        totalTerlambat: 5,
+        totalAbsen: 2,
+      },
+    ],
+  },
+  {
+    id: "laundry-dru",
+    label: "Laundry Dru",
+    totalKaryawan: 22,
+    attendanceDaily: buildAttendanceDaily(22, 6),
+    performanceRows: [
+      {
+        no: 1,
+        nama: "Dru P",
+        fotoUrl: "/dempe.jpg",
+        totalJam: 58,
+        totalTepatWaktu: 20,
+        totalTerlambat: 4,
+        totalAbsen: 3,
+      },
+      {
+        no: 2,
+        nama: "Salsa Q",
+        fotoUrl: "/hamriz.jpg",
+        totalJam: 52,
+        totalTepatWaktu: 15,
+        totalTerlambat: 7,
+        totalAbsen: 5,
+      },
+      {
+        no: 3,
+        nama: "Roni V",
+        fotoUrl: "/jempi.jpg",
+        totalJam: 61,
+        totalTepatWaktu: 18,
+        totalTerlambat: 6,
+        totalAbsen: 4,
+      },
+    ],
   },
 ];
 
-const attendanceLineSeries = attendanceSeries.map((item) => ({
-  label: item.label,
-  values: item.values,
-  stroke: item.color,
-}));
-
-const performanceRows = [
-  {
-    no: 1,
-    nama: "Haoris Nur",
-    fotoUrl: "/dempe.jpg",
-    totalJam: 68,
-    totalTepatWaktu: 22,
-    totalTerlambat: 7,
-    totalAbsen: 7,
-  },
-  {
-    no: 2,
-    nama: "Drupadi Ginaris",
-    fotoUrl: "/hamriz.jpg",
-    totalJam: 63,
-    totalTepatWaktu: 18,
-    totalTerlambat: 13,
-    totalAbsen: 2,
-  },
-  {
-    no: 3,
-    nama: "Timotius Victory",
-    fotoUrl: "/jempi.jpg",
-    totalJam: 70,
-    totalTepatWaktu: 26,
-    totalTerlambat: 5,
-    totalAbsen: 5,
-  },
-];
-
-type PerformanceRow = (typeof performanceRows)[number];
+type PerformanceRow = (typeof businessData)[number]["performanceRows"][number];
 type HighlightMetricKey = "totalTerlambat" | "totalAbsen" | "totalTepatWaktu";
 
 const highlightCriteria = [
@@ -99,6 +159,13 @@ const cardBase =
 
 export default function OwnerPerformaPage() {
   const [sortBy, setSortBy] = useState(highlightCriteria[0].id);
+  const [selectedBusinessId, setSelectedBusinessId] = useState(
+    businessData[0].id,
+  );
+
+  const activeBusiness =
+    businessData.find((business) => business.id === selectedBusinessId) ??
+    businessData[0];
 
   const activeCriteria =
     highlightCriteria.find((item) => item.id === sortBy) ??
@@ -106,10 +173,39 @@ export default function OwnerPerformaPage() {
 
   const sortedHighlights = useMemo(() => {
     const metricKey = activeCriteria.metricKey;
-    return [...performanceRows].sort(
+    return [...activeBusiness.performanceRows].sort(
       (a: PerformanceRow, b: PerformanceRow) => b[metricKey] - a[metricKey],
     );
-  }, [activeCriteria]);
+  }, [activeBusiness, activeCriteria]);
+
+  const attendanceLabels = useMemo(
+    () => activeBusiness.attendanceDaily.map((item) => item.day.toString()),
+    [activeBusiness],
+  );
+  const attendanceSeries = useMemo(
+    () => [
+      {
+        label: "Tepat Waktu",
+        values: activeBusiness.attendanceDaily.map((item) => item.tepatWaktu),
+        color: "#60a5fa",
+      },
+      {
+        label: "Terlambat",
+        values: activeBusiness.attendanceDaily.map((item) => item.terlambat),
+        color: "#fb7185",
+      },
+    ],
+    [activeBusiness],
+  );
+  const attendanceLineSeries = useMemo(
+    () =>
+      attendanceSeries.map((item) => ({
+        label: item.label,
+        values: item.values,
+        stroke: item.color,
+      })),
+    [attendanceSeries],
+  );
 
   return (
     <DashboardShell active="Owner" ownerSubActive="Performa">
@@ -120,6 +216,34 @@ export default function OwnerPerformaPage() {
           </h1>
           <p className="text-xs text-slate-400">Beranda/Performa</p>
         </header>
+
+        <section className={cardBase}>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-2">
+              <p className="text-base font-semibold text-slate-900">
+                Hai kamu sedang berada di halaman performa usaha "
+                {activeBusiness.label}"
+              </p>
+              <p className="text-sm text-slate-500">
+                Apabila ingin melihat perusahaan anda yang lain, tekan tombol di
+                samping dan pilih usaha anda
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <select
+                value={selectedBusinessId}
+                onChange={(event) => setSelectedBusinessId(event.target.value)}
+                className="w-full rounded-full border border-slate-200 bg-white px-4 py-2 pr-10 text-sm font-semibold text-slate-600 sm:w-auto"
+              >
+                {businessData.map((business) => (
+                  <option key={business.id} value={business.id}>
+                    {business.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </section>
 
         <div className="grid gap-4 lg:grid-cols-4">
           <article className={`${cardBase} lg:col-span-3`}>
@@ -271,7 +395,7 @@ export default function OwnerPerformaPage() {
                 </tr>
               </thead>
               <tbody>
-                {performanceRows.map((row) => (
+                {activeBusiness.performanceRows.map((row) => (
                   <tr key={row.no} className="odd:bg-slate-50">
                     <td className="w-10 border-b border-r border-slate-200 px-3 py-3 text-center text-slate-700 last:border-r-0">
                       {row.no}
@@ -322,7 +446,7 @@ export default function OwnerPerformaPage() {
           <Pagination
             page={1}
             totalPages={1}
-            summaryText={`Menampilkan ${performanceRows.length} data`}
+            summaryText={`Menampilkan ${activeBusiness.performanceRows.length} data`}
             className="mt-4"
           />
         </article>

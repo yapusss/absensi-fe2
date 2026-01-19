@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\dashboard",
+    "\\app\\dashboard\\hr",
+    "\\app\\dashboard\\hr\\libur-cuti",
+    "\\app\\dashboard\\hr\\libur-cuti\\daftar-cuti",
+    "\\app\\dashboard\\hr\\libur-cuti\\daftar-libur",
+    "\\app\\dashboard\\hr\\pengajuan-cuti",
+    "\\app\\dashboard\\hr\\performa",
+    "\\app\\dashboard\\owner"
+  ],
+  "PreviewInSolutionExplorer": false
+}
