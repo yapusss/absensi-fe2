@@ -52,23 +52,38 @@ export default function ProviderPemilikUsahaPage() {
             }
             searchPlaceholder="Cari Pemilik Usaha..."
             rightActions={
-              <button
-                type="button"
-                className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-100"
-                aria-label="Urutkan"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="h-4 w-4"
+              <details className="relative z-20">
+                <summary
+                  className="grid h-10 w-10 cursor-pointer place-items-center rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-100 [&::-webkit-details-marker]:hidden"
+                  aria-label="Urutkan"
                 >
-                  <path d="M4 7h16" />
-                  <path d="M6 12h12" />
-                  <path d="M10 17h8" />
-                </svg>
-              </button>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="h-4 w-4"
+                  >
+                    <path d="M4 7h16" />
+                    <path d="M6 12h12" />
+                    <path d="M10 17h8" />
+                  </svg>
+                </summary>
+                <div className="absolute right-0 z-20 mt-2 w-48 rounded-lg border border-slate-200 bg-white p-2 text-xs shadow-lg">
+                  <p className="px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                    Urut berdasarkan
+                  </p>
+                  {["Nama A-Z", "Nama Z-A", "Email", "Status"].map((label) => (
+                    <button
+                      key={label}
+                      type="button"
+                      className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100"
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </details>
             }
           />
           <div className="overflow-x-auto">
@@ -135,6 +150,22 @@ export default function ProviderPemilikUsahaPage() {
                           >
                             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
                             <path d="M14.06 4.94l3.75 3.75" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
+                          aria-label={`Detail ${row.nama}`}
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                            <circle cx="12" cy="12" r="3" />
                           </svg>
                         </button>
                         <button

@@ -263,7 +263,7 @@ const cardSoft =
 export default function OwnerDashboard() {
   const rangeBadgeClass =
     "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700";
-  const [sortKey, setSortKey] = useState("masuk-asc");
+  const [sortKey, setSortKey] = useState("");
   const [performanceRange, setPerformanceRange] = useState("minggu");
 
   const performanceSeries = useMemo(() => {
@@ -578,6 +578,9 @@ export default function OwnerDashboard() {
                   onChange={(event) => setSortKey(event.target.value)}
                   className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
                 >
+                  <option value="" disabled>
+                    Urut berdasarkan
+                  </option>
                   <option value="masuk-asc">Masuk tercepat</option>
                   <option value="masuk-desc">Masuk terlambat</option>
                   <option value="pulang-asc">Pulang tercepat</option>

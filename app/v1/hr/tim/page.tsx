@@ -276,7 +276,7 @@ export default function HrTeamPage() {
             className="flex-1"
           />
           <div className="flex items-center gap-2">
-            <details className="relative">
+            <details className="relative z-20">
               <summary
                 className="grid h-10 w-10 cursor-pointer place-items-center rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-100 [&::-webkit-details-marker]:hidden"
                 aria-label="Urutkan"
@@ -293,18 +293,19 @@ export default function HrTeamPage() {
                   <path d="M10 17h8" />
                 </svg>
               </summary>
-              <div className="absolute right-0 z-10 mt-2 w-44 rounded-lg border border-slate-200 bg-white p-2 text-xs shadow-lg">
-                {["Tanggal terbaru", "Tanggal terlama", "Status"].map(
-                  (label) => (
-                    <button
-                      key={label}
-                      type="button"
-                      className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100"
-                    >
-                      {label}
-                    </button>
-                  ),
-                )}
+              <div className="absolute right-0 z-20 mt-2 w-48 rounded-lg border border-slate-200 bg-white p-2 text-xs shadow-lg">
+                <p className="px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  Urut berdasarkan
+                </p>
+                {["Nama A-Z", "Nama Z-A", "Posisi", "Status"].map((label) => (
+                  <button
+                    key={label}
+                    type="button"
+                    className="w-full rounded-md px-3 py-2 text-left text-slate-600 hover:bg-slate-100"
+                  >
+                    {label}
+                  </button>
+                ))}
               </div>
             </details>
           </div>

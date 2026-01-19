@@ -19,6 +19,28 @@ export function Pagination({
   const canNext = page < totalPages && Boolean(onPageChange);
   const summary =
     summaryText ?? `Menampilkan halaman ${page} dari ${totalPages}`;
+  const showPaging = totalPages > 1;
+
+  const pageItems: Array<number | "ellipsis"> = [];
+  if (showPaging) {
+    const firstPage = 1;
+    const lastPage = totalPages;
+    pageItems.push(firstPage);
+    if (page > firstPage + 1) {
+      pageItems.push("ellipsis");
+    }
+    if (page > firstPage && page < lastPage) {
+      pageItems.push(page);
+    }
+    if (page < lastPage - 1) {
+      pageItems.push("ellipsis");
+    }
+    if (lastPage !== firstPage) {
+      pageItems.push(lastPage);
+    }
+  } else {
+    pageItems.push(page);
+  }
 
   return (
     <div
@@ -45,9 +67,36 @@ export function Pagination({
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
-        <span className="grid h-7 w-7 place-items-center rounded-full bg-blue-500 text-xs font-semibold text-white">
-          {page}
-        </span>
+        {pageItems.map((item, index) => {
+          if (item === "ellipsis") {
+            return (
+              <span
+                key={`ellipsis-${index}`}
+                className="px-1 text-xs text-slate-400"
+              >
+                ...
+              </span>
+            );
+          }
+
+          const isActive = item === page;
+          return (
+            <button
+              key={item}
+              type="button"
+              onClick={() => onPageChange?.(item)}
+              disabled={!onPageChange}
+              className={
+                isActive
+                  ? "grid h-7 w-7 place-items-center rounded-full bg-blue-500 text-xs font-semibold text-white"
+                  : "grid h-7 w-7 place-items-center rounded-full border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100"
+              }
+              aria-current={isActive ? "page" : undefined}
+            >
+              {item}
+            </button>
+          );
+        })}
         <button
           type="button"
           onClick={() => onPageChange?.(page + 1)}
