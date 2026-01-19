@@ -1,6 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { Pagination } from "@/app/components/Pagination";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Modal } from "@/app/components/Modal";
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -27,6 +31,31 @@ const leaveRows = [
 ];
 
 export default function EmployeeLeavePage() {
+  const [openBuatPengajuan, setOpenBuatPengajuan] = useState(false);
+  const [formData, setFormData] = useState({
+    tanggalMulai: "",
+    tanggalSelesai: "",
+    jenisCuti: "",
+    alasan: "",
+    dokumenPendukung: null as File | null,
+  });
+
+  // Mock data untuk sisa cuti (biasanya dari API)
+  const sisaCuti = 15;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    setOpenBuatPengajuan(false);
+    setFormData({
+      tanggalMulai: "",
+      tanggalSelesai: "",
+      jenisCuti: "",
+      alasan: "",
+      dokumenPendukung: null,
+    });
+  };
+
   return (
     <DashboardShell active="Karyawan">
       <div className="space-y-6">
@@ -43,7 +72,11 @@ export default function EmployeeLeavePage() {
         <article className={cardBase}>
           <TableToolbar
             primaryActions={
-              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+              <button
+                type="button"
+                onClick={() => setOpenBuatPengajuan(true)}
+                className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+              >
                 Buat Pengajuan
               </button>
             }
@@ -154,6 +187,129 @@ export default function EmployeeLeavePage() {
             summaryText={`Menampilkan ${leaveRows.length} data`}
           />
         </article>
+
+        <Modal
+          open={openBuatPengajuan}
+          onClose={() => setOpenBuatPengajuan(false)}
+          title="Buat Pengajuan Cuti"
+          size="md"
+        >
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
+              <p className="text-sm font-semibold text-blue-900">
+                Sisa Cuti Tersedia: <span className="text-blue-600">{sisaCuti} hari</span>
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Mulai Cuti <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.tanggalMulai}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tanggalMulai: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Selesai Cuti <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.tanggalSelesai}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      tanggalSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Jenis Cuti <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={formData.jenisCuti}
+                onChange={(e) =>
+                  setFormData({ ...formData, jenisCuti: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="">Pilih Jenis Cuti</option>
+                <option value="Cuti Tahunan">Cuti Tahunan</option>
+                <option value="Cuti Berobat">Cuti Berobat</option>
+                <option value="Izin Keluarga">Izin Keluarga</option>
+                <option value="Cuti Melahirkan">Cuti Melahirkan</option>
+                <option value="Cuti Khusus">Cuti Khusus</option>
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Alasan/Pengajuan <span className="text-rose-500">*</span>
+              </label>
+              <textarea
+                required
+                value={formData.alasan}
+                onChange={(e) =>
+                  setFormData({ ...formData, alasan: e.target.value })
+                }
+                rows={4}
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                placeholder="Masukkan alasan pengajuan cuti..."
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Upload Dokumen Pendukung
+              </label>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    dokumenPendukung: e.target.files?.[0] || null,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+              <p className="text-xs text-slate-400">
+                Format yang didukung: PDF, DOC, DOCX, JPG, JPEG, PNG (opsional)
+              </p>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenBuatPengajuan(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Ajukan
+              </button>
+            </div>
+          </form>
+        </Modal>
       </div>
     </DashboardShell>
   );

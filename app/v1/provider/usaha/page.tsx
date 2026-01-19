@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
+import { Modal } from "@/app/components/Modal";
 
 const businessRows = [
   {
@@ -54,6 +58,40 @@ const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function ProviderUsahaPage() {
+  const [openTambahUsaha, setOpenTambahUsaha] = useState(false);
+  const [formData, setFormData] = useState({
+    namaUsaha: "",
+    logoUsaha: null as File | null,
+    pemilikUsaha: "",
+    jumlahPengguna: "",
+    kontrakMulai: "",
+    kontrakSelesai: "",
+    jenisLangganan: "",
+    masaAktif: "",
+    nilaiKontrak: "",
+    status: "Berlangsung",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log("Form submitted:", formData);
+    setOpenTambahUsaha(false);
+    // Reset form
+    setFormData({
+      namaUsaha: "",
+      logoUsaha: null,
+      pemilikUsaha: "",
+      jumlahPengguna: "",
+      kontrakMulai: "",
+      kontrakSelesai: "",
+      jenisLangganan: "",
+      masaAktif: "",
+      nilaiKontrak: "",
+      status: "Berlangsung",
+    });
+  };
+
   return (
     <DashboardShell active="Penyedia">
       <OwnerSectionLayout
@@ -64,7 +102,11 @@ export default function ProviderUsahaPage() {
         <section className={cardBase}>
           <TableToolbar
             primaryActions={
-              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+              <button
+                type="button"
+                onClick={() => setOpenTambahUsaha(true)}
+                className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+              >
                 Tambah Usaha
               </button>
             }
@@ -247,6 +289,212 @@ export default function ProviderUsahaPage() {
             summaryText={`Menampilkan ${businessRows.length} data`}
           />
         </section>
+
+        <Modal
+          open={openTambahUsaha}
+          onClose={() => setOpenTambahUsaha(false)}
+          title="Tambah Usaha Pelanggan"
+          size="lg"
+        >
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama Usaha <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.namaUsaha}
+                  onChange={(e) =>
+                    setFormData({ ...formData, namaUsaha: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Masukkan nama usaha"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Pemilik Usaha <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={formData.pemilikUsaha}
+                  onChange={(e) =>
+                    setFormData({ ...formData, pemilikUsaha: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="">Pilih Pemilik Usaha</option>
+                  <option value="haris n">haris n</option>
+                  <option value="drupadi g">drupadi g</option>
+                  <option value="timotius v">timotius v</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Logo Usaha
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      logoUsaha: e.target.files?.[0] || null,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jumlah Pengguna <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="1"
+                  value={formData.jumlahPengguna}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      jumlahPengguna: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="0"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Kontrak Mulai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.kontrakMulai}
+                  onChange={(e) =>
+                    setFormData({ ...formData, kontrakMulai: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Kontrak Selesai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.kontrakSelesai}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      kontrakSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jenis Langganan <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={formData.jenisLangganan}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      jenisLangganan: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="">Pilih Jenis Langganan</option>
+                  <option value="Bulanan">Bulanan</option>
+                  <option value="Tahunan">Tahunan</option>
+                  <option value="Kustom">Kustom</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Masa Aktif (bulan) <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="1"
+                  value={formData.masaAktif}
+                  onChange={(e) =>
+                    setFormData({ ...formData, masaAktif: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="12"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nilai Kontrak <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  value={formData.nilaiKontrak}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nilaiKontrak: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="3000000"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={formData.status}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="Berlangsung">Berlangsung</option>
+                  <option value="Hampir selesai">Hampir selesai</option>
+                  <option value="Selesai">Selesai</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenTambahUsaha(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </Modal>
       </OwnerSectionLayout>
     </DashboardShell>
   );

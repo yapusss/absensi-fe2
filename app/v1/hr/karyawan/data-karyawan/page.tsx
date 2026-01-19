@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
+import { Modal } from "@/app/components/Modal";
 
 const employeeRows = [
   {
@@ -40,6 +44,47 @@ const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function HrKaryawanPage() {
+  const [openTambahKaryawan, setOpenTambahKaryawan] = useState(false);
+  const [openImportData, setOpenImportData] = useState(false);
+  const [formData, setFormData] = useState({
+    namaLengkap: "",
+    nomorKaryawan: "",
+    email: "",
+    password: "",
+    posisiDivisi: "",
+    shift: "",
+    status: "Aktif",
+    alamat: "",
+    tempatLahir: "",
+    tanggalLahir: "",
+    pendidikanTerakhir: "",
+    nomorTelepon: "",
+    fotoProfil: null as File | null,
+    tanggalBergabung: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    setOpenTambahKaryawan(false);
+    setFormData({
+      namaLengkap: "",
+      nomorKaryawan: "",
+      email: "",
+      password: "",
+      posisiDivisi: "",
+      shift: "",
+      status: "Aktif",
+      alamat: "",
+      tempatLahir: "",
+      tanggalLahir: "",
+      pendidikanTerakhir: "",
+      nomorTelepon: "",
+      fotoProfil: null,
+      tanggalBergabung: "",
+    });
+  };
+
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout title="Karyawan" breadcrumb="Beranda/Karyawan">
@@ -47,10 +92,18 @@ export default function HrKaryawanPage() {
           <TableToolbar
             primaryActions={
               <>
-                <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+                <button
+                  type="button"
+                  onClick={() => setOpenTambahKaryawan(true)}
+                  className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+                >
                   Tambah Karyawan
                 </button>
-                <button className="h-10 rounded-lg bg-green-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-green-600">
+                <button
+                  type="button"
+                  onClick={() => setOpenImportData(true)}
+                  className="h-10 rounded-lg bg-green-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-green-600"
+                >
                   Import Data
                 </button>
               </>
@@ -218,6 +271,358 @@ export default function HrKaryawanPage() {
             className="mt-4"
           />
         </section>
+
+        <Modal
+          open={openTambahKaryawan}
+          onClose={() => setOpenTambahKaryawan(false)}
+          title="Tambah Karyawan"
+          size="lg"
+        >
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama Lengkap <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.namaLengkap}
+                  onChange={(e) =>
+                    setFormData({ ...formData, namaLengkap: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Masukkan nama lengkap"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor Karyawan
+                </label>
+                <input
+                  type="text"
+                  value={formData.nomorKaryawan}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nomorKaryawan: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500 outline-none"
+                  placeholder="Auto-generate"
+                  readOnly
+                />
+                <p className="text-xs text-slate-400">
+                  Nomor karyawan akan di-generate otomatis
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Email <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="email@example.com"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Password <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="••••••••"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Posisi/Divisi <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={formData.posisiDivisi}
+                  onChange={(e) =>
+                    setFormData({ ...formData, posisiDivisi: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="">Pilih Posisi/Divisi</option>
+                  <option value="Developer">Developer</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Finance">Finance</option>
+                  <option value="HR">HR</option>
+                  <option value="Sales">Sales</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Shift <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={formData.shift}
+                  onChange={(e) =>
+                    setFormData({ ...formData, shift: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="">Pilih Shift</option>
+                  <option value="Shift 1">Shift 1</option>
+                  <option value="Shift 2">Shift 2</option>
+                  <option value="Shift 3">Shift 3</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={formData.status}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="Aktif">Aktif</option>
+                  <option value="Nonaktif">Nonaktif</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Alamat <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.alamat}
+                  onChange={(e) =>
+                    setFormData({ ...formData, alamat: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Jl. Contoh No. 123"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tempat Lahir <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.tempatLahir}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tempatLahir: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Bandung"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Lahir <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.tanggalLahir}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tanggalLahir: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Pendidikan Terakhir <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.pendidikanTerakhir}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      pendidikanTerakhir: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="S1 Teknik Informatika"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor Telepon <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={formData.nomorTelepon}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nomorTelepon: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="081234567890"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Foto Profil
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      fotoProfil: e.target.files?.[0] || null,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Bergabung <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.tanggalBergabung}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      tanggalBergabung: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenTambahKaryawan(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        <Modal
+          open={openImportData}
+          onClose={() => setOpenImportData(false)}
+          title="Import Data Karyawan"
+          size="lg"
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log("Import data");
+              setOpenImportData(false);
+            }}
+            className="space-y-4"
+          >
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Upload File (Excel/CSV) <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="file"
+                accept=".xlsx,.xls,.csv"
+                required
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+              <p className="text-xs text-slate-400">
+                Format yang didukung: Excel (.xlsx, .xls) atau CSV (.csv)
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm font-semibold text-slate-700">
+                Preview data akan muncul setelah file diupload
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Opsi Import
+              </label>
+              <div className="space-y-2">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="importOption"
+                    value="update"
+                    defaultChecked
+                    className="h-4 w-4 text-blue-500"
+                  />
+                  <span className="text-sm text-slate-700">
+                    Update existing data
+                  </span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="importOption"
+                    value="skip"
+                    className="h-4 w-4 text-blue-500"
+                  />
+                  <span className="text-sm text-slate-700">
+                    Skip jika data sudah ada
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenImportData(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-600"
+              >
+                Import
+              </button>
+            </div>
+          </form>
+        </Modal>
       </OwnerSectionLayout>
     </DashboardShell>
   );

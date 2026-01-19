@@ -4,7 +4,7 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
 
 ## 1. EMPLOYEE (Karyawan)
 
-### 1.1 Dashboard Employee (`/v1/employee`)
+<!-- ### 1.1 Dashboard Employee (`/v1/employee`)
 - ✅ **Form Absensi Masuk/Pulang**
   - Lokasi: Tombol "Absen" di dashboard utama
   - Field yang diperlukan:
@@ -12,7 +12,7 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
     - Lokasi GPS
     - Waktu absensi (otomatis)
     - Keterangan (opsional)
-    - Foto bukti (opsional)
+    - Foto bukti (opsional) -->
 
 ### 1.2 Pengajuan Cuti (`/v1/employee/pengajuan-cuti`)
 - ✅ **Form Buat Pengajuan Cuti**
@@ -31,7 +31,7 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
   - Field yang diperlukan:
     - Nama
     - Nomor Karyawan (read-only)
-    - Posisi (read-only atau dropdown jika bisa diubah)
+    - Posisi (read-only)
     - Alamat
     - Tempat Lahir
     - Tanggal Lahir
@@ -49,7 +49,7 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
   - Lokasi: Tombol "Tambah Karyawan"
   - Field yang diperlukan:
     - Nama lengkap
-    - Nomor karyawan (auto-generate atau manual)
+    - Nomor karyawan (auto-generate)
     - Email
     - Password
     - Posisi/Divisi (dropdown)
@@ -84,9 +84,9 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
     - Jam kerja selesai
     - Jam istirahat mulai
     - Jam istirahat selesai
-    - Hari kerja (checkbox: Senin-Minggu)
+    <!-- - Hari kerja (checkbox: Senin-Minggu) -->
     - Status (Aktif/Nonaktif)
-    - Keterangan (opsional)
+    <!-- - Keterangan (opsional) -->
 
 - ✅ **Form Edit Jadwal Shift**
   - Lokasi: Tombol Edit di tabel
@@ -101,9 +101,9 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
     - Nama libur
     - Tanggal mulai
     - Tanggal selesai (jika lebih dari 1 hari)
-    - Jenis libur (dropdown: Nasional, Perusahaan, Cuti Bersama)
+    - Jenis libur (dropdown: Nasional, Perusahaan, Cuti Bersama, bisa tambah jenis baru alias custom)
     - Status (Aktif/Nonaktif)
-    - Keterangan (opsional)
+    <!-- - Keterangan (opsional) -->
 
 - ✅ **Form Edit Libur**
   - Lokasi: Tombol Edit di tabel
@@ -132,13 +132,13 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
     - Tanggal persetujuan (auto)
     - Disetujui oleh (auto - nama HR)
 
-### 2.4 Dashboard HR - Absen Luar Kota (`/v1/hr`)
+<!-- ### 2.4 Dashboard HR - Absen Luar Kota (`/v1/hr`)
 - ✅ **Form Approval Absen Luar Kota**
   - Lokasi: Tombol Setujui/Tolak di card "Absen luar kota"
   - Field yang diperlukan:
     - Status (Setujui/Tolak)
     - Alasan persetujuan/penolakan (textarea)
-    - Tanggal persetujuan (auto)
+    - Tanggal persetujuan (auto) -->
 
 ### 2.5 Akun HR (`/v1/hr/akun`)
 - ✅ **Form Edit Profil HR**
@@ -157,7 +157,7 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
 
 ## 3. OWNER (Pemilik Usaha)
 
-### 3.1 Usaha (`/v1/owner/usaha`)
+<!-- ### 3.1 Usaha (`/v1/owner/usaha`)
 - ✅ **Form Tambah Usaha**
   - Lokasi: Tombol "Tambah Usaha"
   - Field yang diperlukan:
@@ -172,20 +172,35 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
     - Masa aktif (bulan)
     - Nilai kontrak
     - Paket langganan (dropdown)
-    - Status (Berlangsung/Hampir selesai/Selesai)
+    - Status (Berlangsung/Hampir selesai/Selesai) -->
 
-- ✅ **Form Edit Usaha**
+<!-- - ✅ **Form Edit Usaha**
   - Lokasi: Tombol Edit di tabel
-  - Field: Sama dengan form tambah (beberapa mungkin read-only)
+  - Field: Sama dengan form tambah (beberapa mungkin read-only) -->
 
 ### 3.2 Human Resource (`/v1/owner/human-resource`)
 - ✅ **Form Tambah/Edit HR** (jika ada fitur ini)
   - Field yang diperlukan:
-    - Nama
+    <!-- - Nama
     - Email
     - Password
     - Posisi
+    - Status (Aktif/Nonaktif) -->
+
+    - Nama lengkap
+    - Nomor karyawan (auto-generate)
+    - Email
+    - Password
+    - Posisi/Divisi (otomatis hr)
+    <!-- - Shift (dropdown) -->
     - Status (Aktif/Nonaktif)
+    - Alamat
+    - Tempat lahir
+    - Tanggal lahir
+    - Pendidikan terakhir
+    - Nomor telepon
+    - Foto profil (upload)
+    - Tanggal bergabung
 
 ### 3.3 Akun Owner (`/v1/owner/akun`)
 - ✅ **Form Edit Profil Owner**
@@ -214,6 +229,7 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
     - Jumlah pengguna
     - Kontrak mulai
     - Kontrak selesai
+    - Jenis Langganan
     - Masa aktif (bulan)
     - Nilai kontrak
     - Status (Berlangsung/Hampir selesai/Selesai)
@@ -264,17 +280,17 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
     - Email
     - Password
 
-### 5.2 Filter/Search Forms
+<!-- ### 5.2 Filter/Search Forms
 - ✅ **Form Filter/Export Data** (opsional)
   - Field yang mungkin diperlukan:
     - Tanggal mulai
     - Tanggal akhir
     - Filter berdasarkan status
     - Filter berdasarkan divisi/shift
-    - Format export (Excel, PDF, CSV)
+    - Format export (Excel, PDF, CSV) -->
 
 ---
-
+<!-- 
 ## RINGKASAN PRIORITAS
 
 ### Prioritas Tinggi:
@@ -296,7 +312,7 @@ Berdasarkan analisis program absensi ini, berikut adalah bagian-bagian yang meme
 12. ✅ Form Filter/Export (Semua Role)
 13. ✅ Form Ubah Password (Provider)
 
----
+--- -->
 
 ## CATATAN PENTING
 

@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
+import { Modal } from "@/app/components/Modal";
 
 const holidayRows = [
   {
@@ -22,6 +26,32 @@ const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function HrDaftarLiburPage() {
+  const [openBuatLibur, setOpenBuatLibur] = useState(false);
+  const [showCustomJenis, setShowCustomJenis] = useState(false);
+  const [formData, setFormData] = useState({
+    namaLibur: "",
+    tanggalMulai: "",
+    tanggalSelesai: "",
+    jenisLibur: "",
+    jenisLiburCustom: "",
+    status: "Aktif",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    setOpenBuatLibur(false);
+    setFormData({
+      namaLibur: "",
+      tanggalMulai: "",
+      tanggalSelesai: "",
+      jenisLibur: "",
+      jenisLiburCustom: "",
+      status: "Aktif",
+    });
+    setShowCustomJenis(false);
+  };
+
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout
@@ -31,7 +61,11 @@ export default function HrDaftarLiburPage() {
         <section className={cardBase}>
           <TableToolbar
             primaryActions={
-              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+              <button
+                type="button"
+                onClick={() => setOpenBuatLibur(true)}
+                className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+              >
                 Buat Libur
               </button>
             }
@@ -177,6 +211,149 @@ export default function HrDaftarLiburPage() {
             className="mt-4"
           />
         </section>
+
+        <Modal
+          open={openBuatLibur}
+          onClose={() => {
+            setOpenBuatLibur(false);
+            setShowCustomJenis(false);
+          }}
+          title="Buat Libur"
+          size="md"
+        >
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Nama Libur <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.namaLibur}
+                onChange={(e) =>
+                  setFormData({ ...formData, namaLibur: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                placeholder="Tahun Baru"
+              />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Mulai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.tanggalMulai}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tanggalMulai: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Selesai
+                </label>
+                <input
+                  type="date"
+                  value={formData.tanggalSelesai}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      tanggalSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+                <p className="text-xs text-slate-400">
+                  Kosongkan jika libur hanya 1 hari
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Jenis Libur <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={formData.jenisLibur}
+                onChange={(e) => {
+                  setFormData({ ...formData, jenisLibur: e.target.value });
+                  setShowCustomJenis(e.target.value === "custom");
+                }}
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="">Pilih Jenis Libur</option>
+                <option value="Nasional">Nasional</option>
+                <option value="Perusahaan">Perusahaan</option>
+                <option value="Cuti Bersama">Cuti Bersama</option>
+                <option value="custom">Tambah Jenis Baru (Custom)</option>
+              </select>
+            </div>
+
+            {showCustomJenis && (
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama Jenis Libur Baru <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required={showCustomJenis}
+                  value={formData.jenisLiburCustom}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      jenisLiburCustom: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Masukkan nama jenis libur baru"
+                />
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Status <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={formData.status}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="Aktif">Aktif</option>
+                <option value="Nonaktif">Nonaktif</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setOpenBuatLibur(false);
+                  setShowCustomJenis(false);
+                }}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </Modal>
       </OwnerSectionLayout>
     </DashboardShell>
   );

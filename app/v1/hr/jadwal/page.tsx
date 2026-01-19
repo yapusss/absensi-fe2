@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
+import { Modal } from "@/app/components/Modal";
 
 const shiftRows = [
   {
@@ -17,13 +21,41 @@ const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function HrJadwalPage() {
+  const [openBuatJadwal, setOpenBuatJadwal] = useState(false);
+  const [formData, setFormData] = useState({
+    namaShift: "",
+    jamKerjaMulai: "",
+    jamKerjaSelesai: "",
+    jamIstirahatMulai: "",
+    jamIstirahatSelesai: "",
+    status: "Aktif",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    setOpenBuatJadwal(false);
+    setFormData({
+      namaShift: "",
+      jamKerjaMulai: "",
+      jamKerjaSelesai: "",
+      jamIstirahatMulai: "",
+      jamIstirahatSelesai: "",
+      status: "Aktif",
+    });
+  };
+
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout title="Jadwal Kerja" breadcrumb="Beranda/Jadwal">
         <article className={cardBase}>
           <TableToolbar
             primaryActions={
-              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+              <button
+                type="button"
+                onClick={() => setOpenBuatJadwal(true)}
+                className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+              >
                 Buat Jadwal Baru
               </button>
             }
@@ -158,6 +190,138 @@ export default function HrJadwalPage() {
             className="mt-4"
           />
         </article>
+
+        <Modal
+          open={openBuatJadwal}
+          onClose={() => setOpenBuatJadwal(false)}
+          title="Buat Jadwal Shift Baru"
+          size="md"
+        >
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Nama Shift <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.namaShift}
+                onChange={(e) =>
+                  setFormData({ ...formData, namaShift: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                placeholder="Shift 1"
+              />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jam Kerja Mulai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={formData.jamKerjaMulai}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      jamKerjaMulai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jam Kerja Selesai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={formData.jamKerjaSelesai}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      jamKerjaSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jam Istirahat Mulai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={formData.jamIstirahatMulai}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      jamIstirahatMulai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jam Istirahat Selesai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={formData.jamIstirahatSelesai}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      jamIstirahatSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Status <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={formData.status}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="Aktif">Aktif</option>
+                <option value="Nonaktif">Nonaktif</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenBuatJadwal(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </Modal>
       </OwnerSectionLayout>
     </DashboardShell>
   );

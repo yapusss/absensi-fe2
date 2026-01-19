@@ -63,11 +63,6 @@ export default function ProviderUsahaPage() {
       >
         <section className={cardBase}>
           <TableToolbar
-            primaryActions={
-              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
-                Tambah Usaha
-              </button>
-            }
             searchPlaceholder="Cari Usaha..."
             showDivider={false}
             rightActions={

@@ -5,6 +5,7 @@ import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
+import { Modal } from "@/app/components/Modal";
 
 const hrRows = [
   {
@@ -35,6 +36,21 @@ const cardBase =
 
 export default function OwnerHumanResourcePage() {
   const [query, setQuery] = useState("");
+  const [openTambahHr, setOpenTambahHr] = useState(false);
+  const [form, setForm] = useState({
+    namaLengkap: "",
+    nomorKaryawan: "",
+    email: "",
+    password: "",
+    status: "Aktif",
+    alamat: "",
+    tempatLahir: "",
+    tanggalLahir: "",
+    pendidikanTerakhir: "",
+    nomorTelepon: "",
+    tanggalBergabung: "",
+    fotoProfil: null as File | null,
+  });
 
   const filteredRows = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -47,6 +63,13 @@ export default function OwnerHumanResourcePage() {
     );
   }, [query]);
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Demo only: di implementasi nyata, kirim ke API
+    console.log("submit HR owner", form);
+    setOpenTambahHr(false);
+  };
+
   return (
     <DashboardShell active="Owner" ownerSubActive="Human Resource">
       <OwnerSectionLayout
@@ -56,7 +79,11 @@ export default function OwnerHumanResourcePage() {
         <article className={cardBase}>
           <TableToolbar
             primaryActions={
-              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+              <button
+                type="button"
+                onClick={() => setOpenTambahHr(true)}
+                className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+              >
                 Tambahkan HR
               </button>
             }
@@ -208,6 +235,251 @@ export default function OwnerHumanResourcePage() {
             className="mt-4"
           />
         </article>
+
+        <Modal
+          open={openTambahHr}
+          onClose={() => setOpenTambahHr(false)}
+          title="Tambah Human Resource"
+          size="lg"
+        >
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama lengkap <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={form.namaLengkap}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      namaLengkap: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Masukkan nama lengkap HR"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor karyawan
+                </label>
+                <input
+                  type="text"
+                  value={form.nomorKaryawan}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      nomorKaryawan: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Otomatis / isi manual jika perlu"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Email <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      email: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="nama@perusahaan.com"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Password <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={form.password}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      password: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Minimal 8 karakter"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  value={form.status}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      status: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="Aktif">Aktif</option>
+                  <option value="Nonaktif">Nonaktif</option>
+                  <option value="Cuti">Cuti</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor telepon
+                </label>
+                <input
+                  type="tel"
+                  value={form.nomorTelepon}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      nomorTelepon: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="08xxxxxxxxxx"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Alamat
+                </label>
+                <input
+                  type="text"
+                  value={form.alamat}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      alamat: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Alamat domisili HR"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tempat lahir
+                </label>
+                <input
+                  type="text"
+                  value={form.tempatLahir}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      tempatLahir: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Kota kelahiran"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal lahir
+                </label>
+                <input
+                  type="date"
+                  value={form.tanggalLahir}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      tanggalLahir: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Pendidikan terakhir
+                </label>
+                <input
+                  type="text"
+                  value={form.pendidikanTerakhir}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      pendidikanTerakhir: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="S1, D3, SMA, dll."
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal bergabung
+                </label>
+                <input
+                  type="date"
+                  value={form.tanggalBergabung}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      tanggalBergabung: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Foto profil
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      fotoProfil: event.target.files?.[0] ?? null,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenTambahHr(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </Modal>
       </OwnerSectionLayout>
     </DashboardShell>
   );

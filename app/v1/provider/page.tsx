@@ -230,6 +230,9 @@ export default function ProviderDashboard() {
           <h1 className="text-2xl font-semibold text-slate-900">
             Dashboard Penyedia Platform
           </h1>
+          <p className="max-w-2xl text-sm text-slate-500">
+            Kelola owner dan usaha
+          </p>
         </header>
 
         <section>
