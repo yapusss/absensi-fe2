@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
+import { Modal } from "@/app/components/Modal";
 
 const businessRows = [
   {
@@ -55,6 +59,9 @@ const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function ProviderUsahaPage() {
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState<typeof businessRows[0] | null>(null);
+
   return (
     <DashboardShell active="Owner">
       <OwnerSectionLayout
@@ -187,7 +194,15 @@ export default function ProviderUsahaPage() {
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center gap-2">
-                        <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedBusiness(row);
+                            setOpenDetail(true);
+                          }}
+                          className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50"
+                          aria-label={`Detail ${row.usaha}`}
+                        >
                           <svg
                             viewBox="0 0 24 24"
                             fill="none"
@@ -254,6 +269,113 @@ export default function ProviderUsahaPage() {
             summaryText={`Menampilkan ${businessRows.length} data`}
           />
         </section>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedBusiness(null);
+          }}
+          title="Detail Usaha"
+          size="lg"
+        >
+          {selectedBusiness && (
+            <div className="space-y-6">
+              {/* Logo usaha di tengah tanpa container */}
+              <div className="flex justify-center">
+                <img
+                  src={selectedBusiness.logoUrl || "/icons/dot-blue.svg"}
+                  alt={`Logo ${selectedBusiness.usaha}`}
+                  className="h-32 w-32 rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Form di bawah logo */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nama Usaha
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.usaha}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Pemilik Usaha
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.owner}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Jumlah Pengguna
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.jumlahPengguna} pengguna
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Kontrak Mulai
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.kontrakMulai}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Kontrak Selesai
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.kontrakSelesai}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Sisa Waktu Berlangganan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.sisaWaktu}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Masa Aktif
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.masaAktif}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Status
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.status}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nilai Kontrak
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {formatRupiah(selectedBusiness.nilai).prefix} {formatRupiah(selectedBusiness.nilai).amount}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </Modal>
       </OwnerSectionLayout>
     </DashboardShell>
   );

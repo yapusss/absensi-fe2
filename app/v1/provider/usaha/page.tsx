@@ -59,6 +59,8 @@ const cardBase =
 
 export default function ProviderUsahaPage() {
   const [openTambahUsaha, setOpenTambahUsaha] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState<typeof businessRows[0] | null>(null);
   const [formData, setFormData] = useState({
     namaUsaha: "",
     logoUsaha: null as File | null,
@@ -236,6 +238,10 @@ export default function ProviderUsahaPage() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedBusiness(row);
+                            setOpenDetail(true);
+                          }}
                           className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50"
                           aria-label={`Detail ${row.usaha}`}
                         >
@@ -494,6 +500,122 @@ export default function ProviderUsahaPage() {
               </button>
             </div>
           </form>
+        </Modal>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedBusiness(null);
+          }}
+          title="Detail Usaha Pelanggan"
+          size="lg"
+        >
+          {selectedBusiness && (
+            <div className="space-y-6">
+              {/* Logo usaha di tengah tanpa container */}
+              <div className="flex justify-center">
+                <img
+                  src={selectedBusiness.logoUrl || "/icons/dot-blue.svg"}
+                  alt={`Logo ${selectedBusiness.usaha}`}
+                  className="h-32 w-32 rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Form di bawah logo */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nama Usaha
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.usaha}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Pemilik Usaha
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.owner}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Jumlah Pengguna
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.jumlahPengguna} pengguna
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Kontrak Mulai
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.kontrakMulai}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Kontrak Selesai
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.kontrakSelesai}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Sisa Waktu Berlangganan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.sisaWaktu}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Masa Aktif
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.masaAktif}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Status
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.status}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nilai Kontrak
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {formatRupiah(selectedBusiness.nilai).prefix} {formatRupiah(selectedBusiness.nilai).amount}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Jenis Langganan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedBusiness.masaAktif.includes("12") ? "Tahunan" : "Bulanan"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </Modal>
       </OwnerSectionLayout>
     </DashboardShell>

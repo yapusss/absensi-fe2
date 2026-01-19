@@ -21,7 +21,18 @@ const cardBase =
 
 export default function HrDaftarCutiPage() {
   const [openBuatCuti, setOpenBuatCuti] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedLeave, setSelectedLeave] = useState<typeof leaveRows[0] | null>(null);
+  const [selectedEdit, setSelectedEdit] = useState<typeof leaveRows[0] | null>(null);
   const [formData, setFormData] = useState({
+    namaJenisCuti: "",
+    jumlahHariCuti: "",
+    status: "Aktif",
+    keterangan: "",
+    berlakuUntuk: "All",
+  });
+  const [editFormData, setEditFormData] = useState({
     namaJenisCuti: "",
     jumlahHariCuti: "",
     status: "Aktif",
@@ -140,6 +151,10 @@ export default function HrDaftarCutiPage() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedLeave(row);
+                            setOpenDetail(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Lihat ${row.nama}`}
                         >
@@ -156,6 +171,17 @@ export default function HrDaftarCutiPage() {
                         </button>
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedEdit(row);
+                            setEditFormData({
+                              namaJenisCuti: row.nama,
+                              jumlahHariCuti: row.jumlah.replace(/\D/g, ""),
+                              status: row.status,
+                              keterangan: "Cuti tahunan untuk karyawan tetap",
+                              berlakuUntuk: "All",
+                            });
+                            setOpenEdit(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Edit ${row.nama}`}
                         >
@@ -311,6 +337,196 @@ export default function HrDaftarCutiPage() {
               </button>
             </div>
           </form>
+        </Modal>
+
+        <Modal
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+            setSelectedEdit(null);
+          }}
+          title="Edit Cuti"
+          size="md"
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log("Edit cuti:", editFormData);
+              setOpenEdit(false);
+              setSelectedEdit(null);
+            }}
+            className="space-y-4"
+          >
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Nama Jenis Cuti <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={editFormData.namaJenisCuti}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    namaJenisCuti: e.target.value,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Jumlah Hari Cuti <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="number"
+                required
+                min="1"
+                value={editFormData.jumlahHariCuti}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    jumlahHariCuti: e.target.value,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Status <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={editFormData.status}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, status: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="Aktif">Aktif</option>
+                <option value="Nonaktif">Nonaktif</option>
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Keterangan
+              </label>
+              <textarea
+                value={editFormData.keterangan}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    keterangan: e.target.value,
+                  })
+                }
+                rows={3}
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Berlaku Untuk <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={editFormData.berlakuUntuk}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    berlakuUntuk: e.target.value,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="All">Semua Divisi</option>
+                <option value="Developer">Developer</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Finance">Finance</option>
+                <option value="HR">HR</option>
+                <option value="Sales">Sales</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenEdit(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan Perubahan
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedLeave(null);
+          }}
+          title="Detail Cuti"
+          size="md"
+        >
+          {selectedLeave && (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama Jenis Cuti
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  {selectedLeave.nama}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jumlah Hari Cuti
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  {selectedLeave.jumlah}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  {selectedLeave.status}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Keterangan
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  Cuti tahunan untuk karyawan tetap
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Berlaku Untuk
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  Semua Divisi
+                </div>
+              </div>
+            </div>
+          )}
         </Modal>
       </OwnerSectionLayout>
     </DashboardShell>

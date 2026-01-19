@@ -1,9 +1,31 @@
+"use client";
+
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
+import { Modal } from "@/app/components/Modal";
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function HrAkunPage() {
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openPassword, setOpenPassword] = useState(false);
+  const [editForm, setEditForm] = useState({
+    nama: "Haaris Nur Salim",
+    nomorKaryawan: "EMP-2025-0142",
+    posisi: "HR Manager",
+    alamat: "Jl. Merpati No. 12, Bandung",
+    tempatLahir: "Bandung",
+    tanggalLahir: "1996-03-12",
+    pendidikanTerakhir: "S1 Teknik Informatika",
+    fotoProfil: null as File | null,
+  });
+  const [passwordForm, setPasswordForm] = useState({
+    passwordLama: "",
+    passwordBaru: "",
+    konfirmasiPassword: "",
+  });
+
   return (
     <DashboardShell active="HR">
       <div className="space-y-6">
@@ -34,15 +56,18 @@ export default function HrAkunPage() {
             <div className="space-y-4 max-w-[520px]">
               <div className="grid gap-3 sm:grid-cols-1">
                 {[
-                  { label: "Nama", value: "Haaris Nur Salim" },
-                  { label: "Nomor Karyawan", value: "EMP-2025-0142" },
-                  { label: "Posisi", value: "HR Manager" },
-                  { label: "Alamat", value: "Jl. Merpati No. 12, Bandung" },
-                  { label: "Tempat Lahir", value: "Bandung" },
-                  { label: "Tanggal Lahir", value: "12 Mar 1996" },
+                  { label: "Nama", value: editForm.nama },
+                  { label: "Nomor Karyawan", value: editForm.nomorKaryawan },
+                  { label: "Posisi", value: editForm.posisi },
+                  { label: "Alamat", value: editForm.alamat },
+                  { label: "Tempat Lahir", value: editForm.tempatLahir },
+                  {
+                    label: "Tanggal Lahir",
+                    value: editForm.tanggalLahir,
+                  },
                   {
                     label: "Pendidikan Terakhir",
-                    value: "S1 Teknik Informatika",
+                    value: editForm.pendidikanTerakhir,
                   },
                 ].map((field) => (
                   <div
@@ -62,15 +87,270 @@ export default function HrAkunPage() {
           </div>
 
           <div className="flex justify-end">
-            <button className="mr-4 mt-4 rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600">
+            <button
+              type="button"
+              onClick={() => setOpenPassword(true)}
+              className="mr-4 mt-4 rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600"
+            >
               Ubah Password
             </button>
-            <button className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+            <button
+              type="button"
+              onClick={() => setOpenEdit(true)}
+              className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+            >
               Ubah Data
             </button>
           </div>
         </article>
       </div>
+
+      <Modal
+        open={openEdit}
+        onClose={() => setOpenEdit(false)}
+        title="Ubah Data Profil HR"
+        size="lg"
+      >
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            console.log("Edit profil HR:", editForm);
+            setOpenEdit(false);
+          }}
+          className="space-y-4"
+        >
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Nama <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={editForm.nama}
+                onChange={(event) =>
+                  setEditForm({ ...editForm, nama: event.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Nomor Karyawan
+              </label>
+              <input
+                type="text"
+                value={editForm.nomorKaryawan}
+                readOnly
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500 outline-none"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Posisi
+              </label>
+              <input
+                type="text"
+                value={editForm.posisi}
+                readOnly
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500 outline-none"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Alamat <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={editForm.alamat}
+                onChange={(event) =>
+                  setEditForm({ ...editForm, alamat: event.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Tempat Lahir <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={editForm.tempatLahir}
+                onChange={(event) =>
+                  setEditForm({ ...editForm, tempatLahir: event.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Tanggal Lahir <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="date"
+                required
+                value={editForm.tanggalLahir}
+                onChange={(event) =>
+                  setEditForm({
+                    ...editForm,
+                    tanggalLahir: event.target.value,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Pendidikan Terakhir <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={editForm.pendidikanTerakhir}
+                onChange={(event) =>
+                  setEditForm({
+                    ...editForm,
+                    pendidikanTerakhir: event.target.value,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="space-y-2 sm:col-span-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Foto Profil
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(event) =>
+                  setEditForm({
+                    ...editForm,
+                    fotoProfil: event.target.files?.[0] ?? null,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+            <button
+              type="button"
+              onClick={() => setOpenEdit(false)}
+              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+            >
+              Simpan
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      <Modal
+        open={openPassword}
+        onClose={() => setOpenPassword(false)}
+        title="Ubah Password"
+        size="sm"
+      >
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            console.log("Ubah password HR:", passwordForm);
+            setOpenPassword(false);
+            setPasswordForm({
+              passwordLama: "",
+              passwordBaru: "",
+              konfirmasiPassword: "",
+            });
+          }}
+          className="space-y-4"
+        >
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-slate-700">
+              Password Lama <span className="text-rose-500">*</span>
+            </label>
+            <input
+              type="password"
+              required
+              value={passwordForm.passwordLama}
+              onChange={(event) =>
+                setPasswordForm({
+                  ...passwordForm,
+                  passwordLama: event.target.value,
+                })
+              }
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-slate-700">
+              Password Baru <span className="text-rose-500">*</span>
+            </label>
+            <input
+              type="password"
+              required
+              value={passwordForm.passwordBaru}
+              onChange={(event) =>
+                setPasswordForm({
+                  ...passwordForm,
+                  passwordBaru: event.target.value,
+                })
+              }
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-slate-700">
+              Konfirmasi Password <span className="text-rose-500">*</span>
+            </label>
+            <input
+              type="password"
+              required
+              value={passwordForm.konfirmasiPassword}
+              onChange={(event) =>
+                setPasswordForm({
+                  ...passwordForm,
+                  konfirmasiPassword: event.target.value,
+                })
+              }
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+            <button
+              type="button"
+              onClick={() => setOpenPassword(false)}
+              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              className="rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-600"
+            >
+              Simpan
+            </button>
+          </div>
+        </form>
+      </Modal>
     </DashboardShell>
   );
 }

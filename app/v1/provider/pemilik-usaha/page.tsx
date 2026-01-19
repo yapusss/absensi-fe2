@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
+import { Modal } from "@/app/components/Modal";
 
 const ownerRows = [
   {
@@ -36,6 +38,19 @@ const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function ProviderPemilikUsahaPage() {
+  const [openDetail, setOpenDetail] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedOwner, setSelectedOwner] = useState<typeof ownerRows[0] | null>(null);
+  const [selectedEdit, setSelectedEdit] = useState<typeof ownerRows[0] | null>(null);
+  const [editFormData, setEditFormData] = useState({
+    namaLengkap: "",
+    email: "",
+    nomorTelepon: "",
+    status: "Aktif",
+    fotoProfil: null as File | null,
+    usahaDimiliki: [] as string[],
+  });
+
   return (
     <DashboardShell active="Penyedia">
       <OwnerSectionLayout
@@ -138,6 +153,24 @@ export default function ProviderPemilikUsahaPage() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedEdit(row);
+                            setEditFormData({
+                              namaLengkap: row.nama,
+                              email: row.email,
+                              nomorTelepon: row.telepon,
+                              status: row.status,
+                              fotoProfil: null,
+                              usahaDimiliki: [
+                                row.nama === "Haoris Nur"
+                                  ? "Ayam Aharis"
+                                  : row.nama === "Drupadi Ginaris"
+                                    ? "Laundry Dru"
+                                    : "Kursus Ngoding",
+                              ],
+                            });
+                            setOpenEdit(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Edit ${row.nama}`}
                         >
@@ -154,6 +187,10 @@ export default function ProviderPemilikUsahaPage() {
                         </button>
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedOwner(row);
+                            setOpenDetail(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Detail ${row.nama}`}
                         >
@@ -199,6 +236,243 @@ export default function ProviderPemilikUsahaPage() {
             className="mt-4"
           />
         </article>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedOwner(null);
+          }}
+          title="Detail Pemilik Usaha"
+          size="md"
+        >
+          {selectedOwner && (
+            <div className="space-y-6">
+              {/* Foto profil di tengah tanpa container */}
+              <div className="flex justify-center">
+                <img
+                  src={selectedOwner.fotoUrl || "/icons/dot-blue.svg"}
+                  alt={`Foto ${selectedOwner.nama}`}
+                  className="h-32 w-32 rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Form di bawah profil */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nama Lengkap
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedOwner.nama}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Email
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedOwner.email}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nomor Telepon
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedOwner.telepon}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Status
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedOwner.status}
+                  </div>
+                </div>
+
+                <div className="space-y-2 sm:col-span-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Usaha yang Dimiliki
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedOwner.nama === "Haoris Nur" ? "Ayam Aharis" : selectedOwner.nama === "Drupadi Ginaris" ? "Laundry Dru" : "Kursus Ngoding"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </Modal>
+
+        <Modal
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+            setSelectedEdit(null);
+          }}
+          title="Edit Pemilik Usaha"
+          size="lg"
+        >
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              console.log("Edit pemilik usaha:", editFormData);
+              setOpenEdit(false);
+              setSelectedEdit(null);
+            }}
+            className="space-y-4"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama lengkap <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.namaLengkap}
+                  onChange={(event) =>
+                    setEditFormData({
+                      ...editFormData,
+                      namaLengkap: event.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Email <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={editFormData.email}
+                  onChange={(event) =>
+                    setEditFormData({
+                      ...editFormData,
+                      email: event.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor telepon <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={editFormData.nomorTelepon}
+                  onChange={(event) =>
+                    setEditFormData({
+                      ...editFormData,
+                      nomorTelepon: event.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={editFormData.status}
+                  onChange={(event) =>
+                    setEditFormData({
+                      ...editFormData,
+                      status: event.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="Aktif">Aktif</option>
+                  <option value="Nonaktif">Nonaktif</option>
+                </select>
+              </div>
+
+              <div className="space-y-2 sm:col-span-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Usaha yang Dimiliki
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "Ayam Aharis",
+                    "Laundry Dru",
+                    "Kursus Ngoding",
+                    "Bakery Maju",
+                  ].map((usaha) => (
+                    <label
+                      key={usaha}
+                      className="flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={editFormData.usahaDimiliki.includes(usaha)}
+                        onChange={(event) => {
+                          const next = event.target.checked
+                            ? [...editFormData.usahaDimiliki, usaha]
+                            : editFormData.usahaDimiliki.filter(
+                                (item) => item !== usaha
+                              );
+                          setEditFormData({
+                            ...editFormData,
+                            usahaDimiliki: next,
+                          });
+                        }}
+                        className="h-4 w-4 text-blue-500"
+                      />
+                      {usaha}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2 sm:col-span-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Foto profil
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) =>
+                    setEditFormData({
+                      ...editFormData,
+                      fotoProfil: event.target.files?.[0] ?? null,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenEdit(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan Perubahan
+              </button>
+            </div>
+          </form>
+        </Modal>
       </OwnerSectionLayout>
     </DashboardShell>
   );

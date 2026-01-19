@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
+import { Modal } from "@/app/components/Modal";
 
 const leaveRequestRows = [
   {
@@ -49,6 +53,9 @@ const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
 
 export default function HrPengajuanCutiPage() {
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState<typeof leaveRequestRows[0] | null>(null);
+
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout
@@ -195,6 +202,10 @@ export default function HrPengajuanCutiPage() {
                         </button>
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedRequest(row);
+                            setOpenDetail(true);
+                          }}
                           className="grid h-9 w-9 place-items-center rounded-full border border-blue-200 text-blue-600 transition hover:bg-blue-50"
                           aria-label={`Lihat ${row.nama}`}
                         >
@@ -223,6 +234,122 @@ export default function HrPengajuanCutiPage() {
             className="mt-4"
           />
         </section>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedRequest(null);
+          }}
+          title="Detail Pengajuan Cuti"
+          size="lg"
+        >
+          {selectedRequest && (
+            <div className="space-y-6">
+              {/* Foto profil di tengah tanpa container */}
+              <div className="flex justify-center">
+                <img
+                  src={selectedRequest.fotoUrl || "/icons/dot-blue.svg"}
+                  alt={`Foto ${selectedRequest.nama}`}
+                  className="h-32 w-32 rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Form di bawah profil */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nama Karyawan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.nama}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Posisi
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.posisi}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Pengajuan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.tanggalPengajuan}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Mulai
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.tanggalMulai}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Selesai
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.tanggalSelesai}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Jumlah Hari
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.jumlahHari} hari
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Jenis Cuti
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.jenisCuti}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Sisa Cuti
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.sisaCuti} hari
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Status Pengajuan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedRequest.statusPengajuan}
+                  </div>
+                </div>
+
+                <div className="space-y-2 sm:col-span-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Alasan/Pengajuan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    Saya perlu cuti untuk keperluan keluarga yang penting.
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </Modal>
       </OwnerSectionLayout>
     </DashboardShell>
   );

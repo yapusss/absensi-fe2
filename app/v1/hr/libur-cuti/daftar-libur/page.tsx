@@ -27,6 +27,10 @@ const cardBase =
 
 export default function HrDaftarLiburPage() {
   const [openBuatLibur, setOpenBuatLibur] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedHoliday, setSelectedHoliday] = useState<typeof holidayRows[0] | null>(null);
+  const [selectedEdit, setSelectedEdit] = useState<typeof holidayRows[0] | null>(null);
   const [showCustomJenis, setShowCustomJenis] = useState(false);
   const [formData, setFormData] = useState({
     namaLibur: "",
@@ -36,6 +40,32 @@ export default function HrDaftarLiburPage() {
     jenisLiburCustom: "",
     status: "Aktif",
   });
+  const [editFormData, setEditFormData] = useState({
+    namaLibur: "",
+    tanggalMulai: "",
+    tanggalSelesai: "",
+    jenisLibur: "",
+    jenisLiburCustom: "",
+    status: "Aktif",
+  });
+
+  const toInputDate = (value: string) => {
+    const parts = value.split("/");
+    if (parts.length !== 3) return "";
+    const [day, month, year] = parts;
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  };
+
+  const parseTanggal = (value: string) => {
+    const parts = value.split(" - ");
+    if (parts.length === 2) {
+      return {
+        mulai: toInputDate(parts[0]),
+        selesai: toInputDate(parts[1]),
+      };
+    }
+    return { mulai: toInputDate(value), selesai: "" };
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,6 +180,10 @@ export default function HrDaftarLiburPage() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedHoliday(row);
+                            setOpenDetail(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Lihat ${row.nama}`}
                         >
@@ -166,6 +200,29 @@ export default function HrDaftarLiburPage() {
                         </button>
                         <button
                           type="button"
+                          onClick={() => {
+                            const tanggal = parseTanggal(row.tanggal);
+                            const jenisLibur =
+                              row.nama === "Anniversary"
+                                ? "Perusahaan"
+                                : "Nasional";
+                            setSelectedEdit(row);
+                            setEditFormData({
+                              namaLibur: row.nama,
+                              tanggalMulai: "",
+                              tanggalSelesai: "",
+                              jenisLibur,
+                              jenisLiburCustom: "",
+                              status: row.status === "Berlalu" ? "Nonaktif" : "Aktif",
+                            });
+                            setEditFormData((prev) => ({
+                              ...prev,
+                              tanggalMulai: tanggal.mulai,
+                              tanggalSelesai: tanggal.selesai,
+                            }));
+                            setShowCustomJenis(jenisLibur === "custom");
+                            setOpenEdit(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Edit ${row.nama}`}
                         >
@@ -353,6 +410,207 @@ export default function HrDaftarLiburPage() {
               </button>
             </div>
           </form>
+        </Modal>
+
+        <Modal
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+            setSelectedEdit(null);
+            setShowCustomJenis(false);
+          }}
+          title="Edit Libur"
+          size="md"
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log("Edit libur:", editFormData);
+              setOpenEdit(false);
+              setSelectedEdit(null);
+              setShowCustomJenis(false);
+            }}
+            className="space-y-4"
+          >
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Nama Libur <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={editFormData.namaLibur}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, namaLibur: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Mulai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={editFormData.tanggalMulai}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      tanggalMulai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Selesai
+                </label>
+                <input
+                  type="date"
+                  value={editFormData.tanggalSelesai}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      tanggalSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Jenis Libur <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={editFormData.jenisLibur}
+                onChange={(e) => {
+                  setEditFormData({ ...editFormData, jenisLibur: e.target.value });
+                  setShowCustomJenis(e.target.value === "custom");
+                }}
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="">Pilih Jenis Libur</option>
+                <option value="Nasional">Nasional</option>
+                <option value="Perusahaan">Perusahaan</option>
+                <option value="Cuti Bersama">Cuti Bersama</option>
+                <option value="custom">Tambah Jenis Baru (Custom)</option>
+              </select>
+            </div>
+
+            {showCustomJenis ? (
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama Jenis Libur Baru <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.jenisLiburCustom}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      jenisLiburCustom: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+            ) : null}
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Status <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={editFormData.status}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, status: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="Aktif">Aktif</option>
+                <option value="Nonaktif">Nonaktif</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setOpenEdit(false);
+                  setShowCustomJenis(false);
+                }}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan Perubahan
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedHoliday(null);
+          }}
+          title="Detail Libur"
+          size="md"
+        >
+          {selectedHoliday && (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama Libur
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  {selectedHoliday.nama}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  {selectedHoliday.tanggal}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jenis Libur
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  {selectedHoliday.nama === "Anniversary" ? "Perusahaan" : "Nasional"}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status
+                </label>
+                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  {selectedHoliday.status}
+                </div>
+              </div>
+            </div>
+          )}
         </Modal>
       </OwnerSectionLayout>
     </DashboardShell>

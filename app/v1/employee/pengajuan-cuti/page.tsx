@@ -32,6 +32,8 @@ const leaveRows = [
 
 export default function EmployeeLeavePage() {
   const [openBuatPengajuan, setOpenBuatPengajuan] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedLeave, setSelectedLeave] = useState<typeof leaveRows[0] | null>(null);
   const [formData, setFormData] = useState({
     tanggalMulai: "",
     tanggalSelesai: "",
@@ -161,7 +163,15 @@ export default function EmployeeLeavePage() {
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center">
-                        <span className="grid h-8 w-8 place-items-center rounded-full bg-slate-100 text-slate-600">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedLeave(row);
+                            setOpenDetail(true);
+                          }}
+                          className="grid h-8 w-8 place-items-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition"
+                          aria-label={`Detail pengajuan ${index + 1}`}
+                        >
                           <svg
                             viewBox="0 0 24 24"
                             fill="none"
@@ -172,7 +182,7 @@ export default function EmployeeLeavePage() {
                             <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
                             <circle cx="12" cy="12" r="3" />
                           </svg>
-                        </span>
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -309,6 +319,67 @@ export default function EmployeeLeavePage() {
               </button>
             </div>
           </form>
+        </Modal>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedLeave(null);
+          }}
+          title="Detail Pengajuan Cuti"
+          size="md"
+        >
+          {selectedLeave && (
+            <div className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Mulai
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedLeave.mulai}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Selesai
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedLeave.selesai}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Jenis Cuti
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedLeave.jenis}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Status
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedLeave.status}
+                  </div>
+                </div>
+
+                <div className="space-y-2 sm:col-span-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Alasan/Pengajuan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    Saya perlu cuti untuk keperluan keluarga yang penting.
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </Modal>
       </div>
     </DashboardShell>

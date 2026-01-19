@@ -5,6 +5,7 @@ import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
 import { WelcomeBanner } from "@/app/components/WelcomeBanner";
+import { Modal } from "@/app/components/Modal";
 
 const totals = [
   {
@@ -341,6 +342,8 @@ const holidayCalendar = {
 };
 
 export default function HrDashboard() {
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedOutstation, setSelectedOutstation] = useState<typeof outstationApprovals[0] | null>(null);
   const rangeBadgeClass =
     "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700";
   const [sortKey, setSortKey] = useState("");
@@ -939,6 +942,10 @@ export default function HrDashboard() {
                     </button>
                     <button
                       type="button"
+                      onClick={() => {
+                        setSelectedOutstation(item);
+                        setOpenDetail(true);
+                      }}
                       className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-blue-50 text-blue-600 hover:bg-blue-100"
                       aria-label="Lihat detail"
                     >
@@ -960,6 +967,83 @@ export default function HrDashboard() {
           </article>
         </section>
       </div>
+
+      <Modal
+        open={openDetail}
+        onClose={() => {
+          setOpenDetail(false);
+          setSelectedOutstation(null);
+        }}
+        title="Detail Absen Luar Kota"
+        size="md"
+      >
+        {selectedOutstation && (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Nama Karyawan
+              </label>
+              <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                {selectedOutstation.nama}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Tanggal
+              </label>
+              <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                {selectedOutstation.tanggal} 2025
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Status
+              </label>
+              <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                {selectedOutstation.status}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Lokasi Tujuan
+              </label>
+              <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                Jakarta, Indonesia
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Alasan
+              </label>
+              <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                Perjalanan dinas untuk meeting dengan klien
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Waktu Mulai
+              </label>
+              <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                08:00 WIB
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Waktu Selesai
+              </label>
+              <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                17:00 WIB
+              </div>
+            </div>
+          </div>
+        )}
+      </Modal>
     </DashboardShell>
   );
 }

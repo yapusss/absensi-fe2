@@ -22,6 +22,8 @@ const cardBase =
 
 export default function HrJadwalPage() {
   const [openBuatJadwal, setOpenBuatJadwal] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedShift, setSelectedShift] = useState<typeof shiftRows[0] | null>(null);
   const [formData, setFormData] = useState({
     namaShift: "",
     jamKerjaMulai: "",
@@ -30,6 +32,16 @@ export default function HrJadwalPage() {
     jamIstirahatSelesai: "",
     status: "Aktif",
   });
+  const [editFormData, setEditFormData] = useState({
+    namaShift: "",
+    jamKerjaMulai: "",
+    jamKerjaSelesai: "",
+    jamIstirahatMulai: "",
+    jamIstirahatSelesai: "",
+    status: "Aktif",
+  });
+
+  const toTime = (value: string) => value.replace(".", ":");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,6 +157,25 @@ export default function HrJadwalPage() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            const [mulaiKerja, selesaiKerja] = row.jamKerja
+                              .split("-")
+                              .map((part) => toTime(part.trim()));
+                            const [mulaiIstirahat, selesaiIstirahat] =
+                              row.jamIstirahat
+                                .split("-")
+                                .map((part) => toTime(part.trim()));
+                            setSelectedShift(row);
+                            setEditFormData({
+                              namaShift: row.nama,
+                              jamKerjaMulai: mulaiKerja,
+                              jamKerjaSelesai: selesaiKerja,
+                              jamIstirahatMulai: mulaiIstirahat,
+                              jamIstirahatSelesai: selesaiIstirahat,
+                              status: row.status,
+                            });
+                            setOpenEdit(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Edit ${row.nama}`}
                         >
@@ -318,6 +349,151 @@ export default function HrJadwalPage() {
                 className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
               >
                 Simpan
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        <Modal
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+            setSelectedShift(null);
+          }}
+          title="Edit Jadwal Shift"
+          size="md"
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log("Edit jadwal:", editFormData);
+              setOpenEdit(false);
+              setSelectedShift(null);
+            }}
+            className="space-y-4"
+          >
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Nama Shift <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={editFormData.namaShift}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    namaShift: e.target.value,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jam Kerja Mulai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={editFormData.jamKerjaMulai}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      jamKerjaMulai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jam Kerja Selesai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={editFormData.jamKerjaSelesai}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      jamKerjaSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jam Istirahat Mulai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={editFormData.jamIstirahatMulai}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      jamIstirahatMulai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jam Istirahat Selesai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={editFormData.jamIstirahatSelesai}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      jamIstirahatSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Status <span className="text-rose-500">*</span>
+              </label>
+              <select
+                required
+                value={editFormData.status}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, status: e.target.value })
+                }
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="Aktif">Aktif</option>
+                <option value="Nonaktif">Nonaktif</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenEdit(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan Perubahan
               </button>
             </div>
           </form>

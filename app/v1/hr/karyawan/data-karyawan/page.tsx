@@ -46,6 +46,10 @@ const cardBase =
 export default function HrKaryawanPage() {
   const [openTambahKaryawan, setOpenTambahKaryawan] = useState(false);
   const [openImportData, setOpenImportData] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<typeof employeeRows[0] | null>(null);
+  const [selectedEdit, setSelectedEdit] = useState<typeof employeeRows[0] | null>(null);
   const [formData, setFormData] = useState({
     namaLengkap: "",
     nomorKaryawan: "",
@@ -62,6 +66,29 @@ export default function HrKaryawanPage() {
     fotoProfil: null as File | null,
     tanggalBergabung: "",
   });
+  const [editFormData, setEditFormData] = useState({
+    namaLengkap: "",
+    nomorKaryawan: "",
+    email: "",
+    password: "",
+    posisiDivisi: "",
+    shift: "",
+    status: "Aktif",
+    alamat: "",
+    tempatLahir: "",
+    tanggalLahir: "",
+    pendidikanTerakhir: "",
+    nomorTelepon: "",
+    fotoProfil: null as File | null,
+    tanggalBergabung: "",
+  });
+
+  const toInputDate = (value: string) => {
+    const parts = value.split("/");
+    if (parts.length !== 3) return "";
+    const [day, month, year] = parts;
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -210,6 +237,26 @@ export default function HrKaryawanPage() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedEdit(row);
+                            setEditFormData({
+                              namaLengkap: row.nama,
+                              nomorKaryawan: `EMP-${String(row.no).padStart(4, "0")}`,
+                              email: row.email,
+                              password: "",
+                              posisiDivisi: row.posisi,
+                              shift: row.shift,
+                              status: row.status,
+                              alamat: "Jl. Contoh No. 123, Bandung",
+                              tempatLahir: "Bandung",
+                              tanggalLahir: toInputDate(row.tanggalLahir),
+                              pendidikanTerakhir: "S1 Teknik Informatika",
+                              nomorTelepon: "081234567890",
+                              fotoProfil: null,
+                              tanggalBergabung: "2024-01-01",
+                            });
+                            setOpenEdit(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Edit ${row.nama}`}
                         >
@@ -226,6 +273,10 @@ export default function HrKaryawanPage() {
                         </button>
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedEmployee(row);
+                            setOpenDetail(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Detail ${row.nama}`}
                         >
@@ -541,6 +592,289 @@ export default function HrKaryawanPage() {
         </Modal>
 
         <Modal
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+            setSelectedEdit(null);
+          }}
+          title="Edit Karyawan"
+          size="lg"
+        >
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              console.log("Form edit:", editFormData);
+              setOpenEdit(false);
+              setSelectedEdit(null);
+            }}
+            className="space-y-4"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama Lengkap <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.namaLengkap}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      namaLengkap: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor Karyawan
+                </label>
+                <input
+                  type="text"
+                  value={editFormData.nomorKaryawan}
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500 outline-none"
+                  readOnly
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Email <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={editFormData.email}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, email: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={editFormData.password}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      password: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Kosongkan jika tidak diubah"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Posisi/Divisi <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={editFormData.posisiDivisi}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      posisiDivisi: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="">Pilih Posisi/Divisi</option>
+                  <option value="Developer">Developer</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Finance">Finance</option>
+                  <option value="HR">HR</option>
+                  <option value="Sales">Sales</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Shift <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={editFormData.shift}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, shift: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="">Pilih Shift</option>
+                  <option value="Shift 1">Shift 1</option>
+                  <option value="Shift 2">Shift 2</option>
+                  <option value="Shift 3">Shift 3</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={editFormData.status}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, status: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="Aktif">Aktif</option>
+                  <option value="Nonaktif">Nonaktif</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Alamat <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.alamat}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, alamat: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tempat Lahir <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.tempatLahir}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      tempatLahir: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Lahir <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={editFormData.tanggalLahir}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      tanggalLahir: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Pendidikan Terakhir <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.pendidikanTerakhir}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      pendidikanTerakhir: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor Telepon <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={editFormData.nomorTelepon}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      nomorTelepon: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Foto Profil
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      fotoProfil: e.target.files?.[0] || null,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal Bergabung <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={editFormData.tanggalBergabung}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      tanggalBergabung: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenEdit(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan Perubahan
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        <Modal
           open={openImportData}
           onClose={() => setOpenImportData(false)}
           title="Import Data Karyawan"
@@ -622,6 +956,140 @@ export default function HrKaryawanPage() {
               </button>
             </div>
           </form>
+        </Modal>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedEmployee(null);
+          }}
+          title="Detail Karyawan"
+          size="lg"
+        >
+          {selectedEmployee && (
+            <div className="space-y-6">
+              {/* Foto profil di tengah tanpa container */}
+              <div className="flex justify-center">
+                <img
+                  src={selectedEmployee.fotoUrl || "/icons/dot-blue.svg"}
+                  alt={`Foto ${selectedEmployee.nama}`}
+                  className="h-32 w-32 rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Form di bawah profil */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nama Lengkap
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedEmployee.nama}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nomor Karyawan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500">
+                    EMP-{String(selectedEmployee.no).padStart(4, "0")}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Email
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedEmployee.email}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Posisi/Divisi
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedEmployee.posisi}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Shift
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedEmployee.shift}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Status
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedEmployee.status}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Lahir
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedEmployee.tanggalLahir}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Alamat
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    Jl. Contoh No. 123, Bandung
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tempat Lahir
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    Bandung
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Pendidikan Terakhir
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    S1 Teknik Informatika
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nomor Telepon
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    081234567890
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Bergabung
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    01/01/2024
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </Modal>
       </OwnerSectionLayout>
     </DashboardShell>

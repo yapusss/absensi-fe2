@@ -37,7 +37,25 @@ const cardBase =
 export default function OwnerHumanResourcePage() {
   const [query, setQuery] = useState("");
   const [openTambahHr, setOpenTambahHr] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedHr, setSelectedHr] = useState<typeof hrRows[0] | null>(null);
+  const [selectedEdit, setSelectedEdit] = useState<typeof hrRows[0] | null>(null);
   const [form, setForm] = useState({
+    namaLengkap: "",
+    nomorKaryawan: "",
+    email: "",
+    password: "",
+    status: "Aktif",
+    alamat: "",
+    tempatLahir: "",
+    tanggalLahir: "",
+    pendidikanTerakhir: "",
+    nomorTelepon: "",
+    tanggalBergabung: "",
+    fotoProfil: null as File | null,
+  });
+  const [editForm, setEditForm] = useState({
     namaLengkap: "",
     nomorKaryawan: "",
     email: "",
@@ -180,6 +198,44 @@ export default function OwnerHumanResourcePage() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            setSelectedHr(row);
+                            setOpenDetail(true);
+                          }}
+                          className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
+                          aria-label={`Detail ${row.nama}`}
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedEdit(row);
+                            setEditForm({
+                              namaLengkap: row.nama,
+                              nomorKaryawan: `HR-${String(row.no).padStart(4, "0")}`,
+                              email: row.email,
+                              password: "",
+                              status: row.status,
+                              alamat: "Jl. Contoh No. 123, Bandung",
+                              tempatLahir: "Bandung",
+                              tanggalLahir: "1996-03-12",
+                              pendidikanTerakhir: "S1 Manajemen",
+                              nomorTelepon: "081234567890",
+                              tanggalBergabung: "2024-01-01",
+                              fotoProfil: null,
+                            });
+                            setOpenEdit(true);
+                          }}
                           className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Edit ${row.nama}`}
                         >
@@ -479,6 +535,375 @@ export default function OwnerHumanResourcePage() {
               </button>
             </div>
           </form>
+        </Modal>
+
+        <Modal
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+            setSelectedEdit(null);
+          }}
+          title="Edit Human Resource"
+          size="lg"
+        >
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              console.log("edit HR owner", editForm);
+              setOpenEdit(false);
+              setSelectedEdit(null);
+            }}
+            className="space-y-4"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama lengkap <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editForm.namaLengkap}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      namaLengkap: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor karyawan
+                </label>
+                <input
+                  type="text"
+                  value={editForm.nomorKaryawan}
+                  readOnly
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500 outline-none"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Email <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={editForm.email}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      email: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={editForm.password}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      password: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Kosongkan jika tidak diubah"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  value={editForm.status}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      status: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="Aktif">Aktif</option>
+                  <option value="Nonaktif">Nonaktif</option>
+                  <option value="Cuti">Cuti</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor telepon
+                </label>
+                <input
+                  type="tel"
+                  value={editForm.nomorTelepon}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      nomorTelepon: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Alamat
+                </label>
+                <input
+                  type="text"
+                  value={editForm.alamat}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      alamat: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tempat lahir
+                </label>
+                <input
+                  type="text"
+                  value={editForm.tempatLahir}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      tempatLahir: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal lahir
+                </label>
+                <input
+                  type="date"
+                  value={editForm.tanggalLahir}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      tanggalLahir: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Pendidikan terakhir
+                </label>
+                <input
+                  type="text"
+                  value={editForm.pendidikanTerakhir}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      pendidikanTerakhir: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Tanggal bergabung
+                </label>
+                <input
+                  type="date"
+                  value={editForm.tanggalBergabung}
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      tanggalBergabung: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Foto profil
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      fotoProfil: event.target.files?.[0] ?? null,
+                    }))
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenEdit(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan Perubahan
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedHr(null);
+          }}
+          title="Detail Human Resource"
+          size="lg"
+        >
+          {selectedHr && (
+            <div className="space-y-6">
+              {/* Foto profil di tengah tanpa container */}
+              <div className="flex justify-center">
+                <img
+                  src={selectedHr.fotoUrl || "/icons/dot-blue.svg"}
+                  alt={`Foto ${selectedHr.nama}`}
+                  className="h-32 w-32 rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Form di bawah profil */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nama Lengkap
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedHr.nama}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nomor Karyawan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500">
+                    HR-{String(selectedHr.no).padStart(4, "0")}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Email
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedHr.email}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Posisi/Divisi
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    HR
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Status
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedHr.status}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Alamat
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    Jl. Contoh No. 123, Bandung
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tempat Lahir
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    Bandung
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Lahir
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    12/03/1996
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Pendidikan Terakhir
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    S1 Manajemen
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nomor Telepon
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    081234567890
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Tanggal Bergabung
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    01/01/2024
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
         </Modal>
       </OwnerSectionLayout>
     </DashboardShell>

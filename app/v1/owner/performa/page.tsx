@@ -5,6 +5,7 @@ import { Pagination } from "@/app/components/Pagination";
 import { useMemo, useState } from "react";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
+import { Modal } from "@/app/components/Modal";
 
 const buildAttendanceDaily = (totalKaryawan: number, offset: number) =>
   Array.from({ length: 31 }, (_, index) => {
@@ -162,6 +163,8 @@ export default function OwnerPerformaPage() {
   const [selectedBusinessId, setSelectedBusinessId] = useState(
     businessData[0].id,
   );
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedPerformance, setSelectedPerformance] = useState<PerformanceRow | null>(null);
 
   const activeBusiness =
     businessData.find((business) => business.id === selectedBusinessId) ??
@@ -447,6 +450,10 @@ export default function OwnerPerformaPage() {
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
                       <button
                         type="button"
+                        onClick={() => {
+                          setSelectedPerformance(row);
+                          setOpenDetail(true);
+                        }}
                         className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                         aria-label={`Detail ${row.nama}`}
                       >
@@ -474,6 +481,86 @@ export default function OwnerPerformaPage() {
             className="mt-4"
           />
         </article>
+
+        <Modal
+          open={openDetail}
+          onClose={() => {
+            setOpenDetail(false);
+            setSelectedPerformance(null);
+          }}
+          title="Detail Performa Karyawan"
+          size="lg"
+        >
+          {selectedPerformance && (
+            <div className="space-y-6">
+              {/* Foto profil di tengah tanpa container */}
+              <div className="flex justify-center">
+                <img
+                  src={selectedPerformance.fotoUrl || "/icons/dot-blue.svg"}
+                  alt={`Foto ${selectedPerformance.nama}`}
+                  className="h-32 w-32 rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Form di bawah profil */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Nama Karyawan
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedPerformance.nama}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Total Jam Kerja
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedPerformance.totalJam} jam
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Total Tepat Waktu
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedPerformance.totalTepatWaktu} hari
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Total Terlambat
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedPerformance.totalTerlambat} kali
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Total Absen
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {selectedPerformance.totalAbsen} kali
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-700">
+                    Persentase Kehadiran
+                  </label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                    {Math.round(((selectedPerformance.totalTepatWaktu + selectedPerformance.totalTerlambat) / (selectedPerformance.totalTepatWaktu + selectedPerformance.totalTerlambat + selectedPerformance.totalAbsen)) * 100)}%
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </Modal>
       </div>
     </DashboardShell>
   );
