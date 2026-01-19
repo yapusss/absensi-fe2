@@ -593,11 +593,8 @@ export function DashboardShell({
               AP
             </span>
             <div>
-              <p className="text-sm font-semibold text-slate-900">
+              <p className="text-xl font-semibold text-slate-900">
                 Absensi.co.id
-              </p>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
-                HR suite
               </p>
             </div>
           </div>
