@@ -15,6 +15,7 @@ const leaveRequestRows = [
     jumlahHari: 2,
     jenisCuti: "Cuti Tahunan",
     statusPengajuan: "Disetujui",
+    sisaCuti: 12,
   },
   {
     no: 2,
@@ -27,6 +28,7 @@ const leaveRequestRows = [
     jumlahHari: 2,
     jenisCuti: "Cuti Berobat",
     statusPengajuan: "Belum Disetujui",
+    sisaCuti: 8,
   },
   {
     no: 3,
@@ -39,6 +41,7 @@ const leaveRequestRows = [
     jumlahHari: 2,
     jenisCuti: "Cuti Tahunan",
     statusPengajuan: "Disetujui",
+    sisaCuti: 5,
   },
 ];
 
@@ -100,7 +103,7 @@ export default function HrPengajuanCutiPage() {
             <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-gradient-to-r from-sky-50 to-blue-100">
                 <tr>
-                  {"No., Nama Karyawan, Posisi, Tanggal Pengajuan, Tanggal Mulai, Tanggal Selesai, Jumlah Hari, Jenis Cuti, Status, Aksi"
+                  {"No., Nama Karyawan, Sisa Cuti, Tanggal Pengajuan, Tanggal Mulai, Tanggal Selesai, Jumlah Hari, Jenis Cuti, Status, Aksi"
                     .split(",")
                     .map((label) => (
                       <th
@@ -132,9 +135,10 @@ export default function HrPengajuanCutiPage() {
                         />
                         <span>{row.nama}</span>
                       </div>
+                      <div className="gap-2 ml-8">{row.posisi}</div>
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
-                      {row.posisi}
+                      {row.sisaCuti}
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.tanggalPengajuan}

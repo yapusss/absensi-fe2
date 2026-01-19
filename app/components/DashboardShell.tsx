@@ -245,7 +245,46 @@ const roleMenus: Record<string, MenuItem[]> = {
           <path d="M10 20c0-2.4 1.9-4.3 4.3-4.3H18" />
         </svg>
       ),
+      children: [
+        {
+          label: "Data Karyawan",
+          href: "/dashboard/hr/karyawan/data-karyawan",
+          icon: (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-4 w-4"
+            >
+              <path d="M7 11c2 0 3.5-1.6 3.5-3.5S9 4 7 4 3.5 5.6 3.5 7.5 5 11 7 11z" />
+              <path d="M17 11c2 0 3.5-1.6 3.5-3.5S19 4 17 4s-3.5 1.6-3.5 3.5S15 11 17 11z" />
+              <path d="M3 20c0-3 2.5-5.5 5.5-5.5S14 17 14 20" />
+              <path d="M10 20c0-2.4 1.9-4.3 4.3-4.3H18" />
+            </svg>
+          ),
+        },
+        {
+          label: "Performa",
+          href: "/dashboard/hr/karyawan /performa",
+          icon: (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-4 w-4"
+            >
+              <path d="M4 19h16" />
+              <path d="M7 16V9" />
+              <path d="M12 16V6" />
+              <path d="M17 16v-4" />
+            </svg>
+          ),
+        },
+      ],
     },
+
     {
       label: "Libur & Cuti",
       href: "/dashboard/hr/libur-cuti",
@@ -300,7 +339,7 @@ const roleMenus: Record<string, MenuItem[]> = {
         },
         {
           label: "Pengajuan Cuti",
-          href: "/dashboard/hr/pengajuan-cuti",
+          href: "/dashboard/hr/libur-cuti/pengajuan-cuti",
           icon: (
             <svg
               viewBox="0 0 24 24"
@@ -319,24 +358,6 @@ const roleMenus: Record<string, MenuItem[]> = {
       ],
     },
 
-    {
-      label: "Performa",
-      href: "/dashboard/hr/performa",
-      icon: (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="h-4 w-4"
-        >
-          <path d="M4 19h16" />
-          <path d="M7 16V9" />
-          <path d="M12 16V6" />
-          <path d="M17 16v-4" />
-        </svg>
-      ),
-    },
     {
       label: "Tim",
       href: "/dashboard/hr/tim",
