@@ -143,6 +143,24 @@ const roleMenus: Record<string, MenuItem[]> = {
       ),
     },
     {
+      label: "Usaha",
+      href: "/dashboard/owner/usaha",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4"
+        >
+          <path d="M4 10h16" />
+          <path d="M6 10V6h12v4" />
+          <path d="M6 10v8h12v-8" />
+          <path d="M10 18v-5h4v5" />
+        </svg>
+      ),
+    },
+    {
       label: "Performa",
       href: "/dashboard/owner/performa",
       icon: (
@@ -195,7 +213,7 @@ const roleMenus: Record<string, MenuItem[]> = {
       ),
     },
     {
-      label: "Jadwal",
+      label: "Jadwal Kerja",
       href: "/dashboard/hr/jadwal",
       icon: (
         <svg
@@ -280,26 +298,27 @@ const roleMenus: Record<string, MenuItem[]> = {
             </svg>
           ),
         },
+        {
+          label: "Pengajuan Cuti",
+          href: "/dashboard/hr/pengajuan-cuti",
+          icon: (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-4 w-4"
+            >
+              <path d="M7 4h10v4H7z" />
+              <path d="M5 8h14v12H5z" />
+              <path d="M9 14h6" />
+              <path d="M9 17h4" />
+            </svg>
+          ),
+        },
       ],
     },
-    {
-      label: "Pengajuan Cuti",
-      href: "/dashboard/hr/pengajuan-cuti",
-      icon: (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="h-4 w-4"
-        >
-          <path d="M7 4h10v4H7z" />
-          <path d="M5 8h14v12H5z" />
-          <path d="M9 14h6" />
-          <path d="M9 17h4" />
-        </svg>
-      ),
-    },
+
     {
       label: "Performa",
       href: "/dashboard/hr/performa",
@@ -554,7 +573,7 @@ export function DashboardShell({
             </span>
             <div>
               <p className="text-sm font-semibold text-slate-900">
-                Absensi Pulse
+                Absensi.co.id
               </p>
               <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
                 HR suite
@@ -570,13 +589,13 @@ export function DashboardShell({
           </div>
           <nav className="flex flex-col gap-1 px-4">
             {menuItems.map((item) => {
-          const hasChildren = Boolean(item.children?.length);
-          const childActive = item.children?.some(
-            (child) => child.href === activeHref,
-          );
-          const isActive = activeHref === item.href || childActive;
-          const isExpanded =
-            hasChildren && (expandedMenus[item.label] || childActive);
+              const hasChildren = Boolean(item.children?.length);
+              const childActive = item.children?.some(
+                (child) => child.href === activeHref,
+              );
+              const isActive = activeHref === item.href || childActive;
+              const isExpanded =
+                hasChildren && (expandedMenus[item.label] || childActive);
               const itemClasses = `flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
                 isActive
                   ? "bg-blue-50 text-blue-600 shadow-sm"

@@ -120,12 +120,10 @@ export default function OwnerPerformaPage() {
           </h1>
           <p className="text-xs text-slate-400">Beranda/Performa</p>
         </header>
- 
 
         <div className="grid gap-4 lg:grid-cols-4">
           <article className={`${cardBase} lg:col-span-3`}>
             <div className="flex flex-col gap-4">
-              
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <h2 className="text-lg font-semibold text-slate-900">
                   Kehadiran Karyawan
@@ -226,7 +224,7 @@ export default function OwnerPerformaPage() {
 
         <article className={cardBase}>
           <TableToolbar
-          primaryActions={
+            primaryActions={
               <button className="h-10 rounded-lg bg-green-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-green-600">
                 Cetak Laporan
               </button>

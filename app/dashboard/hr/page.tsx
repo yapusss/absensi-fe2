@@ -275,10 +275,30 @@ const birthdayRoster = [
 ];
 
 const leaveApprovals = [
-  { nama: "Naya Kinanti", jenis: "Cuti tahunan", tanggal: "15-17 Jan", status: "Menunggu" },
-  { nama: "Bimo Setia", jenis: "Izin keluarga", tanggal: "18 Jan", status: "Disetujui" },
-  { nama: "Sinta Wardani", jenis: "Cuti berobat", tanggal: "19 Jan", status: "Menunggu" },
-  { nama: "Raka Putra", jenis: "Cuti tahunan", tanggal: "20-22 Jan", status: "Ditolak" },
+  {
+    nama: "Naya Kinanti",
+    jenis: "Cuti tahunan",
+    tanggal: "15-17 Jan",
+    status: "Menunggu",
+  },
+  {
+    nama: "Bimo Setia",
+    jenis: "Izin keluarga",
+    tanggal: "18 Jan",
+    status: "Disetujui",
+  },
+  {
+    nama: "Sinta Wardani",
+    jenis: "Cuti berobat",
+    tanggal: "19 Jan",
+    status: "Menunggu",
+  },
+  {
+    nama: "Raka Putra",
+    jenis: "Cuti tahunan",
+    tanggal: "20-22 Jan",
+    status: "Ditolak",
+  },
 ];
 
 // const highlights = [
@@ -337,7 +357,7 @@ export default function HrDashboard() {
       { nama: "Raka Putra", status: "Hadir", waktu: "08:10 - 17:10" },
       { nama: "Sinta Wardani", status: "Terlambat", waktu: "08:22 - 17:08" },
     ],
-    []
+    [],
   );
 
   const sortedCheckTimes = useMemo(() => {
@@ -451,9 +471,10 @@ export default function HrDashboard() {
           </p>
         </header>
         <WelcomeBanner
-          title="Selamat datang kembali, Haoris"
-          subtitle="Pantau operasional HR hari ini dalam satu tempat."
-
+          title="Selamat datang kembali, Adrian"
+          subtitle="14 usaha baru berlangganan hari ini."
+          primaryLabel="Pengaturan"
+          secondaryLabel="Keluar"
         />
 
         <section id="ringkasan" className="grid gap-4 lg:grid-cols-2">
@@ -488,59 +509,57 @@ export default function HrDashboard() {
               </article>
             ))}
           </div>
-<section className="grid gap-4">
-
-          <WorkPerformanceCard
-            label="Performa kinerja"
-            badge={
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setPerformanceRange("minggu")}
-                  className={
-                    performanceRange === "minggu"
-                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
-                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
-                  }
-                >
-                  minggu
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPerformanceRange("bulan")}
-                  className={
-                    performanceRange === "bulan"
-                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
-                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
-                  }
-                >
-                  bulan
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPerformanceRange("tahun")}
-                  className={
-                    performanceRange === "tahun"
-                      ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
-                      : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
-                  }
-                >
-                  tahun
-                </button>
-              </div>
-            }
-            chartType="line"
-            lineColor="#1671f9"
-            labels={performanceSeries.labels}
-            values={performanceSeries.values}
-            className={cardBase}
-          />
+          <section className="grid gap-4">
+            <WorkPerformanceCard
+              label="Performa kinerja"
+              badge={
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setPerformanceRange("minggu")}
+                    className={
+                      performanceRange === "minggu"
+                        ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
+                        : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
+                    }
+                  >
+                    minggu
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPerformanceRange("bulan")}
+                    className={
+                      performanceRange === "bulan"
+                        ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
+                        : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
+                    }
+                  >
+                    bulan
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPerformanceRange("tahun")}
+                    className={
+                      performanceRange === "tahun"
+                        ? "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
+                        : "rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500"
+                    }
+                  >
+                    tahun
+                  </button>
+                </div>
+              }
+              chartType="line"
+              lineColor="#1671f9"
+              labels={performanceSeries.labels}
+              values={performanceSeries.values}
+              className={cardBase}
+            />
           </section>
-
         </section>
-{/* 
+        {/* 
         <section id="sorotan" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"> */}
-          {/* {highlights.map((item) => (
+        {/* {highlights.map((item) => (
             <article key={item.label} className={cardSoft}>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
@@ -626,12 +645,11 @@ export default function HrDashboard() {
             </div>
           </article> */}
 
-          
-          
-                    <section id="list-absensi" className="grid gap-4 lg:grid-cols-[2fr_2fr]">
-          
-<article className={cardBase}>
-            
+        <section
+          id="list-absensi"
+          className="grid gap-4 lg:grid-cols-[2fr_2fr]"
+        >
+          <article className={cardBase}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Jam masuk dan pulang
@@ -642,7 +660,7 @@ export default function HrDashboard() {
                   value={sortKey}
                   onChange={(event) => setSortKey(event.target.value)}
                   className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
-                >  
+                >
                   <option value="masuk-asc">Masuk tercepat</option>
                   <option value="masuk-desc">Masuk terlambat</option>
                   <option value="pulang-asc">Pulang tercepat</option>
@@ -829,7 +847,8 @@ export default function HrDashboard() {
                       <td className="border-b border-r border-slate-200 px-2 py-3 last:border-r-0">
                         <span
                           className={`rounded-full px-3 py-1 text-[11px] font-semibold ${
-                            leaveStatusTone[row.status] ?? "bg-slate-100 text-slate-600"
+                            leaveStatusTone[row.status] ??
+                            "bg-slate-100 text-slate-600"
                           }`}
                         >
                           {row.status}
@@ -933,11 +952,8 @@ export default function HrDashboard() {
               ))}
             </div>
           </article>
-
         </section>
       </div>
-       
     </DashboardShell>
   );
 }
-
