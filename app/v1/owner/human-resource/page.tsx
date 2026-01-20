@@ -413,8 +413,7 @@ export default function OwnerHumanResourcePage() {
                 <label className="text-sm font-semibold text-slate-700">
                   Alamat
                 </label>
-                <input
-                  type="text"
+                <textarea
                   value={form.alamat}
                   onChange={(event) =>
                     setForm((prev) => ({
@@ -422,6 +421,7 @@ export default function OwnerHumanResourcePage() {
                       alamat: event.target.value,
                     }))
                   }
+                  rows={3}
                   className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
                   placeholder="Alamat domisili HR"
                 />
@@ -659,8 +659,7 @@ export default function OwnerHumanResourcePage() {
                 <label className="text-sm font-semibold text-slate-700">
                   Alamat
                 </label>
-                <input
-                  type="text"
+                <textarea
                   value={editForm.alamat}
                   onChange={(event) =>
                     setEditForm((prev) => ({
@@ -668,6 +667,7 @@ export default function OwnerHumanResourcePage() {
                       alamat: event.target.value,
                     }))
                   }
+                  rows={3}
                   className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
                 />
               </div>

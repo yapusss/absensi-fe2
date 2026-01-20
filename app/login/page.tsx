@@ -72,7 +72,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-slate-100 to-slate-200 px-4 py-14">
+    <main className="flex flex-1 flex-col items-center justify-center bg-gradient-to-b from-slate-50 via-slate-100 to-slate-200 px-4 py-14">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-center">
         <div className="grid w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl lg:grid-cols-[1.1fr_1.2fr]">
           <section className="flex flex-col justify-between gap-8 bg-slate-50 px-8 py-10 sm:px-12 lg:border-r lg:border-slate-200">

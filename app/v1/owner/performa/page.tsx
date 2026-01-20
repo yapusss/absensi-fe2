@@ -221,7 +221,7 @@ export default function OwnerPerformaPage() {
           <p className="text-xs text-slate-400">Beranda/Performa</p>
         </header>
 
-        <section className={cardBase}>
+        <section className={`${cardBase} bg-gradient-to-r from-sky-50 to-blue-100`}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-2">
               <p className="text-base font-semibold text-slate-900">
