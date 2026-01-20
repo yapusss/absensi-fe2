@@ -6,6 +6,7 @@ import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
+import { ActionButton } from "@/app/components/ActionButton";
 
 const ownerRows = [
   {
@@ -151,8 +152,25 @@ export default function ProviderPemilikUsahaPage() {
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center gap-2">
-                        <button
-                          type="button"
+                        <ActionButton
+                          onClick={() => {
+                            setSelectedOwner(row);
+                            setOpenDetail(true);
+                          }}
+                          aria-label={`Detail ${row.nama}`}
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </ActionButton>
+                        <ActionButton
                           onClick={() => {
                             setSelectedEdit(row);
                             setEditFormData({
@@ -171,7 +189,6 @@ export default function ProviderPemilikUsahaPage() {
                             });
                             setOpenEdit(true);
                           }}
-                          className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Edit ${row.nama}`}
                         >
                           <svg
@@ -184,30 +201,9 @@ export default function ProviderPemilikUsahaPage() {
                             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
                             <path d="M14.06 4.94l3.75 3.75" />
                           </svg>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSelectedOwner(row);
-                            setOpenDetail(true);
-                          }}
-                          className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
-                          aria-label={`Detail ${row.nama}`}
-                        >
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="h-4 w-4"
-                          >
-                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
-                            <circle cx="12" cy="12" r="3" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          className="rounded-md border border-rose-200 p-1 text-rose-500 transition hover:border-rose-300 hover:text-rose-600"
+                        </ActionButton>
+                        <ActionButton
+                          variant="rose"
                           aria-label={`Hapus ${row.nama}`}
                         >
                           <svg
@@ -221,7 +217,7 @@ export default function ProviderPemilikUsahaPage() {
                             <path d="M8 6V4h8v2" />
                             <path d="M6 6l1 14h10l1-14" />
                           </svg>
-                        </button>
+                        </ActionButton>
                       </div>
                     </td>
                   </tr>

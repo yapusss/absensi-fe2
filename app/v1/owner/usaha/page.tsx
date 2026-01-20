@@ -6,6 +6,7 @@ import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
+import { ActionButton } from "@/app/components/ActionButton";
 
 const businessRows = [
   {
@@ -194,13 +195,11 @@ export default function ProviderUsahaPage() {
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center gap-2">
-                        <button
-                          type="button"
+                        <ActionButton
                           onClick={() => {
                             setSelectedBusiness(row);
                             setOpenDetail(true);
                           }}
-                          className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50"
                           aria-label={`Detail ${row.usaha}`}
                         >
                           <svg
@@ -213,36 +212,10 @@ export default function ProviderUsahaPage() {
                             <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
                             <circle cx="12" cy="12" r="3" />
                           </svg>
-                        </button>
-                        <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="h-4 w-4"
-                          >
-                            <path d="M12 20h9" />
-                            <path d="M16.5 3.5l4 4L7 21H3v-4z" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50"
-                          aria-label={`Detail ${row.usaha}`}
+                        </ActionButton>
+                        <ActionButton
+                          variant="rose"
                         >
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="h-4 w-4"
-                          >
-                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
-                            <circle cx="12" cy="12" r="3" />
-                          </svg>
-                        </button>
-                        <button className="grid h-8 w-8 place-items-center rounded-full border border-rose-200 text-rose-600 hover:bg-rose-50">
                           <svg
                             viewBox="0 0 24 24"
                             fill="none"
@@ -254,7 +227,7 @@ export default function ProviderUsahaPage() {
                             <path d="M8 6V4h8v2" />
                             <path d="M7 6l1 14h8l1-14" />
                           </svg>
-                        </button>
+                        </ActionButton>
                       </div>
                     </td>
                   </tr>

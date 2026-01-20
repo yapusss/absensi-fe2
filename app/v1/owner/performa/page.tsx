@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Modal } from "@/app/components/Modal";
+import { ActionButton } from "@/app/components/ActionButton";
 
 const buildAttendanceDaily = (totalKaryawan: number, offset: number) =>
   Array.from({ length: 31 }, (_, index) => {
@@ -447,14 +448,12 @@ export default function OwnerPerformaPage() {
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center text-slate-600 last:border-r-0">
                       {row.totalAbsen}
                     </td>
-                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
-                      <button
-                        type="button"
+                    <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0 flex items-center justify-center">
+                      <ActionButton
                         onClick={() => {
                           setSelectedPerformance(row);
                           setOpenDetail(true);
                         }}
-                        className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                         aria-label={`Detail ${row.nama}`}
                       >
                         <svg
@@ -467,7 +466,7 @@ export default function OwnerPerformaPage() {
                           <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
                           <circle cx="12" cy="12" r="3" />
                         </svg>
-                      </button>
+                      </ActionButton>
                     </td>
                   </tr>
                 ))}

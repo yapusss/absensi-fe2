@@ -6,6 +6,7 @@ import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
+import { ActionButton } from "@/app/components/ActionButton";
 
 const businessRows = [
   {
@@ -73,6 +74,34 @@ export default function ProviderUsahaPage() {
     nilaiKontrak: "",
     status: "Berlangsung",
   });
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedEdit, setSelectedEdit] = useState<typeof businessRows[0] | null>(null);
+  const [editFormData, setEditFormData] = useState({
+    namaUsaha: "",
+    logoUsaha: null as File | null,
+    pemilikUsaha: "",
+    jumlahPengguna: "",
+    kontrakMulai: "",
+    kontrakSelesai: "",
+    jenisLangganan: "",
+    masaAktif: "",
+    nilaiKontrak: "",
+    status: "Berlangsung",
+  });
+
+  const toInputDate = (value: string) => {
+    const parts = value.split("/");
+    if (parts.length !== 3) return "";
+    const [day, month, year] = parts;
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form edit submitted:", editFormData);
+    setOpenEdit(false);
+    setSelectedEdit(null);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -236,13 +265,11 @@ export default function ProviderUsahaPage() {
                     </td>
                     <td className="border-b border-r border-slate-200 px-2 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center gap-2">
-                        <button
-                          type="button"
+                        <ActionButton
                           onClick={() => {
                             setSelectedBusiness(row);
                             setOpenDetail(true);
                           }}
-                          className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50"
                           aria-label={`Detail ${row.usaha}`}
                         >
                           <svg
@@ -255,8 +282,26 @@ export default function ProviderUsahaPage() {
                             <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
                             <circle cx="12" cy="12" r="3" />
                           </svg>
-                        </button>
-                        <button className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
+                        </ActionButton>
+                        <ActionButton
+                          onClick={() => {
+                            setSelectedEdit(row);
+                            setEditFormData({
+                                namaUsaha: row.usaha,
+                                logoUsaha: null,
+                                pemilikUsaha: row.owner,
+                                jumlahPengguna: row.jumlahPengguna.toString(),
+                                kontrakMulai: toInputDate(row.kontrakMulai),
+                                kontrakSelesai: toInputDate(row.kontrakSelesai),
+                                jenisLangganan: row.masaAktif.includes("12") ? "Tahunan" : "Bulanan",
+                                masaAktif: row.masaAktif.replace(" bulan", ""),
+                                nilaiKontrak: row.nilai.toString(),
+                                status: row.status,
+                            });
+                            setOpenEdit(true);
+                          }}
+                          aria-label={`Edit ${row.usaha}`}
+                        >
                           <svg
                             viewBox="0 0 24 24"
                             fill="none"
@@ -267,8 +312,10 @@ export default function ProviderUsahaPage() {
                             <path d="M12 20h9" />
                             <path d="M16.5 3.5l4 4L7 21H3v-4z" />
                           </svg>
-                        </button>
-                        <button className="grid h-8 w-8 place-items-center rounded-full border border-rose-200 text-rose-600 hover:bg-rose-50">
+                        </ActionButton>
+                        <ActionButton
+                          variant="rose"
+                        >
                           <svg
                             viewBox="0 0 24 24"
                             fill="none"
@@ -280,7 +327,7 @@ export default function ProviderUsahaPage() {
                             <path d="M8 6V4h8v2" />
                             <path d="M7 6l1 14h8l1-14" />
                           </svg>
-                        </button>
+                        </ActionButton>
                       </div>
                     </td>
                   </tr>
@@ -488,6 +535,218 @@ export default function ProviderUsahaPage() {
               <button
                 type="button"
                 onClick={() => setOpenTambahUsaha(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        <Modal
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(false);
+            setSelectedEdit(null);
+          }}
+          title="Edit Usaha Pelanggan"
+          size="lg"
+        >
+            <form onSubmit={handleEditSubmit} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama Usaha <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.namaUsaha}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, namaUsaha: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Masukkan nama usaha"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Pemilik Usaha <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={editFormData.pemilikUsaha}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, pemilikUsaha: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="">Pilih Pemilik Usaha</option>
+                  <option value="haris n">haris n</option>
+                  <option value="drupadi g">drupadi g</option>
+                  <option value="timotius v">timotius v</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Logo Usaha
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      logoUsaha: e.target.files?.[0] || null,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jumlah Pengguna <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="1"
+                  value={editFormData.jumlahPengguna}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      jumlahPengguna: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="0"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Kontrak Mulai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={editFormData.kontrakMulai}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, kontrakMulai: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Kontrak Selesai <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={editFormData.kontrakSelesai}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      kontrakSelesai: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Jenis Langganan <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={editFormData.jenisLangganan}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      jenisLangganan: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="">Pilih Jenis Langganan</option>
+                  <option value="Bulanan">Bulanan</option>
+                  <option value="Tahunan">Tahunan</option>
+                  <option value="Kustom">Kustom</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Masa Aktif (bulan) <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="1"
+                  value={editFormData.masaAktif}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, masaAktif: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="12"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nilai Kontrak <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  value={editFormData.nilaiKontrak}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, nilaiKontrak: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="3000000"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={editFormData.status}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, status: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="Berlangsung">Berlangsung</option>
+                  <option value="Hampir selesai">Hampir selesai</option>
+                  <option value="Selesai">Selesai</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => {
+                    setOpenEdit(false);
+                    setSelectedEdit(null);
+                }}
                 className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
               >
                 Batal
