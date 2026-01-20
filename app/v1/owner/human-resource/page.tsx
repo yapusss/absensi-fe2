@@ -7,6 +7,7 @@ import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
 import { ActionButton } from "@/app/components/ActionButton";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 
 const hrRows = [
   {
@@ -82,11 +83,31 @@ export default function OwnerHumanResourcePage() {
     );
   }, [query]);
 
+  const [openConfirmAdd, setOpenConfirmAdd] = useState(false);
+  const [openConfirmEdit, setOpenConfirmEdit] = useState(false);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setOpenConfirmAdd(true);
+  };
+
+  const handleConfirmAdd = () => {
     // Demo only: di implementasi nyata, kirim ke API
     console.log("submit HR owner", form);
     setOpenTambahHr(false);
+    setOpenConfirmAdd(false);
+  };
+
+  const handleEditSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setOpenConfirmEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
+    console.log("edit HR owner", editForm);
+    setOpenEdit(false);
+    setSelectedEdit(null);
+    setOpenConfirmEdit(false);
   };
 
   return (
@@ -95,6 +116,24 @@ export default function OwnerHumanResourcePage() {
         title="Human Resource"
         breadcrumb="Beranda/Human Resource"
       >
+
+        <ConfirmationModal
+          open={openConfirmAdd}
+          onClose={() => setOpenConfirmAdd(false)}
+          onConfirm={handleConfirmAdd}
+          title="Konfirmasi Tambah HR"
+          message="Apakah Anda yakin ingin menambahkan HR baru ini?"
+          confirmLabel="Ya, Tambah"
+        />
+
+        <ConfirmationModal
+          open={openConfirmEdit}
+          onClose={() => setOpenConfirmEdit(false)}
+          onConfirm={handleConfirmEdit}
+          title="Konfirmasi Edit HR"
+          message="Apakah Anda yakin ingin menyimpan perubahan data HR ini?"
+          confirmLabel="Ya, Simpan"
+        />
         <article className={cardBase}>
           <TableToolbar
             primaryActions={
@@ -543,12 +582,7 @@ export default function OwnerHumanResourcePage() {
           size="lg"
         >
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              console.log("edit HR owner", editForm);
-              setOpenEdit(false);
-              setSelectedEdit(null);
-            }}
+            onSubmit={handleEditSubmit}
             className="space-y-4"
           >
             <div className="grid gap-4 sm:grid-cols-2">

@@ -7,6 +7,7 @@ import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
 import { ActionButton } from "@/app/components/ActionButton";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 
 const employeeRows = [
   {
@@ -110,10 +111,18 @@ export default function HrKaryawanPage() {
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   };
 
+  const [openConfirmAdd, setOpenConfirmAdd] = useState(false);
+  const [openConfirmEdit, setOpenConfirmEdit] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setOpenConfirmAdd(true);
+  };
+
+  const handleConfirmAdd = () => {
     console.log("Form submitted:", formData);
     setOpenTambahKaryawan(false);
+    setOpenConfirmAdd(false);
     setFormData({
       namaLengkap: "",
       nomorKaryawan: "",
@@ -132,9 +141,39 @@ export default function HrKaryawanPage() {
     });
   };
 
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setOpenConfirmEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
+    console.log("Form edit:", editFormData);
+    setOpenEdit(false);
+    setSelectedEdit(null);
+    setOpenConfirmEdit(false);
+  };
+
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout title="Karyawan" breadcrumb="Beranda/Karyawan">
+        <ConfirmationModal
+          open={openConfirmAdd}
+          onClose={() => setOpenConfirmAdd(false)}
+          onConfirm={handleConfirmAdd}
+          title="Konfirmasi Tambah Karyawan"
+          message="Apakah Anda yakin ingin menambahkan karyawan baru ini?"
+          confirmLabel="Ya, Tambah"
+        />
+
+        <ConfirmationModal
+          open={openConfirmEdit}
+          onClose={() => setOpenConfirmEdit(false)}
+          onConfirm={handleConfirmEdit}
+          title="Konfirmasi Edit Karyawan"
+          message="Apakah Anda yakin ingin menyimpan perubahan data karyawan ini?"
+          confirmLabel="Ya, Simpan"
+        />
+
         <section className={cardBase}>
           <TableToolbar
             primaryActions={
@@ -616,12 +655,7 @@ export default function HrKaryawanPage() {
           size="lg"
         >
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              console.log("Form edit:", editFormData);
-              setOpenEdit(false);
-              setSelectedEdit(null);
-            }}
+            onSubmit={handleEditSubmit}
             className="space-y-4"
           >
             <div className="grid gap-4 sm:grid-cols-2">

@@ -7,6 +7,7 @@ import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
 import { ActionButton } from "@/app/components/ActionButton";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 
 const ownerRows = [
   {
@@ -62,9 +63,17 @@ export default function ProviderPemilikUsahaPage() {
     usahaDimiliki: [] as string[],
   });
 
+  const [openConfirmAdd, setOpenConfirmAdd] = useState(false);
+  const [openConfirmEdit, setOpenConfirmEdit] = useState(false);
+
   const handleAddSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    setOpenConfirmAdd(true);
+  };
+
+  const handleConfirmAdd = () => {
     console.log("Tambah pemilik usaha:", addFormData);
+    setOpenConfirmAdd(false);
     setOpenAdd(false);
     setAddFormData({
       namaLengkap: "",
@@ -75,6 +84,20 @@ export default function ProviderPemilikUsahaPage() {
       usahaDimiliki: [],
     });
   };
+
+  const handleEditSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setOpenConfirmEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
+    console.log("Edit pemilik usaha:", editFormData);
+    setOpenConfirmEdit(false);
+    setOpenEdit(false);
+    setSelectedEdit(null);
+  };
+
+
 
   return (
     <DashboardShell active="Penyedia">
@@ -342,12 +365,7 @@ export default function ProviderPemilikUsahaPage() {
           size="lg"
         >
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              console.log("Edit pemilik usaha:", editFormData);
-              setOpenEdit(false);
-              setSelectedEdit(null);
-            }}
+            onSubmit={handleEditSubmit}
             className="space-y-4"
           >
             <div className="grid gap-4 sm:grid-cols-2">
@@ -654,6 +672,25 @@ export default function ProviderPemilikUsahaPage() {
             </div>
           </form>
         </Modal>
+
+        <ConfirmationModal
+          open={openConfirmAdd}
+          onClose={() => setOpenConfirmAdd(false)}
+          onConfirm={handleConfirmAdd}
+          title="Konfirmasi Tambah Pemilik Usaha"
+          message="Apakah Anda yakin ingin menambahkan pemilik usaha baru ini?"
+          confirmLabel="Ya, Tambah"
+        />
+
+        <ConfirmationModal
+          open={openConfirmEdit}
+          onClose={() => setOpenConfirmEdit(false)}
+          onConfirm={handleConfirmEdit}
+          title="Konfirmasi Edit Pemilik Usaha"
+          message="Apakah Anda yakin ingin menyimpan perubahan data pemilik usaha ini?"
+          confirmLabel="Ya, Simpan"
+          variant="blue"
+        />
       </OwnerSectionLayout>
     </DashboardShell>
   );
