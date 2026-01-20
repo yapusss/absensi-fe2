@@ -453,7 +453,7 @@ export default function OwnerDashboard() {
             {totals.map((item) => (
               <Link key={item.label} href={item.href} className="block">
                 <article className={`${cardBase} border-l-4 ${item.tone}`}>
-                  <div className="flex items-center justify-between min-h-150">
+                  <div className="flex items-center justify-between min-h-25">
                     <div>
                       <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
                         {item.label}

@@ -354,7 +354,7 @@ export default function EmployeeDashboard() {
          <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {summaries.map((item) => {
               const content = (
-                <article className={`${cardBase} min-h-[180px] border-l-4 ${item.tone}`}>
+                <article className={`${cardBase} min-h-[180] border-l-4 ${item.tone}`}>
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
