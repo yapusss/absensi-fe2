@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
@@ -12,6 +13,7 @@ const totals = [
     label: "Total karyawan",
     value: "132",
     meta: "+6 bulan ini",
+    href: "/v1/hr/karyawan/data-karyawan",
     tone: "border-l-indigo-400",
     iconBg: "bg-indigo-50 text-indigo-600",
     icon: (
@@ -33,6 +35,7 @@ const totals = [
     label: "Masuk hari ini",
     value: "110",
     meta: "83% hadir",
+    href: "/v1/hr/karyawan/performa",
     tone: "border-l-emerald-400",
     iconBg: "bg-emerald-50 text-emerald-600",
     icon: (
@@ -52,6 +55,7 @@ const totals = [
     label: "Terlambat",
     value: "12",
     meta: "Perlu follow-up",
+    href: "/v1/hr/karyawan/performa",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
     icon: (
@@ -72,6 +76,7 @@ const totals = [
     label: "Tidak hadir",
     value: "10",
     meta: "Cek alasan",
+    href: "/v1/hr/karyawan/performa",
     tone: "border-l-rose-400",
     iconBg: "bg-rose-50 text-rose-600",
     icon: (
@@ -91,6 +96,7 @@ const totals = [
     label: "Pengajuan cuti",
     value: "6",
     meta: "Menunggu",
+    href: "/v1/hr/libur-cuti/pengajuan-cuti",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
     icon: (
@@ -111,6 +117,7 @@ const totals = [
     value: "2",
     meta: "Nisa Lestari, Rendi Haris",
     metaTone: "text-slate-500",
+    href: "/v1/hr/karyawan/data-karyawan",
     tone: "border-l-emerald-400",
     iconBg: "bg-emerald-50 text-emerald-600",
     icon: (
@@ -483,38 +490,38 @@ export default function HrDashboard() {
         <section id="ringkasan" className="grid gap-4 lg:grid-cols-2">
           <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {totals.map((item) => (
-              <article
-                key={item.label}
-                className={`${cardBase} border-l-4 ${item.tone}`}
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                      {item.label}
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-900">
-                      {item.value}
-                    </p>
+              <Link key={item.label} href={item.href} className="block">
+                <article className={`${cardBase} border-l-4 ${item.tone}`}>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                        {item.label}
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-slate-900">
+                        {item.value}
+                      </p>
+                    </div>
+                    <span
+                      className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                    >
+                      {item.icon}
+                    </span>
                   </div>
-                  <span
-                    className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                  <p
+                    className={`mt-3 text-xs ${
+                      item.metaTone ?? "text-emerald-600"
+                    }`}
                   >
-                    {item.icon}
-                  </span>
-                </div>
-                <p
-                  className={`mt-3 text-xs ${
-                    item.metaTone ?? "text-emerald-600"
-                  }`}
-                >
-                  {item.meta}
-                </p>
-              </article>
+                    {item.meta}
+                  </p>
+                </article>
+              </Link>
             ))}
           </div>
           <section className="grid gap-4">
             <WorkPerformanceCard
               label="Performa kinerja"
+              chartHref="/v1/hr/karyawan/performa"
               badge={
                 <div className="flex flex-wrap items-center gap-2">
                   <button
@@ -653,11 +660,11 @@ export default function HrDashboard() {
           className="grid gap-4 lg:grid-cols-[2fr_2fr]"
         >
           <article className={cardBase}>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <h2 className="text-lg font-semibold text-slate-900">
                 Jam masuk dan pulang
               </h2>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="ml-auto flex flex-wrap items-center gap-2">
                 <span className={rangeBadgeClass}>{attendanceRange}</span>
                 <select
                   value={sortKey}
@@ -674,6 +681,12 @@ export default function HrDashboard() {
                   <option value="tepat-waktu">Tepat waktu dulu</option>
                   <option value="status">Status A-Z</option>
                 </select>
+                <Link
+                  href="/v1/hr/karyawan/performa"
+                  className="ml-auto text-xs font-semibold text-blue-600 hover:text-blue-700"
+                >
+                  Selengkapnya
+                </Link>
               </div>
             </div>
             <div className="mt-4 max-h-64 overflow-auto pr-2">
@@ -719,23 +732,36 @@ export default function HrDashboard() {
           </article>
           <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
             <article className={cardBase}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <div>
                   <h2 className="text-lg font-semibold text-slate-900">
                     Kalender libur perusahaan
                   </h2>
                 </div>
-                <span className="rounded-full border border-slate-200 bg-white px-3 text-xs text-slate-500">
-                  {holidayCalendar.monthLabel}
-                </span>
+                <div className="ml-auto flex items-center gap-2">
+                  
+                  <span className="rounded-full border border-slate-200 bg-white px-3 text-xs text-slate-500">
+                    {holidayCalendar.monthLabel}
+                  </span>
+                </div>
+                <Link
+                    href="/v1/hr/karyawan/data-karyawan"
+                    className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+                  >
+                    Selengkapnya
+                  </Link>
               </div>
+
               <div className="mt-4 grid grid-cols-7 gap-0 text-center text-[10px] uppercase tracking-[0.2em] text-slate-400">
                 {"Min Sen Sel Rab Kam Jum Sab".split(" ").map((label) => (
                   <span key={label} className="min-w-0">
                     {label}
                   </span>
+                  
                 ))}
+                
               </div>
+              
               <div className="mt-3 grid auto-rows-fr grid-cols-7 gap-0.5 text-xs">
                 {holidayDays.map((day, index) => {
                   if (!day) {
@@ -767,13 +793,21 @@ export default function HrDashboard() {
             </article>
 
             <article className={cardBase}>
-              <div className="flex flex-col gap-1">
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Ulang tahun
-                </h2>
-                <p className="text-xs text-slate-400">
-                  Karyawan yang berulang tahun
-                </p>
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-900">
+                    Ulang tahun
+                  </h2>
+                  <p className="text-xs text-slate-400">
+                    Karyawan yang berulang tahun
+                  </p>
+                </div>
+                <Link
+                  href="/v1/hr/karyawan/data-karyawan"
+                  className="ml-auto text-xs font-semibold text-blue-600 hover:text-blue-700"
+                >
+                  Selengkapnya
+                </Link>
               </div>
               <div className="mt-4 space-y-3">
                 {birthdayRoster.map((person) => (
@@ -805,12 +839,12 @@ export default function HrDashboard() {
         </section>
         <section id="cuti-persetujuan" className="grid gap-4 lg:grid-cols-2">
           <article className={cardBase}>
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <h2 className="text-lg font-semibold text-slate-900">
                 Cuti dan persetujuan
               </h2>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs text-slate-400">Perlu tindakan</span>
+              <div className="ml-auto flex flex-wrap items-center gap-2">
+                
                 <select
                   value={leaveSortKey}
                   onChange={(event) => setLeaveSortKey(event.target.value)}
@@ -825,6 +859,12 @@ export default function HrDashboard() {
                   <option value="nama-desc">Nama Z-A</option>
                   <option value="status">Status</option>
                 </select>
+                <Link
+                  href="/v1/hr/libur-cuti/pengajuan-cuti"
+                  className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+                >
+                  Selengkapnya
+                </Link> 
               </div>
             </div>
             <div className="mt-4 max-h-44 overflow-auto pr-2">
@@ -877,11 +917,18 @@ export default function HrDashboard() {
           </article>
 
           <article className={cardBase}>
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <h2 className="text-lg font-semibold text-slate-900">
                 Absen luar kota
               </h2>
-              <span className="text-xs text-slate-400">Approval</span>
+              <div className="ml-auto flex items-center gap-2">
+                <Link
+                  href="/v1/hr/karyawan/performa"
+                  className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+                >
+                  Selengkapnya
+                </Link> 
+              </div>
             </div>
             <div className="mt-4 max-h-44 space-y-3 overflow-auto pr-2">
               {outstationApprovals.map((item) => (

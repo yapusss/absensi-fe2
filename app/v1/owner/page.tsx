@@ -6,12 +6,14 @@ import { AbsensiSummaryCard } from "@/app/components/AbsensiSummaryCard";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { WorkPerformanceCard } from "@/app/components/WorkPerformanceCard";
 import { OwnerSubnav } from "./OwnerSubnav";
+import Link from "next/link";
 
 const totals = [
   {
     label: "Total karyawan",
     value: "86",
     meta: "+3 bulan ini",
+    href: "/v1/owner/performa",
     tone: "border-l-indigo-400",
     iconBg: "bg-indigo-50 text-indigo-600",
     metaTone: "text-indigo-600",
@@ -34,6 +36,7 @@ const totals = [
     label: "Masuk hari ini",
     value: "72",
     meta: "84% hadir",
+    href: "/v1/owner/performa",
     tone: "border-l-emerald-400",
     iconBg: "bg-emerald-50 text-emerald-600",
     metaTone: "text-emerald-600",
@@ -54,6 +57,7 @@ const totals = [
     label: "Terlambat",
     value: "9",
     meta: "Perlu perhatian",
+    href: "/v1/owner/performa",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
     metaTone: "text-blue-600",
@@ -75,6 +79,7 @@ const totals = [
     label: "Tidak hadir",
     value: "5",
     meta: "Follow-up HR",
+    href: "/v1/owner/performa",
     tone: "border-l-rose-400",
     iconBg: "bg-rose-50 text-rose-600",
     metaTone: "text-rose-600",
@@ -95,6 +100,7 @@ const totals = [
     label: "Avg jam kerja",
     value: "7.8 jam",
     meta: "Hari ini",
+    href: "/v1/owner/performa",
     tone: "border-l-sky-400",
     iconBg: "bg-sky-50 text-sky-600",
     metaTone: "text-sky-600",
@@ -115,6 +121,7 @@ const totals = [
     label: "Approval pending",
     value: "6",
     meta: "Butuh review",
+    href: "/v1/owner/performa",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
     metaTone: "text-blue-600",
@@ -444,29 +451,28 @@ export default function OwnerDashboard() {
           </article>
           <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {totals.map((item) => (
-              <article
-                key={item.label}
-                className={`${cardBase} border-l-4 ${item.tone}`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                      {item.label}
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-900">
-                      {item.value}
-                    </p>
+              <Link key={item.label} href={item.href} className="block">
+                <article className={`${cardBase} border-l-4 ${item.tone}`}>
+                  <div className="flex items-center justify-between min-h-150">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                        {item.label}
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-slate-900">
+                        {item.value}
+                      </p>
+                    </div>
+                    <span
+                      className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                    >
+                      {item.icon}
+                    </span>
                   </div>
-                  <span
-                    className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
-                  >
-                    {item.icon}
-                  </span>
-                </div>
-                <p className={`mt-3 text-xs ${item.metaTone ?? "text-slate-500"}`}>
-                  {item.meta}
-                </p>
-              </article>
+                  <p className={`mt-3 text-xs ${item.metaTone ?? "text-slate-500"}`}>
+                    {item.meta}
+                  </p>
+                </article>
+              </Link>
             ))}
           </div>
           {/* <AbsensiSummaryCard
@@ -486,9 +492,11 @@ export default function OwnerDashboard() {
                     Kalender libur perusahaan
                   </h2>
                 </div>
+                
                 <span className="rounded-full border border-slate-200 bg-white px-3 text-xs text-slate-500">
                   {holidayCalendar.monthLabel}
                 </span>
+                 
               </div>
               <div className="mt-4 grid grid-cols-7 gap-0 text-center text-[10px] uppercase tracking-[0.2em] text-slate-400">
                 {"Min Sen Sel Rab Kam Jum Sab".split(" ").map((label) => (
@@ -530,13 +538,21 @@ export default function OwnerDashboard() {
             </div>
             <div className="grid gap-4 lg:grid-cols-[1fr_2fr] mt-3">
             <article className={cardBase}>
-              <div className="flex flex-col gap-1">
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Ulang tahun
-                </h2>
-                <p className="text-xs text-slate-400">
-                  Karyawan yang berulang tahun
-                </p>
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-900">
+                    Ulang tahun
+                  </h2>
+                  <p className="text-xs text-slate-400">
+                    Karyawan yang berulang tahun
+                  </p>
+                </div>
+                <Link
+                  href="/v1/owner/performa"
+                  className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+                >
+                  Selengkapnya
+                </Link>
               </div>
               <div className="mt-4 space-y-3">
                 {birthdayRoster.map((person) => (
@@ -571,6 +587,7 @@ export default function OwnerDashboard() {
               <h2 className="text-lg font-semibold text-slate-900">
                 Status absensi karyawan
               </h2>
+             
               <div className="flex flex-wrap items-center gap-2">
                 <span className={rangeBadgeClass}>{attendanceRange}</span>
                 <select
@@ -588,7 +605,14 @@ export default function OwnerDashboard() {
                   <option value="tepat-waktu">Tepat waktu dulu</option>
                   <option value="status">Status A-Z</option>
                 </select>
+                 <Link
+                href="/v1/owner/performa"
+                className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+              >
+                Selengkapnya
+              </Link>
               </div>
+              
             </div>
             <div className="mt-4 max-h-44 overflow-auto pr-2">
               <table className="w-full table-fixed border-separate border-spacing-0 text-sm">

@@ -2,12 +2,14 @@
 import { LineChart } from "@/app/components/charts/LineChart";
 import { BarChart } from "@/app/components/charts/BarChart";
 import { DonutChart } from "@/app/components/charts/DonutChart"; 
+import Link from "next/link";
 
 const kpis = [
   {
     label: "Usaha aktif",
     value: "124",
     meta: "+12% bulan ini",
+    href: "/v1/provider/usaha",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
     icon: (
@@ -26,6 +28,7 @@ const kpis = [
     label: "Pemilik terdaftar",
     value: "180",
     meta: "+8 baru",
+    href: "/v1/provider/pemilik-usaha",
     tone: "border-l-sky-400",
     iconBg: "bg-sky-50 text-sky-600",
     icon: (
@@ -45,6 +48,7 @@ const kpis = [
     label: "Langganan aktif",
     value: "96",
     meta: "77% konversi",
+    href: "/v1/provider/pemilik-usaha",
     tone: "border-l-emerald-400",
     iconBg: "bg-emerald-50 text-emerald-600",
     icon: (
@@ -64,6 +68,7 @@ const kpis = [
     label: "Total pengguna",
     value: "1.248",
     meta: "+6% vs bulan lalu",
+    href: "/v1/provider/pemilik-usaha",
     tone: "border-l-rose-400",
     iconBg: "bg-rose-50 text-rose-600",
     icon: (
@@ -125,6 +130,7 @@ const highlights = [
     value: "28",
     meta: "Minggu ini",
     metaDetail: "vs minggu lalu",
+    href: "/v1/provider/pemilik-usaha",
     tone: "border-l-indigo-400",
     iconBg: "bg-indigo-50 text-indigo-600",
     metaTone: "text-indigo-600",
@@ -148,6 +154,7 @@ const highlights = [
     value: "6",
     meta: "Perlu perpanjang",
     metaDetail: "minggu ini",
+    href: "/v1/provider/usaha",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
     metaTone: "text-blue-600",
@@ -269,60 +276,62 @@ export default function ProviderDashboard() {
         <section id="sorotan" className="grid gap-4 lg:grid-cols-2">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {kpis.map((item) => (
-              <article
-                key={item.label}
-                className={`${cardBase} flex min-h-[132px] flex-col border-l-4 ${item.tone}`}
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="min-h-[32px] text-xs uppercase leading-4 tracking-[0.2em] text-slate-400">
-                      {item.label}
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-900">
-                      {item.value}
-                    </p>
+              <Link key={item.label} href={item.href} className="block">
+                <article
+                  className={`${cardBase} flex min-h-[132px] flex-col border-l-4 ${item.tone}`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="min-h-[32px] text-xs uppercase leading-4 tracking-[0.2em] text-slate-400">
+                        {item.label}
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-slate-900">
+                        {item.value}
+                      </p>
+                    </div>
+                    <span
+                      className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                    >
+                      {item.icon}
+                    </span>
                   </div>
-                  <span
-                    className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
-                  >
-                    {item.icon}
-                  </span>
-                </div>
-                <div className="mt-auto flex items-center gap-2 pt-4 text-xs text-slate-500">
-                  <span className="font-semibold text-emerald-600">
-                    {item.meta}
-                  </span>
-                  <span>vs bulan lalu</span>
-                </div>
-              </article>
+                  <div className="mt-auto flex items-center gap-2 pt-4 text-xs text-slate-500">
+                    <span className="font-semibold text-emerald-600">
+                      {item.meta}
+                    </span>
+                    <span>vs bulan lalu</span>
+                  </div>
+                </article>
+              </Link>
             ))}
             {highlights.map((item) => (
-              <article
-                key={item.label}
-                className={`${cardBase} flex min-h-[132px] flex-col border-l-4 ${item.tone}`}
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="min-h-[32px] text-xs uppercase leading-4 tracking-[0.2em] text-slate-400">
-                      {item.label}
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-900">
-                      {item.value}
-                    </p>
+              <Link key={item.label} href={item.href} className="block">
+                <article
+                  className={`${cardBase} flex min-h-[132px] flex-col border-l-4 ${item.tone}`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="min-h-[32px] text-xs uppercase leading-4 tracking-[0.2em] text-slate-400">
+                        {item.label}
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-slate-900">
+                        {item.value}
+                      </p>
+                    </div>
+                    <span
+                      className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                    >
+                      {item.icon}
+                    </span>
                   </div>
-                  <span
-                    className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
-                  >
-                    {item.icon}
-                  </span>
-                </div>
-                <div className="mt-auto flex items-center gap-2 pt-4 text-xs text-slate-500">
-                  <span className={`font-semibold ${item.metaTone}`}>
-                    {item.meta}
-                  </span>
-                  {item.metaDetail ? <span>{item.metaDetail}</span> : null}
-                </div>
-              </article>
+                  <div className="mt-auto flex items-center gap-2 pt-4 text-xs text-slate-500">
+                    <span className={`font-semibold ${item.metaTone}`}>
+                      {item.meta}
+                    </span>
+                    {item.metaDetail ? <span>{item.metaDetail}</span> : null}
+                  </div>
+                </article>
+              </Link>
             ))}
           </div>
           <article className={cardBase}>
@@ -358,6 +367,12 @@ export default function ProviderDashboard() {
                   Pantau masa aktif dan risiko churn
                 </p>
               </div>
+              <Link
+                href="/v1/provider/pemilik-usaha"
+                className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+              >
+                Selengkapnya
+              </Link>
             </div>
             <div className="mt-4 overflow-x-auto">
               <table className="w-full table-fixed border-separate border-spacing-0 text-sm">

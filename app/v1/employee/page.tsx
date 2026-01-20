@@ -3,12 +3,14 @@ import { DashboardShell } from "@/app/components/DashboardShell";
 import { StatusListCard } from "@/app/components/StatusListCard";
 import { LineChart } from "@/app/components/charts/LineChart";
 import { WelcomeBanner } from "@/app/components/WelcomeBanner";
+import Link from "next/link";
 
 const summaries = [
   {
     label: "Tepat waktu",
     value: "20 hari",
     meta: "Target 22 hari",
+    href: "/v1/employee/performa",
     tone: "border-l-yellow-400",
     iconBg: "bg-yellow-50 text-yellow-600",
     icon: (
@@ -28,6 +30,7 @@ const summaries = [
     label: "Terlambat bulan ini",
     value: "2 hari",
     meta: "Membaik 40%",
+    href: "/v1/employee/performa",
     tone: "border-l-blue-400",
     iconBg: "bg-blue-50 text-blue-600",
     icon: (
@@ -48,6 +51,7 @@ const summaries = [
     label: "Tidak masuk",
     value: "6j 12m",
     meta: "Sisa 1j 48m",
+    href: "/v1/employee/performa",
     tone: "border-l-sky-400",
     iconBg: "bg-sky-50 text-sky-600",
     icon: (
@@ -68,6 +72,7 @@ const summaries = [
     label: "Sisa cuti",
     value: "7 hari",
     meta: "Reset tahunan",
+    href: "/v1/employee/pengajuan-cuti",
     tone: "border-l-indigo-400",
     iconBg: "bg-indigo-50 text-indigo-600",
     icon: (
@@ -346,36 +351,45 @@ export default function EmployeeDashboard() {
               </div>
             </div>
           </article>
-          <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {summaries.map((item) => (
-              <article
-                key={item.label}
-                className={`${cardBase} border-l-4 ${item.tone}`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                      {item.label}
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-900">
-                      {item.value}
-                    </p>
+         <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {summaries.map((item) => {
+              const content = (
+                <article className={`${cardBase} min-h-[180px] border-l-4 ${item.tone}`}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                        {item.label}
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-slate-900">
+                        {item.value}
+                      </p>
+                    </div>
+                    <span
+                      className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                    >
+                      {item.icon}
+                    </span>
                   </div>
-                  <span
-                    className={`grid h-10 w-10 place-items-center rounded-full ${item.iconBg}`}
+                  <p
+                    className={`mt-3 text-xs ${
+                      item.meta ?? "text-slate-500"
+                    }`}
                   >
-                    {item.icon}
-                  </span>
+                    {item.meta}
+                  </p>
+                </article>
+              );
+
+              return item.href ? (
+                <Link key={item.label} href={item.href}  >
+                  {content}
+                </Link>
+              ) : (
+                <div key={item.label} >
+                  {content}
                 </div>
-                <p
-                  className={`mt-3 text-xs ${
-                    item.meta ?? "text-slate-500"
-                  }`}
-                >
-                  {item.meta}
-                </p>
-              </article>
-            ))}
+              );
+            })}
           </div>
           
           <div className="grid gap-4 mt-3">
@@ -428,7 +442,8 @@ export default function EmployeeDashboard() {
             </article>
           </div> 
           <div className="grid gap-4 lg:grid-cols-[1fr_2fr] mt-3">
-            <article className={cardBase}>
+            <Link href="/v1/employee/tim" className="block">
+            <article className={`${cardBase} relative min-h-[330px]`}>
               <div className="flex flex-col gap-1">
                 <h2 className="text-lg font-semibold text-slate-900">
                   Ulang tahun
@@ -437,6 +452,9 @@ export default function EmployeeDashboard() {
                   Karyawan yang berulang tahun
                 </p>
               </div>
+              <span className="absolute right-5 top-5 text-xs font-semibold text-blue-600">
+                Selengkapnya
+              </span>
               <div className="mt-4 space-y-3">
                 {birthdayRoster.map((person) => (
                   <div
@@ -463,13 +481,18 @@ export default function EmployeeDashboard() {
                 ))}
               </div>
             </article>
-             <article className={cardBase}>
+            </Link>
+             <article className={`${cardBase} relative`}>
+            <Link href="/v1/employee/performa" className="block">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">
                 Performa bulanan
-              </h2>
-              <span className="text-xs text-slate-400">30 hari</span>
+              </h2> 
+              <span className="absolute right-5 top-5 text-xs font-semibold text-blue-600">
+              Selengkapnya
+            </span>
             </div>
+            
             <div className="mt-4 h-44 sm:h-52">
               <LineChart
                 labels={performanceTrend.labels}
@@ -489,6 +512,7 @@ export default function EmployeeDashboard() {
                 Absen 0
               </span>
             </div>
+            </Link>
           </article>
           </div> 
            

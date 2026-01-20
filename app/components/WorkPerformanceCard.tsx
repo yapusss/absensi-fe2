@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BarChart } from "@/app/components/charts/BarChart";
 import { LineChart } from "@/app/components/charts/LineChart";
 import type { ReactNode } from "react";
@@ -9,6 +10,7 @@ type WorkPerformanceCardProps = {
   className?: string;
   chartClassName?: string;
   chartWrapperClassName?: string;
+  chartHref?: string;
   labels: string[];
   values: number[];
   color?: string;
@@ -25,6 +27,7 @@ export function WorkPerformanceCard({
   className,
   chartClassName = "h-44 sm:h-48",
   chartWrapperClassName,
+  chartHref,
   labels,
   values,
   color = "#fb7185",
@@ -54,25 +57,53 @@ export function WorkPerformanceCard({
         </div>
       ) : null}
       <div className={`mt-4 ${chartWrapperClassName ?? ""}`}>
-        <div className={chartClassName}>
-          {chartType === "line" ? (
-            <LineChart
-              labels={labels}
-              values={values}
-              tension={0}
-              stroke={lineColor ?? color}
-            />
-          ) : (
-            <BarChart
-              labels={labels}
-              values={values}
-              color={color}
-              lineValues={lineValues}
-              lineColor={lineColor}
-              barRadius={barRadius}
-            />
-          )}
-        </div>
+        {chartHref ? (
+          <Link
+            href={chartHref}
+            className="block"
+            aria-label={`${label ?? "Performa kinerja"} selengkapnya`}
+          >
+            <div className={chartClassName}>
+              {chartType === "line" ? (
+                <LineChart
+                  labels={labels}
+                  values={values}
+                  tension={0}
+                  stroke={lineColor ?? color}
+                />
+              ) : (
+                <BarChart
+                  labels={labels}
+                  values={values}
+                  color={color}
+                  lineValues={lineValues}
+                  lineColor={lineColor}
+                  barRadius={barRadius}
+                />
+              )}
+            </div>
+          </Link>
+        ) : (
+          <div className={chartClassName}>
+            {chartType === "line" ? (
+              <LineChart
+                labels={labels}
+                values={values}
+                tension={0}
+                stroke={lineColor ?? color}
+              />
+            ) : (
+              <BarChart
+                labels={labels}
+                values={values}
+                color={color}
+                lineValues={lineValues}
+                lineColor={lineColor}
+                barRadius={barRadius}
+              />
+            )}
+          </div>
+        )}
       </div>
     </article>
   );
