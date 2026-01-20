@@ -594,7 +594,7 @@ export function DashboardShell({
             </span>
             <div>
               <p className="text-xl font-semibold text-slate-900">
-                Absensi.co.id
+                absensi.co.id
               </p>
             </div>
           </div>

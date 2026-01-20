@@ -5,6 +5,7 @@ import { DashboardShell } from "@/app/components/DashboardShell";
 import { Pagination } from "@/app/components/Pagination";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Modal } from "@/app/components/Modal";
+import { ActionButton } from "@/app/components/ActionButton";
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -163,13 +164,11 @@ export default function EmployeeLeavePage() {
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center">
-                        <button
-                          type="button"
+                        <ActionButton
                           onClick={() => {
                             setSelectedLeave(row);
                             setOpenDetail(true);
                           }}
-                          className="grid h-8 w-8 place-items-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition"
                           aria-label={`Detail pengajuan ${index + 1}`}
                         >
                           <svg
@@ -182,7 +181,7 @@ export default function EmployeeLeavePage() {
                             <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
                             <circle cx="12" cy="12" r="3" />
                           </svg>
-                        </button>
+                        </ActionButton>
                       </div>
                     </td>
                   </tr>

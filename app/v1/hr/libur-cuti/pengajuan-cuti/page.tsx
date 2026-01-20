@@ -6,6 +6,7 @@ import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
+import { ActionButton } from "@/app/components/ActionButton";
 
 const leaveRequestRows = [
   {
@@ -169,10 +170,10 @@ export default function HrPengajuanCutiPage() {
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center gap-2">
-                        <button
-                          type="button"
-                          className="grid h-9 w-9 place-items-center rounded-full border border-emerald-200 text-emerald-600 transition hover:bg-emerald-50"
+                        <ActionButton
+                          variant="blue"
                           aria-label={`Setujui ${row.nama}`}
+                          className="bg-white border-blue-200 text-blue-600 hover:bg-blue-50"
                         >
                           <svg
                             viewBox="0 0 24 24"
@@ -183,10 +184,9 @@ export default function HrPengajuanCutiPage() {
                           >
                             <path d="M5 13l4 4L19 7" />
                           </svg>
-                        </button>
-                        <button
-                          type="button"
-                          className="grid h-9 w-9 place-items-center rounded-full border border-rose-200 text-rose-600 transition hover:bg-rose-50"
+                        </ActionButton>
+                        <ActionButton
+                          variant="rose"
                           aria-label={`Tolak ${row.nama}`}
                         >
                           <svg
@@ -199,14 +199,12 @@ export default function HrPengajuanCutiPage() {
                             <path d="M6 6l12 12" />
                             <path d="M18 6l-12 12" />
                           </svg>
-                        </button>
-                        <button
-                          type="button"
+                        </ActionButton>
+                        <ActionButton
                           onClick={() => {
                             setSelectedRequest(row);
                             setOpenDetail(true);
                           }}
-                          className="grid h-9 w-9 place-items-center rounded-full border border-blue-200 text-blue-600 transition hover:bg-blue-50"
                           aria-label={`Lihat ${row.nama}`}
                         >
                           <svg
@@ -219,7 +217,7 @@ export default function HrPengajuanCutiPage() {
                             <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
                             <circle cx="12" cy="12" r="3" />
                           </svg>
-                        </button>
+                        </ActionButton>
                       </div>
                     </td>
                   </tr>

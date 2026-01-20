@@ -28,10 +28,10 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${fraunces.variable} min-h-screen font-[var(--font-sans)] bg-slate-100 text-slate-900 antialiased`}
       >
-        <div className="flex min-h-screen flex-col">
-          <div className="flex-1">{children}</div>
-          <AppFooter hideOnDashboard />
-        </div>
+          <div className="flex min-h-screen flex-col">
+            <div className="flex w-full flex-1 flex-col">{children}</div>
+            <AppFooter hideOnDashboard />
+          </div>
       </body>
     </html>
   );

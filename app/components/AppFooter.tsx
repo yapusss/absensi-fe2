@@ -36,7 +36,7 @@ export function AppFooter({
   return (
     <footer className={footerClassName}>
       <div className={innerClassName}>
-        <span className="font-semibold text-slate-600">Absensi Pulse</span>
+        <span className="font-semibold text-slate-600">absensi.co.id</span>
         <span>Copyright {year} Absensi Pulse. Semua hak dilindungi.</span>
       </div>
     </footer>

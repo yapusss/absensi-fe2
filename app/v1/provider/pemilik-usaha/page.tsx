@@ -6,6 +6,7 @@ import { OwnerSectionLayout } from "@/app/components/layout/OwnerSectionLayout";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
+import { ActionButton } from "@/app/components/ActionButton";
 
 const ownerRows = [
   {
@@ -51,6 +52,30 @@ export default function ProviderPemilikUsahaPage() {
     usahaDimiliki: [] as string[],
   });
 
+  const [openAdd, setOpenAdd] = useState(false);
+  const [addFormData, setAddFormData] = useState({
+    namaLengkap: "",
+    email: "",
+    nomorTelepon: "",
+    status: "Aktif",
+    fotoProfil: null as File | null,
+    usahaDimiliki: [] as string[],
+  });
+
+  const handleAddSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log("Tambah pemilik usaha:", addFormData);
+    setOpenAdd(false);
+    setAddFormData({
+      namaLengkap: "",
+      email: "",
+      nomorTelepon: "",
+      status: "Aktif",
+      fotoProfil: null,
+      usahaDimiliki: [],
+    });
+  };
+
   return (
     <DashboardShell active="Penyedia">
       <OwnerSectionLayout
@@ -61,7 +86,11 @@ export default function ProviderPemilikUsahaPage() {
         <article className={cardBase}>
           <TableToolbar
             primaryActions={
-              <button className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600">
+              <button
+                type="button"
+                onClick={() => setOpenAdd(true)}
+                className="h-10 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+              >
                 Tambah Pemilik Usaha
               </button>
             }
@@ -151,8 +180,25 @@ export default function ProviderPemilikUsahaPage() {
                     </td>
                     <td className="border-b border-r border-slate-200 px-3 py-3 text-center last:border-r-0">
                       <div className="flex items-center justify-center gap-2">
-                        <button
-                          type="button"
+                        <ActionButton
+                          onClick={() => {
+                            setSelectedOwner(row);
+                            setOpenDetail(true);
+                          }}
+                          aria-label={`Detail ${row.nama}`}
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </ActionButton>
+                        <ActionButton
                           onClick={() => {
                             setSelectedEdit(row);
                             setEditFormData({
@@ -171,7 +217,6 @@ export default function ProviderPemilikUsahaPage() {
                             });
                             setOpenEdit(true);
                           }}
-                          className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
                           aria-label={`Edit ${row.nama}`}
                         >
                           <svg
@@ -184,30 +229,9 @@ export default function ProviderPemilikUsahaPage() {
                             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
                             <path d="M14.06 4.94l3.75 3.75" />
                           </svg>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSelectedOwner(row);
-                            setOpenDetail(true);
-                          }}
-                          className="rounded-md border border-slate-200 p-1 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
-                          aria-label={`Detail ${row.nama}`}
-                        >
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="h-4 w-4"
-                          >
-                            <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" />
-                            <circle cx="12" cy="12" r="3" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          className="rounded-md border border-rose-200 p-1 text-rose-500 transition hover:border-rose-300 hover:text-rose-600"
+                        </ActionButton>
+                        <ActionButton
+                          variant="rose"
                           aria-label={`Hapus ${row.nama}`}
                         >
                           <svg
@@ -221,7 +245,7 @@ export default function ProviderPemilikUsahaPage() {
                             <path d="M8 6V4h8v2" />
                             <path d="M6 6l1 14h10l1-14" />
                           </svg>
-                        </button>
+                        </ActionButton>
                       </div>
                     </td>
                   </tr>
@@ -471,6 +495,163 @@ export default function ProviderPemilikUsahaPage() {
                 className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
               >
                 Simpan Perubahan
+              </button>
+            </div>
+          </form>
+        </Modal>
+        <Modal
+          open={openAdd}
+          onClose={() => setOpenAdd(false)}
+          title="Tambah Pemilik Usaha"
+          size="lg"
+        >
+          <form onSubmit={handleAddSubmit} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nama lengkap <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={addFormData.namaLengkap}
+                  onChange={(event) =>
+                    setAddFormData({
+                      ...addFormData,
+                      namaLengkap: event.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Masukkan nama lengkap"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Email <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={addFormData.email}
+                  onChange={(event) =>
+                    setAddFormData({
+                      ...addFormData,
+                      email: event.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="email@example.com"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nomor telepon <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={addFormData.nomorTelepon}
+                  onChange={(event) =>
+                    setAddFormData({
+                      ...addFormData,
+                      nomorTelepon: event.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                  placeholder="08xxxxxxxxxx"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Status <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={addFormData.status}
+                  onChange={(event) =>
+                    setAddFormData({
+                      ...addFormData,
+                      status: event.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="Aktif">Aktif</option>
+                  <option value="Nonaktif">Nonaktif</option>
+                </select>
+              </div>
+
+              <div className="space-y-2 sm:col-span-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Usaha yang Dimiliki
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "Ayam Aharis",
+                    "Laundry Dru",
+                    "Kursus Ngoding",
+                    "Bakery Maju",
+                  ].map((usaha) => (
+                    <label
+                      key={usaha}
+                      className="flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={addFormData.usahaDimiliki.includes(usaha)}
+                        onChange={(event) => {
+                          const next = event.target.checked
+                            ? [...addFormData.usahaDimiliki, usaha]
+                            : addFormData.usahaDimiliki.filter(
+                                (item) => item !== usaha
+                              );
+                          setAddFormData({
+                            ...addFormData,
+                            usahaDimiliki: next,
+                          });
+                        }}
+                        className="h-4 w-4 text-blue-500"
+                      />
+                      {usaha}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2 sm:col-span-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Foto profil
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) =>
+                    setAddFormData({
+                      ...addFormData,
+                      fotoProfil: event.target.files?.[0] ?? null,
+                    })
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenAdd(false)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Simpan
               </button>
             </div>
           </form>
