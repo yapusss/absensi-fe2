@@ -331,52 +331,50 @@ export default function EmployeeLeavePage() {
           size="md"
         >
           {selectedLeave && (
-            <div className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Tanggal Mulai
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    {selectedLeave.mulai}
-                  </div>
-                </div>
+            <div className="grid gap-2 pb-2">
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
+                  Tanggal Mulai
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
+                  {selectedLeave.mulai}
+                </span>
+              </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Tanggal Selesai
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    {selectedLeave.selesai}
-                  </div>
-                </div>
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
+                  Tanggal Selesai
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
+                  {selectedLeave.selesai}
+                </span>
+              </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Jenis Cuti
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    {selectedLeave.jenis}
-                  </div>
-                </div>
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
+                  Jenis Cuti
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
+                  {selectedLeave.jenis}
+                </span>
+              </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Status
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    {selectedLeave.status}
-                  </div>
-                </div>
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
+                  Status
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
+                  {selectedLeave.status}
+                </span>
+              </div>
 
-                <div className="space-y-2 sm:col-span-2">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Alasan/Pengajuan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    Saya perlu cuti untuk keperluan keluarga yang penting.
-                  </div>
-                </div>
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
+                  Alasan/Pengajuan
+                </span>
+                <span className="min-w-0 flex-1 break-words text-sm text-slate-800">
+                  Saya perlu cuti untuk keperluan keluarga yang penting.
+                </span>
               </div>
             </div>
           )}

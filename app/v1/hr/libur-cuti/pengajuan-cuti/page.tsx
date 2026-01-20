@@ -245,106 +245,104 @@ export default function HrPengajuanCutiPage() {
           size="lg"
         >
           {selectedRequest && (
-            <div className="space-y-6">
-              {/* Foto profil di tengah tanpa container */}
-              <div className="flex justify-center">
+            <div className="flex flex-col gap-10 pb-6 sm:flex-row">
+              <div className="flex shrink-0 justify-center sm:justify-start">
                 <img
                   src={selectedRequest.fotoUrl || "/icons/dot-blue.svg"}
                   alt={`Foto ${selectedRequest.nama}`}
-                  className="h-32 w-32 rounded-lg object-cover"
+                  className="h-40 w-40 rounded-lg object-cover"
                 />
               </div>
 
-              {/* Form di bawah profil */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+              <div className="grid flex-1 gap-2">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nama Karyawan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.nama}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Posisi
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.posisi}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Tanggal Pengajuan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.tanggalPengajuan}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Tanggal Mulai
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.tanggalMulai}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Tanggal Selesai
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.tanggalSelesai}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Jumlah Hari
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.jumlahHari} hari
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Jenis Cuti
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.jenisCuti}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Sisa Cuti
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.sisaCuti} hari
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Status Pengajuan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedRequest.statusPengajuan}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2 sm:col-span-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Alasan/Pengajuan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 break-words text-sm text-slate-800">
                     Saya perlu cuti untuk keperluan keluarga yang penting.
-                  </div>
+                  </span>
                 </div>
               </div>
             </div>

@@ -968,124 +968,122 @@ export default function HrKaryawanPage() {
           size="lg"
         >
           {selectedEmployee && (
-            <div className="space-y-6">
-              {/* Foto profil di tengah tanpa container */}
-              <div className="flex justify-center">
+            <div className="flex flex-col gap-10 pb-6 sm:flex-row">
+              <div className="flex shrink-0 justify-center sm:justify-start">
                 <img
                   src={selectedEmployee.fotoUrl || "/icons/dot-blue.svg"}
                   alt={`Foto ${selectedEmployee.nama}`}
-                  className="h-32 w-32 rounded-lg object-cover"
+                  className="h-40 w-40 rounded-lg object-cover"
                 />
               </div>
 
-              {/* Form di bawah profil */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+              <div className="grid flex-1 gap-2">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nama Lengkap
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedEmployee.nama}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nomor Karyawan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     EMP-{String(selectedEmployee.no).padStart(4, "0")}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Email
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedEmployee.email}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Posisi/Divisi
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedEmployee.posisi}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Shift
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedEmployee.shift}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Status
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedEmployee.status}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Tanggal Lahir
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedEmployee.tanggalLahir}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Alamat
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     Jl. Contoh No. 123, Bandung
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Tempat Lahir
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     Bandung
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Pendidikan Terakhir
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     S1 Teknik Informatika
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nomor Telepon
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     081234567890
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Tanggal Bergabung
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     01/01/2024
-                  </div>
+                  </span>
                 </div>
               </div>
             </div>

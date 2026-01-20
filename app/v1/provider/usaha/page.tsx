@@ -512,106 +512,107 @@ export default function ProviderUsahaPage() {
           size="lg"
         >
           {selectedBusiness && (
-            <div className="space-y-6">
-              {/* Logo usaha di tengah tanpa container */}
-              <div className="flex justify-center">
+            <div className="flex flex-col gap-14 pb-6 sm:flex-row">
+              <div className="flex shrink-0 justify-center sm:justify-start">
                 <img
                   src={selectedBusiness.logoUrl || "/icons/dot-blue.svg"}
                   alt={`Logo ${selectedBusiness.usaha}`}
-                  className="h-32 w-32 rounded-lg object-cover"
+                  className="h-50 w-50 rounded-lg object-cover"
                 />
               </div>
 
-              {/* Form di bawah logo */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+              <div className="grid flex-1 gap-3 sm:grid-cols-1 sm:gap-x-4">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nama Usaha
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedBusiness.usaha}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Pemilik Usaha
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedBusiness.owner}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Jumlah Pengguna
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedBusiness.jumlahPengguna} pengguna
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Kontrak Mulai
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedBusiness.kontrakMulai}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Kontrak Selesai
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedBusiness.kontrakSelesai}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Sisa Waktu Berlangganan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedBusiness.sisaWaktu}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Masa Aktif
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedBusiness.masaAktif}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Status
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedBusiness.status}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nilai Kontrak
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    {formatRupiah(selectedBusiness.nilai).prefix} {formatRupiah(selectedBusiness.nilai).amount}
-                  </div>
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
+                    {formatRupiah(selectedBusiness.nilai).prefix}{" "}
+                    {formatRupiah(selectedBusiness.nilai).amount}
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Jenis Langganan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    {selectedBusiness.masaAktif.includes("12") ? "Tahunan" : "Bulanan"}
-                  </div>
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
+                    {selectedBusiness.masaAktif.includes("12")
+                      ? "Tahunan"
+                      : "Bulanan"}
+                  </span>
                 </div>
               </div>
             </div>
