@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DashboardShell } from "@/app/components/DashboardShell";
 import { Modal } from "@/app/components/Modal";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -26,6 +27,36 @@ export default function OwnerAkunPage() {
     konfirmasiPassword: "",
   });
 
+  const [openConfirmEdit, setOpenConfirmEdit] = useState(false);
+  const [openConfirmPassword, setOpenConfirmPassword] = useState(false);
+
+  const handleEditSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setOpenConfirmEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
+    console.log("Edit profil owner:", editForm);
+    setOpenEdit(false);
+    setOpenConfirmEdit(false);
+  };
+
+  const handlePasswordSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setOpenConfirmPassword(true);
+  };
+
+  const handleConfirmPassword = () => {
+    console.log("Ubah password owner:", passwordForm);
+    setOpenPassword(false);
+    setOpenConfirmPassword(false);
+    setPasswordForm({
+      passwordLama: "",
+      passwordBaru: "",
+      konfirmasiPassword: "",
+    });
+  };
+
   return (
     <DashboardShell active="Owner" ownerSubActive="Akun">
       <div className="space-y-6">
@@ -33,6 +64,22 @@ export default function OwnerAkunPage() {
           <h1 className="text-2xl font-semibold text-slate-900">Akun</h1>
           <p className="text-xs text-slate-400">Beranda/Akun</p>
         </header>
+
+        <ConfirmationModal
+          open={openConfirmEdit}
+          onClose={() => setOpenConfirmEdit(false)}
+          onConfirm={handleConfirmEdit}
+          message="Apakah Anda yakin ingin menyimpan perubahan data profil ini?"
+          confirmLabel="Ya, Simpan"
+        />
+
+        <ConfirmationModal
+          open={openConfirmPassword}
+          onClose={() => setOpenConfirmPassword(false)}
+          onConfirm={handleConfirmPassword}
+          message="Apakah Anda yakin ingin mengubah password akun Anda?"
+          confirmLabel="Ya, Ubah"
+        />
 
         <article className={`${cardBase} w-full md:w-1/2`}>
           <div className="grid gap-10 md:grid-cols-[200px_1fr]">
@@ -112,11 +159,7 @@ export default function OwnerAkunPage() {
         size="lg"
       >
         <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            console.log("Edit profil owner:", editForm);
-            setOpenEdit(false);
-          }}
+          onSubmit={handleEditSubmit}
           className="space-y-4"
         >
           <div className="grid gap-4 sm:grid-cols-2">
@@ -268,16 +311,7 @@ export default function OwnerAkunPage() {
         size="sm"
       >
         <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            console.log("Ubah password owner:", passwordForm);
-            setOpenPassword(false);
-            setPasswordForm({
-              passwordLama: "",
-              passwordBaru: "",
-              konfirmasiPassword: "",
-            });
-          }}
+          onSubmit={handlePasswordSubmit}
           className="space-y-4"
         >
           <div className="space-y-2">

@@ -7,6 +7,7 @@ import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
 import { ActionButton } from "@/app/components/ActionButton";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 
 const shiftRows = [
   {
@@ -44,10 +45,18 @@ export default function HrJadwalPage() {
 
   const toTime = (value: string) => value.replace(".", ":");
 
+  const [openConfirmAdd, setOpenConfirmAdd] = useState(false);
+  const [openConfirmEdit, setOpenConfirmEdit] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setOpenConfirmAdd(true);
+  };
+
+  const handleConfirmAdd = () => {
     console.log("Form submitted:", formData);
     setOpenBuatJadwal(false);
+    setOpenConfirmAdd(false);
     setFormData({
       namaShift: "",
       jamKerjaMulai: "",
@@ -58,9 +67,37 @@ export default function HrJadwalPage() {
     });
   };
 
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setOpenConfirmEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
+    console.log("Edit jadwal:", editFormData);
+    setOpenEdit(false);
+    setSelectedShift(null);
+    setOpenConfirmEdit(false);
+  };
+
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout title="Jadwal Kerja" breadcrumb="Beranda/Jadwal">
+        <ConfirmationModal
+          open={openConfirmAdd}
+          onClose={() => setOpenConfirmAdd(false)}
+          onConfirm={handleConfirmAdd}
+          message="Apakah Anda yakin ingin membuat jadwal shift baru ini?"
+          confirmLabel="Ya, Buat"
+        />
+
+        <ConfirmationModal
+          open={openConfirmEdit}
+          onClose={() => setOpenConfirmEdit(false)}
+          onConfirm={handleConfirmEdit}
+          message="Apakah Anda yakin ingin menyimpan perubahan jadwal shift ini?"
+          confirmLabel="Ya, Simpan"
+        />
+
         <article className={cardBase}>
           <TableToolbar
             primaryActions={
@@ -362,12 +399,7 @@ export default function HrJadwalPage() {
           size="md"
         >
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log("Edit jadwal:", editFormData);
-              setOpenEdit(false);
-              setSelectedShift(null);
-            }}
+            onSubmit={handleEditSubmit}
             className="space-y-4"
           >
             <div className="space-y-2">

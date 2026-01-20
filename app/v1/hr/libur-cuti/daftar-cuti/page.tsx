@@ -7,6 +7,7 @@ import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
 import { ActionButton } from "@/app/components/ActionButton";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 
 const leaveRows = [
   {
@@ -41,10 +42,18 @@ export default function HrDaftarCutiPage() {
     berlakuUntuk: "All",
   });
 
+  const [openConfirmAdd, setOpenConfirmAdd] = useState(false);
+  const [openConfirmEdit, setOpenConfirmEdit] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setOpenConfirmAdd(true);
+  };
+
+  const handleConfirmAdd = () => {
     console.log("Form submitted:", formData);
     setOpenBuatCuti(false);
+    setOpenConfirmAdd(false);
     setFormData({
       namaJenisCuti: "",
       jumlahHariCuti: "",
@@ -54,12 +63,42 @@ export default function HrDaftarCutiPage() {
     });
   };
 
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setOpenConfirmEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
+    console.log("Edit cuti:", editFormData);
+    setOpenEdit(false);
+    setSelectedEdit(null);
+    setOpenConfirmEdit(false);
+  };
+
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout
         title="Libur & Cuti"
         breadcrumb="Beranda/Libur & Cuti"
       >
+        <ConfirmationModal
+          open={openConfirmAdd}
+          onClose={() => setOpenConfirmAdd(false)}
+          onConfirm={handleConfirmAdd}
+          title="Konfirmasi Buat Cuti"
+          message="Apakah Anda yakin ingin membuat jenis cuti baru ini?"
+          confirmLabel="Ya, Buat"
+        />
+
+        <ConfirmationModal
+          open={openConfirmEdit}
+          onClose={() => setOpenConfirmEdit(false)}
+          onConfirm={handleConfirmEdit}
+          title="Konfirmasi Edit Cuti"
+          message="Apakah Anda yakin ingin menyimpan perubahan data cuti ini?"
+          confirmLabel="Ya, Simpan"
+        />
+
         <section className={cardBase}>
           <TableToolbar
             primaryActions={
@@ -345,12 +384,7 @@ export default function HrDaftarCutiPage() {
           size="md"
         >
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log("Edit cuti:", editFormData);
-              setOpenEdit(false);
-              setSelectedEdit(null);
-            }}
+            onSubmit={handleEditSubmit}
             className="space-y-4"
           >
             <div className="space-y-2">
