@@ -7,6 +7,7 @@ import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
 import { ActionButton } from "@/app/components/ActionButton";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 
 const holidayRows = [
   {
@@ -68,10 +69,18 @@ export default function HrDaftarLiburPage() {
     return { mulai: toInputDate(value), selesai: "" };
   };
 
+  const [openConfirmAdd, setOpenConfirmAdd] = useState(false);
+  const [openConfirmEdit, setOpenConfirmEdit] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setOpenConfirmAdd(true);
+  };
+
+  const handleConfirmAdd = () => {
     console.log("Form submitted:", formData);
     setOpenBuatLibur(false);
+    setOpenConfirmAdd(false);
     setFormData({
       namaLibur: "",
       tanggalMulai: "",
@@ -83,12 +92,43 @@ export default function HrDaftarLiburPage() {
     setShowCustomJenis(false);
   };
 
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setOpenConfirmEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
+    console.log("Edit libur:", editFormData);
+    setOpenEdit(false);
+    setSelectedEdit(null);
+    setOpenConfirmEdit(false);
+    setShowCustomJenis(false);
+  };
+
   return (
     <DashboardShell active="HR">
       <OwnerSectionLayout
         title="Daftar Libur"
         breadcrumb="Beranda/Libur & Cuti/Daftar Libur"
       >
+        <ConfirmationModal
+          open={openConfirmAdd}
+          onClose={() => setOpenConfirmAdd(false)}
+          onConfirm={handleConfirmAdd}
+          title="Konfirmasi Buat Libur"
+          message="Apakah Anda yakin ingin membuat hari libur ini?"
+          confirmLabel="Ya, Buat"
+        />
+
+        <ConfirmationModal
+          open={openConfirmEdit}
+          onClose={() => setOpenConfirmEdit(false)}
+          onConfirm={handleConfirmEdit}
+          title="Konfirmasi Edit Libur"
+          message="Apakah Anda yakin ingin menyimpan perubahan data libur ini?"
+          confirmLabel="Ya, Simpan"
+        />
+
         <section className={cardBase}>
           <TableToolbar
             primaryActions={
@@ -419,13 +459,7 @@ export default function HrDaftarLiburPage() {
           size="md"
         >
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log("Edit libur:", editFormData);
-              setOpenEdit(false);
-              setSelectedEdit(null);
-              setShowCustomJenis(false);
-            }}
+            onSubmit={handleEditSubmit}
             className="space-y-4"
           >
             <div className="space-y-2">

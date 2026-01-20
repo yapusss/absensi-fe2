@@ -6,6 +6,7 @@ import { Pagination } from "@/app/components/Pagination";
 import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Modal } from "@/app/components/Modal";
 import { ActionButton } from "@/app/components/ActionButton";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 
 const cardBase =
   "min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
@@ -46,10 +47,17 @@ export default function EmployeeLeavePage() {
   // Mock data untuk sisa cuti (biasanya dari API)
   const sisaCuti = 15;
 
+  const [openConfirmAdd, setOpenConfirmAdd] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setOpenConfirmAdd(true);
+  };
+
+  const handleConfirmAdd = () => {
     console.log("Form submitted:", formData);
     setOpenBuatPengajuan(false);
+    setOpenConfirmAdd(false);
     setFormData({
       tanggalMulai: "",
       tanggalSelesai: "",
@@ -71,6 +79,14 @@ export default function EmployeeLeavePage() {
           </div>
           <div className="flex items-center gap-2"></div>
         </header>
+
+        <ConfirmationModal
+          open={openConfirmAdd}
+          onClose={() => setOpenConfirmAdd(false)}
+          onConfirm={handleConfirmAdd}
+          message="Apakah Anda yakin ingin mengajukan cuti ini?"
+          confirmLabel="Ya, Ajukan"
+        />
 
         <article className={cardBase}>
           <TableToolbar

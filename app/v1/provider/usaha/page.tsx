@@ -7,6 +7,8 @@ import { TableToolbar } from "@/app/components/layout/TableToolbar";
 import { Pagination } from "@/app/components/Pagination";
 import { Modal } from "@/app/components/Modal";
 import { ActionButton } from "@/app/components/ActionButton";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
+
 
 const businessRows = [
   {
@@ -96,17 +98,31 @@ export default function ProviderUsahaPage() {
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   };
 
+  const [openConfirmAdd, setOpenConfirmAdd] = useState(false);
+  const [openConfirmEdit, setOpenConfirmEdit] = useState(false);
+
   const handleEditSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setOpenConfirmEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
     console.log("Form edit submitted:", editFormData);
+    setOpenConfirmEdit(false);
     setOpenEdit(false);
     setSelectedEdit(null);
   };
 
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setOpenConfirmAdd(true);
+  };
+
+  const handleConfirmAdd = () => {
     // Handle form submission here
     console.log("Form submitted:", formData);
+    setOpenConfirmAdd(false);
     setOpenTambahUsaha(false);
     // Reset form
     setFormData({
@@ -123,12 +139,31 @@ export default function ProviderUsahaPage() {
     });
   };
 
+
   return (
     <DashboardShell active="Penyedia">
       <OwnerSectionLayout
         title="Daftar usaha pelanggan"
         breadcrumb="Beranda/Daftar Usaha"
       >
+        <ConfirmationModal
+          open={openConfirmAdd}
+          onClose={() => setOpenConfirmAdd(false)}
+          onConfirm={handleConfirmAdd}
+          title="Konfirmasi Tambah Usaha"
+          message="Apakah Anda yakin ingin menambahkan usaha baru ini?"
+          confirmLabel="Ya, Tambah"
+        />
+
+        <ConfirmationModal
+          open={openConfirmEdit}
+          onClose={() => setOpenConfirmEdit(false)}
+          onConfirm={handleConfirmEdit}
+          title="Konfirmasi Edit Usaha"
+          message="Apakah Anda yakin ingin menyimpan perubahan data usaha ini?"
+          confirmLabel="Ya, Simpan"
+        />
+
         
         <section className={cardBase}>
           <TableToolbar
