@@ -291,64 +291,66 @@ export default function ProviderPemilikUsahaPage() {
             setSelectedOwner(null);
           }}
           title="Detail Pemilik Usaha"
-          size="md"
+          size="lg"
         >
           {selectedOwner && (
-            <div className="space-y-6">
-              {/* Foto profil di tengah tanpa container */}
-              <div className="flex justify-center">
+            <div className="flex flex-col gap-10 pb-6 sm:flex-row">
+              <div className="flex shrink-0 justify-center sm:justify-start">
                 <img
                   src={selectedOwner.fotoUrl || "/icons/dot-blue.svg"}
                   alt={`Foto ${selectedOwner.nama}`}
-                  className="h-32 w-32 rounded-lg object-cover"
+                  className="h-40 w-40 rounded-lg object-cover"
                 />
               </div>
 
-              {/* Form di bawah profil */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+              <div className="grid flex-1 gap-2">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nama Lengkap
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedOwner.nama}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Email
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedOwner.email}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nomor Telepon
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedOwner.telepon}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Status
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedOwner.status}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2 sm:col-span-2">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Usaha yang Dimiliki
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    {selectedOwner.nama === "Haoris Nur" ? "Ayam Aharis" : selectedOwner.nama === "Drupadi Ginaris" ? "Laundry Dru" : "Kursus Ngoding"}
-                  </div>
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
+                    Usaha Dimiliki
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
+                    {selectedOwner.nama === "Haoris Nur"
+                      ? "Ayam Aharis"
+                      : selectedOwner.nama === "Drupadi Ginaris"
+                        ? "Laundry Dru"
+                        : "Kursus Ngoding"}
+                  </span>
                 </div>
               </div>
             </div>

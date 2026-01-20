@@ -476,50 +476,50 @@ export default function HrDaftarCutiPage() {
           size="md"
         >
           {selectedLeave && (
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">
+            <div className="grid gap-2 pb-2">
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                   Nama Jenis Cuti
-                </label>
-                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                   {selectedLeave.nama}
-                </div>
+                </span>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                   Jumlah Hari Cuti
-                </label>
-                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                   {selectedLeave.jumlah}
-                </div>
+                </span>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                   Status
-                </label>
-                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                   {selectedLeave.status}
-                </div>
+                </span>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                   Keterangan
-                </label>
-                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                   Cuti tahunan untuk karyawan tetap
-                </div>
+                </span>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">
+              <div className="flex items-start gap-20">
+                <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                   Berlaku Untuk
-                </label>
-                <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                </span>
+                <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                   Semua Divisi
-                </div>
+                </span>
               </div>
             </div>
           )}

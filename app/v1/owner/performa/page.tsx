@@ -491,70 +491,76 @@ export default function OwnerPerformaPage() {
           size="lg"
         >
           {selectedPerformance && (
-            <div className="space-y-6">
-              {/* Foto profil di tengah tanpa container */}
-              <div className="flex justify-center">
+            <div className="flex flex-col gap-10 pb-6 sm:flex-row">
+              <div className="flex shrink-0 justify-center sm:justify-start">
                 <img
                   src={selectedPerformance.fotoUrl || "/icons/dot-blue.svg"}
                   alt={`Foto ${selectedPerformance.nama}`}
-                  className="h-32 w-32 rounded-lg object-cover"
+                  className="h-40 w-40 rounded-lg object-cover"
                 />
               </div>
 
-              {/* Form di bawah profil */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+              <div className="grid flex-1 gap-2">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Nama Karyawan
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedPerformance.nama}
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Total Jam Kerja
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedPerformance.totalJam} jam
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Total Tepat Waktu
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedPerformance.totalTepatWaktu} hari
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Total Terlambat
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedPerformance.totalTerlambat} kali
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Total Absen
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
                     {selectedPerformance.totalAbsen} kali
-                  </div>
+                  </span>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
+                <div className="flex items-start gap-20">
+                  <span className="w-32 whitespace-nowrap text-sm font-semibold text-slate-600">
                     Persentase Kehadiran
-                  </label>
-                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                    {Math.round(((selectedPerformance.totalTepatWaktu + selectedPerformance.totalTerlambat) / (selectedPerformance.totalTepatWaktu + selectedPerformance.totalTerlambat + selectedPerformance.totalAbsen)) * 100)}%
-                  </div>
+                  </span>
+                  <span className="min-w-0 flex-1 truncate whitespace-nowrap text-sm text-slate-800">
+                    {Math.round(
+                      ((selectedPerformance.totalTepatWaktu +
+                        selectedPerformance.totalTerlambat) /
+                        (selectedPerformance.totalTepatWaktu +
+                          selectedPerformance.totalTerlambat +
+                          selectedPerformance.totalAbsen)) *
+                        100,
+                    )}
+                    %
+                  </span>
                 </div>
               </div>
             </div>
